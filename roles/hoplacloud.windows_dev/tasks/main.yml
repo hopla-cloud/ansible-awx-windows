@@ -1,4 +1,27 @@
 ---
 # tasks file for hoplacloud.windows-dev
- - name: Get all facts
-   setup:
+- name: Get all facts
+  setup:
+
+- name: Disable firewall
+  win_firewall:
+    state: disabled
+
+- name: Ensure user Admin account password never expire
+  win_user:
+    name: admin
+    password_never_expires: yes
+    update_password: on_create
+
+- name: Ensure user Administrator is disabled
+  win_user:
+    name: administrator
+    account_disabled: yes
+
+- name: Retrieve the input based on stdin
+  win_shell: dism /online /Get-CurrentEdition | Select-String -Pattern "Current Edition :"
+  register: win_edition
+
+#- name: Install all security, critical, and rollup updates without a scheduled task and reboot if needed.
+#  win_updates:
+#    reboot: yes
