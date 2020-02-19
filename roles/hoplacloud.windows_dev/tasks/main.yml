@@ -21,10 +21,12 @@
 - name: Set windows edition to datacenter
   win_shell: dism /online /set-edition:ServerDatacenter /ProductKey:WMDGN-G9PQG-XVVXX-R3X43-63DFG /AcceptEula /NoRestart
   when: ansible_os_name == "Microsoft Windows Server 2019 Datacenter Evaluation"
+  register: win_edition
 
 - name: Reboot server
   win_reboot:
     reboot_timeout: 3600
+  when: win_edition.changed
 
 - name: Install all security, critical, and rollup updates without a scheduled task and reboot if needed.
   win_updates:
