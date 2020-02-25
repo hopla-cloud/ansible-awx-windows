@@ -49,6 +49,26 @@
     data: 15
     type: dword
 
+- name: Copy Background Desktop PNG
+  win_copy:
+    src: Desktop-hopla.cloud.png
+    dest: C:\Program Files\hopla.cloud\Desktop-hopla.cloud.png
+
+- name: Set Background Desktop for current user
+  win_regedit:
+    path: HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\System
+    name: Wallpaper
+    data: C:\Program Files\hopla.cloud\Desktop-hopla.cloud.png
+    type: string
+
+- name: Set Background Desktop for current user
+  win_regedit:
+    path: HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\System
+    name: WallpaperStyle
+    data: 4
+    type: string
+- name: Set Background Desktop for user Admin
+
 - name: Install all security, critical, and rollup updates without a scheduled task and reboot if needed.
   win_updates:
     reboot: yes

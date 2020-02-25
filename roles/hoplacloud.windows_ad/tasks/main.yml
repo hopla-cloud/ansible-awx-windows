@@ -1,0 +1,20 @@
+---
+# tasks file for hoplacloud.windows_ad
+
+- name: Install Active Directory with sub features and management tools
+  win_feature:
+    name: AD-Domain-Services
+    state: present
+    include_sub_features: yes
+    include_management_tools: yes
+
+- name: Create new domain in a new forest on the target host
+  win_domain:
+    dns_domain_name: "{{ ad_domain_name }}"
+    safe_mode_password: "{{ ad_safe_password }}"
+    domain_netbios_name: "{{ ad_netbios_name }}"
+
+#- name: Set windows edition to datacenter
+#  win_shell: |
+#    $addomin = (Get-ADDomain).DistinguishedName
+#    New-ADOrganizationalUnit -Name "ORGANIZATION" -Path "DC=FABRIKAM,DC=COM"
