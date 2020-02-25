@@ -22,7 +22,6 @@
     domain_netbios_name: "{{ ad_netbios_name }}"
   register: domain_install
 
-
 - name: Reboot server
   win_reboot:
     reboot_timeout: 3600
@@ -33,7 +32,7 @@
   register: ad_domain
 
 - debug:
-    msg: System {{ ad_domain.stdout }}
+    msg: System {{ ad_domain.stdout_lines[] }}
 
 #- name: Set windows edition to datacenter
 #  win_shell: |
