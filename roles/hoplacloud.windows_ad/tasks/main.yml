@@ -31,10 +31,9 @@
   win_shell: (Get-ADDomain).DistinguishedName
   register: ad_domain
 
-- debug:
-    msg: System {{ ad_domain.stdout_lines[0] }}
+- name: Set fact ad_domain
+  set_fact:
+    ad_domain: "{{ ad_domain.stdout_lines[0] }}"
 
-#- name: Set windows edition to datacenter
-#  win_shell: |
-#    $addomin = (Get-ADDomain).DistinguishedName
-#    New-ADOrganizationalUnit -Name "ORGANIZATION" -Path "DC=FABRIKAM,DC=COM"
+- name: Ensure all Organizational Unit is present [1/x]
+  win_shell:  New-ADOrganizationalUnit -Name "ORGANIZATION" -Path "{{ ad_domain }}"
