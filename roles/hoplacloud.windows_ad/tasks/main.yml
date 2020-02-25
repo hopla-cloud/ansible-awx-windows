@@ -6,7 +6,6 @@
     name: administrator
     password: "{{ administrator_password }}"
     password_never_expires: yes
-    update_password: on_create
     account_disabled: no
 
 - name: Install Active Directory with sub features and management tools

@@ -15,6 +15,7 @@
   win_user:
     name: administrator
     account_disabled: yes
+  when: "'meta-is_ad_true' not  in group_names"
 
 - name: Set windows edition to datacenter
   win_shell: dism /online /set-edition:ServerDatacenter /ProductKey:WMDGN-G9PQG-XVVXX-R3X43-63DFG /AcceptEula /NoRestart
