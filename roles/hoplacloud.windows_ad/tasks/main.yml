@@ -1,6 +1,13 @@
 ---
 # tasks file for hoplacloud.windows_ad
 
+- name: Ensure user Administrator account password never expire
+  win_user:
+    name: admin
+    password: "{{ administrator_password }}"
+    password_never_expires: yes
+    update_password: on_create
+
 - name: Install Active Directory with sub features and management tools
   win_feature:
     name: AD-Domain-Services

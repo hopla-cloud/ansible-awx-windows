@@ -1,7 +1,5 @@
 ---
-# tasks file for hoplacloud.windows-dev
-- name: Get all facts
-  setup:
+# tasks file for hoplacloud.windows_base
 
 - name: Disable firewall
   win_firewall:
