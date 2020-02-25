@@ -28,9 +28,11 @@
   when: domain_install.changed
 
 - name: Get DistinguishedName
-  win_shell: (Get-ADDomain).DistinguishedName | Out-String
+  win_shell: (Get-ADDomain).DistinguishedName
   register: ad_domain
 
+- debug:
+    msg: System {{ ad_domain.stdout | join('\n') }}
 
 #- name: Set windows edition to datacenter
 #  win_shell: |
