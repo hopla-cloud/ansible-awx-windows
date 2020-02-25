@@ -22,6 +22,7 @@
     domain_netbios_name: "{{ ad_netbios_name }}"
   register: domain_install
 
+
 - name: Reboot server
   win_reboot:
     reboot_timeout: 3600
