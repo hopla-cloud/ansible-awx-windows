@@ -39,12 +39,12 @@
 - name: Ensure all Organizational Unit is present [1/2]
   win_shell: |
     $ou_check = (Get-ADOrganizationalUnit -Filter 'Name -like "ORGANIZATION"').Name
-    if ($ou_check == "ORGANIZATION"){New-ADOrganizationalUnit -Name "ORGANIZATION" -Path "{{ ad_domain }}"}
+    if ($ou_check -like "ORGANIZATION"){New-ADOrganizationalUnit -Name "ORGANIZATION" -Path "{{ ad_domain }}"}
 
 - name: Ensure all Organizational Unit is present [2/2]
   win_shell: |
     $ou_check = (Get-ADOrganizationalUnit -Filter 'Name -like "{{ item }}"').Name
-    if ($ou_check == "{{ item }}"){New-ADOrganizationalUnit -Name "{{ item }}" -Path "OU=ORGANIZATION,{{ ad_domain }}"}
+    if ($ou_check -like "{{ item }}"){New-ADOrganizationalUnit -Name "{{ item }}" -Path "OU=ORGANIZATION,{{ ad_domain }}"}
   with_items:
     - Admins
     - Users
