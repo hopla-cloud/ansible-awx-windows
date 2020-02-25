@@ -3,7 +3,7 @@
 
 - name: Ensure user Administrator account password never expire
   win_user:
-    name: admin
+    name: administrator
     password: "{{ administrator_password }}"
     password_never_expires: yes
     update_password: on_create
