@@ -21,6 +21,7 @@
   when: ansible_os_name == "Microsoft Windows Server 2019 Datacenter Evaluation"
   register: win_edition
   changed_when: win_edition.rc == 1
+  ignore_errors: True
 
 - name: Reboot server
   win_reboot:
