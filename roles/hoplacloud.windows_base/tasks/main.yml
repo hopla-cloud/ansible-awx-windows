@@ -20,6 +20,7 @@
   win_shell: dism /online /set-edition:ServerDatacenter /ProductKey:WMDGN-G9PQG-XVVXX-R3X43-63DFG /AcceptEula /NoRestart
   when: ansible_os_name == "Microsoft Windows Server 2019 Datacenter Evaluation"
   register: win_edition
+  changed_when: win_edition.rc == 1
 
 - name: Reboot server
   win_reboot:
