@@ -33,7 +33,7 @@
   register: ad_domain
 
 - debug:
-    msg: System {{ ad_domain.stdout | join('\n') }}
+    msg: System {{ ad_domain.stdout }}
 
 #- name: Set windows edition to datacenter
 #  win_shell: |
