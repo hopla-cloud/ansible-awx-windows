@@ -30,6 +30,7 @@
 - name: Get DistinguishedName
   win_shell: (Get-ADDomain).DistinguishedName
   register: ad_domain
+  changed_when: ad_domain.rc == 1
 
 - name: Set fact ad_domain
   set_fact:
@@ -37,3 +38,15 @@
 
 - name: Ensure all Organizational Unit is present [1/x]
   win_shell:  New-ADOrganizationalUnit -Name "ORGANIZATION" -Path "{{ ad_domain }}"
+
+- name: Ensure all Organizational Unit is present [1/x]
+  win_shell:  New-ADOrganizationalUnit -Name "Admins" -Path "OU=ORGANIZATION,{{ ad_domain }}"
+
+- name: Ensure all Organizational Unit is present [1/x]
+  win_shell:  New-ADOrganizationalUnit -Name "Users" -Path "OU=ORGANIZATION,{{ ad_domain }}"
+
+- name: Ensure all Organizational Unit is present [1/x]
+  win_shell:  New-ADOrganizationalUnit -Name "Security groups" -Path "OU=ORGANIZATION,{{ ad_domain }}"
+
+- name: Ensure all Organizational Unit is present [1/x]
+  win_shell:  New-ADOrganizationalUnit -Name "Servers" -Path "OU=ORGANIZATION,{{ ad_domain }}"
