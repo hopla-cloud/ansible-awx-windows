@@ -28,7 +28,7 @@
   when: domain_install.changed
 
 - name: Get DistinguishedName
-  win_shell: (Get-ADDomain).DistinguishedName
+  win_shell: (Get-ADDomain).DistinguishedName | Out-String
   register: ad_domain
 
 
