@@ -1,7 +1,7 @@
 ---
 # tasks file for hoplacloud.windows_ad
 
-- name: Ensure user Administrator account password never expire
+- name: Set password for Administrator
   win_user:
     name: administrator
     password: "{{ administrator_password }}"
@@ -40,11 +40,18 @@
   win_shell: |
     $ou_check = (Get-ADOrganizationalUnit -Filter 'Name -like "ORGANIZATION"').Name
     if ($ou_check -notlike "ORGANIZATION"){New-ADOrganizationalUnit -Name "ORGANIZATION" -Path "{{ ad_domain }}"}
+  register: ad_ou_create
+  changed_when: ad_ou_create.stdout != ""
 
 - name: Ensure all Organizational Unit is present [2/2]
   win_shell: |
     $ou_check = (Get-ADOrganizationalUnit -Filter 'Name -like "{{ item }}"').Name
-    if ($ou_check -notlike "{{ item }}"){New-ADOrganizationalUnit -Name "{{ item }}" -Path "OU=ORGANIZATION,{{ ad_domain }}"}
+    if ($ou_check -notlike "{{ item }}"){
+    New-ADOrganizationalUnit -Name "{{ item }}" -Path "OU=ORGANIZATION,{{ ad_domain }}"
+    Write-Host Change
+    }
+  register: ad_ou_n2_create
+  changed_when: ("Change" in ad_ou_2n_create.stdout)
   with_items:
     - Admins
     - Users
@@ -56,6 +63,8 @@
   win_shell: |
     $gpo_check = (Get-GPO -all ).DisplayName
     if ($gpo_check -notcontains "Hopla.cloud"){New-GPO -Name "Hopla.cloud"}
+  register: ad_gpo_create
+  changed_when: ad_gpo_create.stdout != ""
 
 - name: GPO Hopla.cloud windows update
   win_shell: |
@@ -121,7 +130,7 @@
     members: GG_ADM_ALL
     state: present
 
-- name: Ensure user bob is present in OU ou=test,dc=domain,dc=local
+- name: Ensure user siilyo is present
   win_domain_user:
     name: siilyo
     password: "{{ ad_siilyo_password }}"
