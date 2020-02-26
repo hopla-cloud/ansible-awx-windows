@@ -51,3 +51,24 @@
     - Security groups
     - Servers
     - Service accounts
+
+- name: Ensure GPO Hopla.cloud is present
+  win_shell: |
+    $gpo_check = (Get-GPO -all ).DisplayName
+    if ($gpo_check -notcontains "Hopla.cloud"){New-GPO -Name "Hopla.cloud"}
+
+- name: GPO Hopla.cloud windows update
+  win_shell: |
+    Set-GPRegistryValue -Name "Hopla.cloud_" -Key "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -ValueName "SetActiveHours" -Type DWORD -Value 1
+    Set-GPRegistryValue -Name "Hopla.cloud" -Key "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -ValueName "ActiveHoursStart" -Type DWORD -Value 6
+    Set-GPRegistryValue -Name "Hopla.cloud" -Key "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -ValueName "ActiveHoursEnd" -Type DWORD -Value 21
+
+- name: GPO Hopla.cloud windows desktop
+  win_shell: |
+    Set-GPRegistryValue -Name "Hopla.cloud" -Key "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" -ValueName "Wallpaper" -Type string  -Value "C:\Program Files\hopla.cloud\Desktop-hopla.cloud.png"
+    Set-GPRegistryValue -Name "Hopla.cloud" -Key "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" -ValueName "WallpaperStyle" -Type string -Value "4"
+
+- name: Ensure GPO Hopla.cloud is linked
+  win_shell: |
+    [xml]$gpoReport = Get-GPOReport -Name Hopla.cloud
+    if ($gpoReport.GPO.LinksTo.Enabled -notlike "true"){new-GPLink -Name "Hopla.cloud" -Target "{{ ad_domain }}" -LinkEnabled Yes}

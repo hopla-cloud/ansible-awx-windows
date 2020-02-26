@@ -47,7 +47,7 @@
   win_regedit:
     path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate
     name: ActiveHoursEnd
-    data: 15
+    data: 21
     type: dword
 
 - name: Copy Background Desktop PNG
