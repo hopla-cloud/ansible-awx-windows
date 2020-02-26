@@ -72,3 +72,53 @@
   win_shell: |
     [xml]$gpoReport = Get-GPOReport -Name Hopla.cloud
     if ($gpoReport.GPO.LinksTo.Enabled -notlike "true"){new-GPLink -Name "Hopla.cloud" -Target "{{ ad_domain }}" -LinkEnabled Yes}
+
+- name: Ensure GG_ADM_ALL is present
+  win_domain_group:
+    name: GG_ADM_ALL
+    scope: global
+    path: "OU=Security groups,OU=ORGANIZATION,{{ ad_domain }}"
+
+- name: Add GG_ADM_ALL to a administrator group.
+  win_domain_group_membership:
+    name: Administrator
+    members: GG_ADM_ALL
+    state: present
+
+- name: Add GG_ADM_ALL to a Backup Operators group.
+  win_domain_group_membership:
+    name: "Backup Operators"
+    members: GG_ADM_ALL
+    state: present
+
+- name: Add GG_ADM_ALL to a Domain Admins group.
+  win_domain_group_membership:
+    name: "Domain Admins"
+    members: GG_ADM_ALL
+    state: present
+
+- name: Add GG_ADM_ALL to a Enterprise Admins group.
+  win_domain_group_membership:
+    name: "Enterprise Admins"
+    members: GG_ADM_ALL
+    state: present
+
+- name: Add GG_ADM_ALL to a Group Policy Creator Owners group.
+  win_domain_group_membership:
+    name: "Group Policy Creator Owners"
+    members: GG_ADM_ALL
+    state: present
+
+- name: Add GG_ADM_ALL to a Schema Admins group.
+  win_domain_group_membership:
+    name: "Schema Admins"
+    members: GG_ADM_ALL
+    state: present
+
+- name: Ensure user bob is present in OU ou=test,dc=domain,dc=local
+  win_domain_user:
+    name: siilyo
+    password: "{{ ad_siilyo_password }}"
+    state: present
+    path: "OU=Admins,OU=ORGANIZATION,{{ ad_domain }}"
+    groups: GG_ADM_ALL
