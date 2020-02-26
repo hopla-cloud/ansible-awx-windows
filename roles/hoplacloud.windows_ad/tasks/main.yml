@@ -51,7 +51,7 @@
     Write-Host Change
     }
   register: ad_ou_n2_create
-  changed_when: ("Change" in ad_ou_2n_create.stdout)
+  changed_when: ("Change" in ad_ou_n2_create.stdout)
   with_items:
     - Admins
     - Users
