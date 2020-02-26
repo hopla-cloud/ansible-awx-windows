@@ -41,7 +41,7 @@
     $ou_check = (Get-ADOrganizationalUnit -Filter 'Name -like "ORGANIZATION"').Name
     if ($ou_check -notlike "ORGANIZATION"){New-ADOrganizationalUnit -Name "ORGANIZATION" -Path "{{ ad_domain }}"}
   register: ad_ou_create
-  changed_when: ad_ou_create.stdout != ""
+  changed_when: ("Change" in ad_ou_create.stdout)
 
 - name: Ensure all Organizational Unit is present [2/2]
   win_shell: |
