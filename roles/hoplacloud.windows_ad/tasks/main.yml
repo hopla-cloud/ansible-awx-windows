@@ -81,7 +81,7 @@
 
 - name: Add GG_ADM_ALL to a administrator group.
   win_domain_group_membership:
-    name: Administrator
+    name: Administrators
     members: GG_ADM_ALL
     state: present
 
