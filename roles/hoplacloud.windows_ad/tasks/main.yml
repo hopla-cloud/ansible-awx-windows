@@ -70,7 +70,7 @@
 
 - name: Ensure GPO Hopla.cloud is linked
   win_shell: |
-    [xml]$gpoReport = Get-GPOReport -Name Hopla.cloud
+    [xml]$gpoReport = Get-GPOReport -Name Hopla.cloud -ReportType xml
     if ($gpoReport.GPO.LinksTo.Enabled -notlike "true"){new-GPLink -Name "Hopla.cloud" -Target "{{ ad_domain }}" -LinkEnabled Yes}
 
 - name: Ensure GG_ADM_ALL is present
