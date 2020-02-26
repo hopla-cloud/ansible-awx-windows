@@ -68,6 +68,12 @@
     Set-GPRegistryValue -Name "Hopla.cloud" -Key "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" -ValueName "Wallpaper" -Type string  -Value "C:\Program Files\hopla.cloud\Desktop-hopla.cloud.png"
     Set-GPRegistryValue -Name "Hopla.cloud" -Key "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" -ValueName "WallpaperStyle" -Type string -Value "4"
 
+- name: GPO Hopla.cloud windows desktop
+  win_shell: |
+    Set-GPRegistryValue -Name "Hopla.cloud" -Key "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile" -ValueName "EnableFirewall" -Type DWORD  -Value 0
+    Set-GPRegistryValue -Name "Hopla.cloud" -Key "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile" -ValueName "EnableFirewall" -Type DWORD  -Value 0
+    Set-GPRegistryValue -Name "Hopla.cloud" -Key "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile" -ValueName "EnableFirewall" -Type DWORD  -Value 0
+
 - name: Ensure GPO Hopla.cloud is linked
   win_shell: |
     [xml]$gpoReport = Get-GPOReport -Name Hopla.cloud -ReportType xml
