@@ -142,3 +142,23 @@
     state: present
     path: "OU=Admins,OU=ORGANIZATION,{{ ad_domain }}"
     groups: GG_ADM_ALL
+
+- name: Copy ADMX Google Files [1/4]
+  win_copy:
+    src: admx\chrome.admx
+    dest: C:\Windows\PolicyDefinitions\chrome.admx
+
+- name: Copy ADMX Google Files [2/4]
+  win_copy:
+    src: admx\google.admx
+    dest: C:\Windows\PolicyDefinitions\google.admx
+
+- name: Copy ADMX Google Files [3/4]
+  win_copy:
+    src: admx\en-US\chrome.admx
+    dest: C:\Windows\PolicyDefinitions\en-US\chrome.admx
+
+- name: Copy ADMX Google Files [4/4]
+  win_copy:
+    src: admx\en-US\google.admx
+    dest: C:\Windows\PolicyDefinitions\en-US\google.admx
