@@ -52,7 +52,7 @@
    echo "{{ windows_instances_password_list }}" \
    | openssl base64 -d \
    | openssl rsautl -decrypt -inkey private_key.pem -keyform PEM
-   rm -f private_key.pem
+#   rm -f private_key.pem
   register: password_clear
   with_items: "{{ windows_instances_list_name }}"
 
