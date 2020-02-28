@@ -33,7 +33,7 @@
       cpt_1: "{{cpt_1}} + 1"
   with_items: "{{ windows_instances_list_name }}"
 
-- debug: msg="{{password_crypt}}"
+- debug: msg="{{cpt_1}}"
 
 - debug: msg="{{ [hostvars['localhost']] }}"
 
