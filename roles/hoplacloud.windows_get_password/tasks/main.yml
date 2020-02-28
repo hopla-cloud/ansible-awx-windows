@@ -2,12 +2,17 @@
 # tasks file for hoplacloud.windows_get_password
 - set_fact:
       windows_instances_list: []
-      
+      windows_instances_list_id: []
+
 - set_fact:
       windows_instances_list: "{{ windows_instances_list }} + ['{{item}}']"
   with_items: "{{ groups['meta-is_windows_true'] }}"
 
-#- debug: msg="host is {{item}}"
+#- set_fact:
+#      windows_instances_list_id: "{{ windows_instances_list_id }} + ['{{item}}']"
+#      gw_ipv4: "{{ hostvars['localhost']['gw_ipv4'] }}"
+#  with_items: "{{ groups['meta-is_windows_true'] }}"
+- debug: msg="host is {{ hostvars['localhost'] }}"
 #  with_items: "{{ groups['meta-is_windows_true'] }}"
 
 - name: Get auth_token
