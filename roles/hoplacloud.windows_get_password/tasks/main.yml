@@ -27,6 +27,10 @@
   register: password_crypt
   with_items: "{{ windows_instances_list_id }}"
 
+- debug: msg="{{password_crypt}}"
+
+- debug: msg="{{[hostvars[localhost]]}}"
+
 - name: Copy private key
   shell: echo "{{ private_key }}" > private_key.pem
 
