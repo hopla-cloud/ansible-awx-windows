@@ -3,7 +3,7 @@
 - set_fact:
       windows_instances_list_name: []
       windows_instances_list_id: []
-      cpt_1: "0 | int"
+      cpt_1: 0
 
 - set_fact:
       windows_instances_list_name: "{{ windows_instances_list_name }} + ['{{item}}']"
@@ -30,7 +30,7 @@
 
 - set_fact:
       "windows_instances_password_{{item}}": "{{ password_crypt.results[0].json.password }}"
-      cpt_1: "{{cpt_1}} + 1"
+      cpt_1: "{{cpt_1 + 1}}"
   with_items: "{{ windows_instances_list_name }}"
 
 - debug: msg="{{cpt_1}}"
