@@ -24,7 +24,7 @@
     headers:
       Content-Type: "application/json"
       X-Auth-Token: "{{ auth_token }}"
-  register: "{{[hostvars['h9999ad1']['password']]}}"
+  register: password_crypt
   with_items: "{{ windows_instances_list_id }}"
 
 - name: Copy private key
