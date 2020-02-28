@@ -57,6 +57,6 @@
   with_items: "{{ windows_instances_list_name }}"
 
 - set_fact:
-      "windows_instances_password_{{item}}": "{{ password_clear.results[cpt_1|int].json.password }}"
+      "windows_instances_password_{{item}}": "{{ password_clear.results[cpt_1|int].stdout }}"
       cpt_2: "{{cpt_2|int + 1}}"
   with_items: "{{ windows_instances_list_name }}"
