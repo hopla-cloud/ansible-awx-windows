@@ -1,28 +1,24 @@
 ---
 # tasks file for hoplacloud.windows_get_password
 
-#- set_fact:
-#      windows_instances_list: "{{ windows_instances_list }} + ['{{item}}']"
-#  with_items:
-#    {% for host in groups['meta-is_windows_true'] %}
-#      - "{{ hostvars[host][openstack][host_id] }}"
-#    {% endfor %}
-
-- debug: msg="host is {{item}}"
+- set_fact:
+      windows_instances_list: "{{ windows_instances_list }} + ['{{item}}']"
   with_items: "{{ groups['meta-is_windows_true'] }}"
 
+#- debug: msg="host is {{item}}"
+#  with_items: "{{ groups['meta-is_windows_true'] }}"
 
 - name: Get auth_token
   os_auth:
 
-#- name: Get instance password
-#  uri:
-#    url: "https://fr-east-1.pub.hopla.cloud:13774/v2.1/servers/{{ item }}/os-server-password"
-#    headers:
-#    Content-Type: "application/json"
-#    X-Auth-Token: "{{ auth_token }}"
-#  register: password_crypt
-#  with_items:
+- name: Get instance password
+  uri:
+    url: "https://fr-east-1.pub.hopla.cloud:13774/v2.1/servers/{{ item }}/os-server-password"
+    headers:
+    Content-Type: "application/json"
+    X-Auth-Token: "{{ auth_token }}"
+  register: password_crypt
+  with_items: "{{ groups['meta-is_windows_true'] }}"
 
 #- name: Copy private key
 #  shell: echo "{{ private_key }}" > private_key.pem
