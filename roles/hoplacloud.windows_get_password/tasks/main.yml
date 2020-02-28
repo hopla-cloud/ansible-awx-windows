@@ -58,7 +58,7 @@
 - name: Copy private key
   shell: rm -f private_key.pem
 
-- debug: msg="{{ password_clear }}"
+- debug: msg="{{ password_clear.results }}"
 
 - set_fact:
       "windows_instances_password_{{item}}": "{{ password_clear.results[cpt_1|int] }}"
