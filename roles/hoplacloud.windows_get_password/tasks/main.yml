@@ -8,24 +8,24 @@
       windows_instances_list: "{{ windows_instances_list }} + ['{{item}}']"
   with_items: "{{ groups['meta-is_windows_true'] }}"
 
-#- set_fact:
-#      windows_instances_list_id: "{{ windows_instances_list_id }} + ['{{item}}']"
+- set_fact:
+      {{ windows_instances_id_item }}: "tt"
 #      gw_ipv4: "{{ hostvars['localhost']['gw_ipv4'] }}"
-#  with_items: "{{ groups['meta-is_windows_true'] }}"
+  with_items: "{{ groups['meta-is_windows_true'] }}"
 - debug: msg="host is {{ hostvars['h9999ad1']['openstack']['hostId'] }}"
 #  with_items: "{{ groups['meta-is_windows_true'] }}"
 
 - name: Get auth_token
   os_auth:
 
-- name: Get instance password
-  uri:
-    url: "https://fr-east-1.pub.hopla.cloud:13774/v2.1/servers/{{ item }}/os-server-password"
-    headers:
-    Content-Type: "application/json"
-    X-Auth-Token: "{{ auth_token }}"
-  register: password_crypt
-  with_items: "{{ groups['meta-is_windows_true'] }}"
+#- name: Get instance password
+#  uri:
+#    url: "https://fr-east-1.pub.hopla.cloud:13774/v2.1/servers/{{ item }}/os-server-password"
+#    headers:
+#    Content-Type: "application/json"
+#    X-Auth-Token: "{{ auth_token }}"
+#  register: password_crypt
+#  with_items: "{{ groups['meta-is_windows_true'] }}"
 
 #- name: Copy private key
 #  shell: echo "{{ private_key }}" > private_key.pem
