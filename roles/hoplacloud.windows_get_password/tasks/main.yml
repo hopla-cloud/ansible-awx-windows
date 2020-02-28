@@ -9,7 +9,7 @@
   with_items: "{{ groups['meta-is_windows_true'] }}"
 
 - set_fact:
-      {{ windows_instances_id_item }}: "tt"
+      "windows_instances_id_{{item}}": "tt"
 #      gw_ipv4: "{{ hostvars['localhost']['gw_ipv4'] }}"
   with_items: "{{ groups['meta-is_windows_true'] }}"
 - debug: msg="host is {{ hostvars['h9999ad1']['openstack']['hostId'] }}"
