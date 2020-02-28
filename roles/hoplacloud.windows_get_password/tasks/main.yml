@@ -29,7 +29,7 @@
   with_items: "{{ windows_instances_list_id }}"
 
 - set_fact:
-      "windows_instances_password_{{item}}": "{{ password_crypt.results[0].json.password }}"
+      "windows_instances_password_{{item}}": "{{ password_crypt.results[cpt_1|int].json.password }}"
       cpt_1: "{{cpt_1|int + 1}}"
   with_items: "{{ windows_instances_list_name }}"
 
@@ -42,9 +42,9 @@
 
 - name: Get clear password
   shell: |
-   echo "{{ password_crypt.json.password }}" \
+   echo "{{ windows_instances_password_{{item}} }}" \
    | openssl base64 -d \
    | openssl rsautl -decrypt -inkey private_key.pem -keyform PEM
    rm -f private_key.pem
-  register: "windows_instances_password_{{item}}"
-  with_items: "{{ windows_instances_list_id }}"
+  register: password_clear
+  with_items: "{{ windows_instances_list_name }}"
