@@ -1,18 +1,18 @@
 ---
 # tasks file for hoplacloud.windows_get_password
 - set_fact:
-      windows_instances_list: []
+      windows_instances_list_name: []
       windows_instances_list_id: []
 
 - set_fact:
-      windows_instances_list: "{{ windows_instances_list }} + ['{{item}}']"
+      windows_instances_list_name: "{{ windows_instances_list_name }} + ['{{item}}']"
+      "windows_instances_id_{{item}}": "hostvars['h9999ad1']['openstack']['hostId']"
   with_items: "{{ groups['meta-is_windows_true'] }}"
 
-- set_fact:
-      "windows_instances_id_{{item}}": "tt"
-#      gw_ipv4: "{{ hostvars['localhost']['gw_ipv4'] }}"
-  with_items: "{{ groups['meta-is_windows_true'] }}"
-- debug: msg="host is {{ hostvars['h9999ad1']['openstack']['hostId'] }}"
+#- set_fact:
+#      "windows_instances_id_{{item}}": "tt"
+#  with_items: "{{ groups['meta-is_windows_true'] }}"
+#- debug: msg="host is {{ hostvars['h9999ad1']['openstack']['hostId'] }}"
 #  with_items: "{{ groups['meta-is_windows_true'] }}"
 
 - name: Get auth_token
