@@ -48,7 +48,7 @@
 
 - name: Get clear password
   shell: |
-   echo "{{ windows_instances_password_list" \
+   echo "{{ windows_instances_password_list }}" \
    | openssl base64 -d \
    | openssl rsautl -decrypt -inkey private_key.pem -keyform PEM
    rm -f private_key.pem
