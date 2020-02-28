@@ -15,22 +15,22 @@
 - name: Get auth_token
   os_auth:
 
-- name: Get instance password
-  uri:
-    url: "https://fr-east-1.pub.hopla.cloud:13774/v2.1/servers/{{ item }}/os-server-password"
-    headers:
-    Content-Type: "application/json"
-    X-Auth-Token: "{{ auth_token }}"
-  register: password_crypt
-  with_items:
+#- name: Get instance password
+#  uri:
+#    url: "https://fr-east-1.pub.hopla.cloud:13774/v2.1/servers/{{ item }}/os-server-password"
+#    headers:
+#    Content-Type: "application/json"
+#    X-Auth-Token: "{{ auth_token }}"
+#  register: password_crypt
+#  with_items:
 
-- name: Copy private key
-  shell: echo "{{ private_key }}" > private_key.pem
+#- name: Copy private key
+#  shell: echo "{{ private_key }}" > private_key.pem
 
-- name: Get clear password
-  shell: |
-   echo "{{ password_crypt.json.password }}" \
-   | openssl base64 -d \
-   | openssl rsautl -decrypt -inkey private_key.pem -keyform PEM
-   rm -f private_key.pem
-  register: password.
+#- name: Get clear password
+#  shell: |
+#   echo "{{ password_crypt.json.password }}" \
+#   | openssl base64 -d \
+#   | openssl rsautl -decrypt -inkey private_key.pem -keyform PEM
+#   rm -f private_key.pem
+#  register: password.
