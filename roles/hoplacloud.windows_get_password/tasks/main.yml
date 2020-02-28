@@ -24,16 +24,17 @@
     headers:
       Content-Type: "application/json"
       X-Auth-Token: "{{ auth_token }}"
-  register: password_crypt
+  register: "password_crypt_{{item}}"
   with_items: "{{ windows_instances_list_id }}"
 
-#- name: Copy private key
-#  shell: echo "{{ private_key }}" > private_key.pem
+- name: Copy private key
+  shell: echo "{{ private_key }}" > private_key.pem
 
-#- name: Get clear password
-#  shell: |
-#   echo "{{ password_crypt.json.password }}" \
-#   | openssl base64 -d \
-#   | openssl rsautl -decrypt -inkey private_key.pem -keyform PEM
-#   rm -f private_key.pem
-#  register: password.
+- name: Get clear password
+  shell: |
+   echo "{{ password_crypt.json.password }}" \
+   | openssl base64 -d \
+   | openssl rsautl -decrypt -inkey private_key.pem -keyform PEM
+   rm -f private_key.pem
+  register: "windows_instances_password_{{item}}"
+  with_items: "{{ windows_instances_list_id }}"
