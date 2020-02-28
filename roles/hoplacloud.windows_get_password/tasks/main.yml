@@ -33,16 +33,16 @@
       cpt_1: "{{cpt_1|int + 1}}"
   with_items: "{{ windows_instances_list_name }}"
 
-- debug: msg="{{cpt_1}}"
+#- debug: msg="{{cpt_1}}"
 
-- debug: msg="{{ [hostvars['localhost']] }}"
+#- debug: msg="{{ [hostvars['localhost']] }}"
 
 - name: Copy private key
   shell: echo "{{ private_key }}" > private_key.pem
 
 - name: Get clear password
   shell: |
-   echo "{{ windows_instances_password_{{item}} }}" \
+   echo "{{ windows_instances_password_item }}" \
    | openssl base64 -d \
    | openssl rsautl -decrypt -inkey private_key.pem -keyform PEM
    rm -f private_key.pem
