@@ -4,6 +4,7 @@
       windows_instances_list_name: []
       windows_instances_list_id: []
       cpt_1: 0
+      cpt_2: 0
 
 - set_fact:
       windows_instances_list_name: "{{ windows_instances_list_name }} + ['{{item}}']"
@@ -53,4 +54,9 @@
    | openssl rsautl -decrypt -inkey private_key.pem -keyform PEM
    rm -f private_key.pem
   register: password_clear
+  with_items: "{{ windows_instances_list_name }}"
+
+- set_fact:
+      "windows_instances_password_{{item}}": "{{ password_clear.results[cpt_1|int].json.password }}"
+      cpt_2: "{{cpt_2|int + 1}}"
   with_items: "{{ windows_instances_list_name }}"
