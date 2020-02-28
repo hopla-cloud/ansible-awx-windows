@@ -29,7 +29,7 @@
   with_items: "{{ windows_instances_list_id }}"
 
 - set_fact:
-      "windows_instances_password_{{item}}": "{{ results[cpt_1]password_crypt.json.password }}"
+      "windows_instances_password_{{item}}": "{{ password_crypt.results[0].json.password }}"
       cpt_1: "{{cpt_1}} + 1"
   with_items: "{{ windows_instances_list_name }}"
 
