@@ -30,7 +30,7 @@
 
 - set_fact:
       "windows_instances_password_{{item}}": "{{ password_crypt.results[0].json.password }}"
-      cpt_1: "{{cpt_1 + 1}}"
+      cpt_1: "{{cpt_1|int + 1}}"
   with_items: "{{ windows_instances_list_name }}"
 
 - debug: msg="{{cpt_1}}"
