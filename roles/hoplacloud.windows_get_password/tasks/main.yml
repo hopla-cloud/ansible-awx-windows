@@ -6,7 +6,7 @@
 
 - set_fact:
       windows_instances_list_name: "{{ windows_instances_list_name }} + ['{{item}}']"
-      "windows_instances_id_{{item}}": "hostvars['h9999ad1']['openstack']['hostId']"
+      "windows_instances_id_{{item}}": "{{hostvars['h9999ad1']['openstack']['hostId']}}"
   with_items: "{{ groups['meta-is_windows_true'] }}"
 
 #- set_fact:
