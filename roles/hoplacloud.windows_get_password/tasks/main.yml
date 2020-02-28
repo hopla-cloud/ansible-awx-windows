@@ -1,6 +1,8 @@
 ---
 # tasks file for hoplacloud.windows_get_password
-
+- set_fact:
+      windows_instances_list: []
+      
 - set_fact:
       windows_instances_list: "{{ windows_instances_list }} + ['{{item}}']"
   with_items: "{{ groups['meta-is_windows_true'] }}"
