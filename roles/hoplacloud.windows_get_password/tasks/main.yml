@@ -9,7 +9,7 @@
 #    {% endfor %}
 
 - debug: msg="host is {{item}}"
-  with_items:  groups['is_windows_true']
+  with_items:  groups['meta-is_windows_true']
 
 
 - name: Get auth_token
