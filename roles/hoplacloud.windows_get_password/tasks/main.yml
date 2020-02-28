@@ -3,6 +3,7 @@
 - set_fact:
       windows_instances_list_name: []
       windows_instances_list_id: []
+      cpt_1: 0
 
 - set_fact:
       windows_instances_list_name: "{{ windows_instances_list_name }} + ['{{item}}']"
@@ -27,9 +28,14 @@
   register: password_crypt
   with_items: "{{ windows_instances_list_id }}"
 
+- set_fact:
+      "windows_instances_password_{{item}}": "{{ results[cpt_1]password_crypt.json.password }}"
+      cpt_1: "{{cpt_1}} + 1"
+  with_items: "{{ windows_instances_list_name }}"
+
 - debug: msg="{{password_crypt}}"
 
-- debug: msg="{{[hostvars[localhost]]}}"
+- debug: msg="{{ [hostvars['localhost']] }}"
 
 - name: Copy private key
   shell: echo "{{ private_key }}" > private_key.pem
