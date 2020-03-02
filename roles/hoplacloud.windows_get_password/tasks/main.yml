@@ -50,5 +50,4 @@
       cpt_2: "{{cpt_2|int + 1}}"
   with_items: "{{ windows_instances_list_name }}"
 
-  - debug: msg="{{ [hostvars[item]] }}"
-    with_items: "{{ windows_instances_list_name }}"
+  - debug: msg="{{ [hostvars['h9999ad1']] }}"
