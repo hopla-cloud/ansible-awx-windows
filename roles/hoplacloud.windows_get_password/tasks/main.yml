@@ -3,6 +3,7 @@
 - set_fact:
       windows_instances_list_name: []
       windows_instances_list_id: []
+      windows_instances_password_list: []
       cpt_1: 0
       cpt_2: 0
 
