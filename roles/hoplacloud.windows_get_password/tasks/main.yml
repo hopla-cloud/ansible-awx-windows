@@ -25,7 +25,7 @@
 
 - set_fact:
       "windows_instances_password_{{item}}": "{{ password_crypt.results[cpt_1|int].json.password }}"
-      windows_instances_password_list: "{{ password_crypt.results[cpt_1|int].json.password }}"
+      windows_instances_password_list: "{{windows_instances_password_list + [password_crypt.results[cpt_1|int].json.password] }}"
       cpt_1: "{{cpt_1|int + 1}}"
   with_items: "{{ windows_instances_list_name }}"
 
@@ -34,11 +34,11 @@
 
 - name: Get clear password
   shell: |
-   echo "{{ windows_instances_password_list }}" \
+   echo "{{ item }}" \
    | openssl base64 -d \
    | openssl rsautl -decrypt -inkey private_key.pem -keyform PEM
   register: password_clear
-  with_items: "{{ windows_instances_list_name }}"
+  with_items: "{{ windows_instances_password_list }}"
 
 - name: Copy private key
   shell: rm -f private_key.pem
