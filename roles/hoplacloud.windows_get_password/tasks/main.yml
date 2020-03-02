@@ -62,6 +62,6 @@
 
 - set_fact:
       windows_instances_password:
-        "{{item}}": "{{ password_clear.results[cpt_2|int].stdout }}"
+        "clear_{{item}}": "{{ password_clear.results[cpt_2|int].stdout }}"
       cpt_2: "{{cpt_2|int + 1}}"
   with_items: "{{ windows_instances_list_name }}"
