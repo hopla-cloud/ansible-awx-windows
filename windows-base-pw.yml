@@ -9,9 +9,9 @@
   vars:
     ansible_connection: winrm
     ansible_winrm_server_cert_validation: ignore
-    ansible_host: "hostvars['{{instance_name}}']['openstack']['ssh_pub_ip']"
-    ansible_port: "hostvars['{{instance_name}}']['openstack']['ssh_pub_port']"
+    ansible_host: "{{hostvars['instance_name']['openstack']['ssh_pub_ip']}}"
+    ansible_port: "{{hostvars['{{instance_name}}']['openstack']['ssh_pub_port]'}}]"
     ansible_user: Admin
-    ansible_password: "windows_instances_password_{{instance_name}}"
+    ansible_password: "{{windows_instances_password_instance_name}}"
   roles:
     - hoplacloud.windows_base
