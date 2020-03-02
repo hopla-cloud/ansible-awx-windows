@@ -49,4 +49,4 @@
       windows_passwords: "{{ windows_passwords | default({}) | combine({ item: password_clear.results[cpt_2|int].stdout}) }}"
       cpt_2: "{{cpt_2|int + 1}}"
   with_items: "{{ windows_instances_list_name }}"
-- debug: msg="{{ [hostvars['h9999ad1']] }}"
+- debug: msg="{{hostvars['localhost']['windows_passwords']}}.{{instance_name}}"
