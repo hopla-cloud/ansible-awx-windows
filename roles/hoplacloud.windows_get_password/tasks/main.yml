@@ -11,12 +11,6 @@
       windows_instances_list_id: "{{windows_instances_list_id + [hostvars[item]['openstack']['id']]}}"
   with_items: "{{ groups['meta-is_windows_true'] }}"
 
-#- set_fact:
-#      "windows_instances_id_{{item}}": "tt"
-#  with_items: "{{ groups['meta-is_windows_true'] }}"
-#- debug: msg="host is {{ hostvars['h9999ad1']['openstack']['hostId'] }}"
-#  with_items: "{{ groups['meta-is_windows_true'] }}"
-
 - name: Get auth_token
   os_auth:
 
@@ -35,15 +29,6 @@
       cpt_1: "{{cpt_1|int + 1}}"
   with_items: "{{ windows_instances_list_name }}"
 
-#- set_fact:
-#      "windows_instances_password_{{item}}": "{{ password_crypt.results[cpt_1|int].json.password }}"
-#      cpt_1: "{{cpt_1|int + 1}}"
-#  with_items: "{{ windows_instances_list_name }}"
-
-#- debug: msg="{{cpt_1}}"
-
-#- debug: msg="{{ [hostvars['localhost']] }}"
-
 - name: Copy private key
   shell: echo "{{ private_key }}" > private_key.pem
 
@@ -57,8 +42,6 @@
 
 - name: Copy private key
   shell: rm -f private_key.pem
-
-#- debug: msg="{{ password_clear.results[0].stdout }}"
 
 - set_fact:
 #      windows_passwords: "{{windows_passwords|combine({ item: password_clear.results[cpt_2|int].stdout}, recursive=True) }}"
