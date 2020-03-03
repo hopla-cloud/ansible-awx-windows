@@ -8,7 +8,7 @@
   vars:
     ansible_connection: winrm
     ansible_winrm_server_cert_validation: ignore
-    ansible_host: "{{hostvars[instance_name]['openstack']['metadata']['ssh_pub_ip']}}"
+    ansible_host: "{{['openstack']['metadata']['ssh_pub_ip']}}"
     ansible_port: "{{hostvars[instance_name]['openstack']['metadata']['ssh_pub_port']}}"
     ansible_user: Admin
     ansible_password: "{{hostvars['localhost']['windows_passwords'][instance_name]}}"
