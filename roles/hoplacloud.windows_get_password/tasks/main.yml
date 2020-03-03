@@ -50,4 +50,4 @@
   with_items: "{{ windows_instances_list_name }}"
 
 - set_fact:
-      "hostvars['h9999ad1'].test": "{{ password_clear.results[0].stdout }}"
+      "{{hostvars['h9999ad1'].test}}": "{{ password_clear.results[0].stdout }}"
