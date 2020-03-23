@@ -12,6 +12,11 @@
     include_sub_features: yes
     include_management_tools: yes
 
+- name: Create directory scripts
+  win_file:
+    path: C:\scripts
+    state: directory
+
 - name: Create directory odt
   win_file:
     path: C:\odt
@@ -31,7 +36,6 @@
   win_shell: |
     cd "C:\odt"
     if (!(Test-Path "C:\odt\setup_office.ansible")){
-    Write-Host OK
     setup.exe /download
     setup.exe /configure
     New-Item -Name setup_office.ansible -ItemType File -Path "C:\odt\"
@@ -39,3 +43,29 @@
     }
   register: rds_office_install
   changed_when: ("Change" in rds_office_install.stdout)
+
+- name: Create directory scripts
+  win_file:
+    path: C:\scripts\fslogix
+    state: directory
+
+- name: Copy office config file
+  win_copy:
+    src: FSLogixAppsSetup.exe
+    dest: C:\scripts\fslogix
+
+- name: Ensure FSlogix is present
+  win_shell: |
+    cd "C:\scripts\fslogix"
+    if (!(Test-Path "C:\scripts\fslogix\fslogix_setup.ansible")){
+    FSLogixAppsSetup.exe /install /quiet /norestart
+    New-Item -Name fslogix_setup.ansible -ItemType File -Path "C:\scripts\fslogix\"
+    Write-Host Change
+    }
+  register: rds_fslogix_install
+  changed_when: ("Change" in rds_fslogix_install.stdout)
+
+- name: Download TeamViewer
+  win_get_url:
+    url: https://get.teamviewer.com/iilyo-qs1
+    dest: "C:\Users\Public\Desktop\Support iilyo.exe"

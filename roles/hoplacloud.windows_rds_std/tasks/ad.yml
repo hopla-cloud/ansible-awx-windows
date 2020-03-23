@@ -86,8 +86,3 @@
   win_copy:
     src: fslogix.adml
     dest: C:\Windows\PolicyDefinitions\en-US\fslogix.adml
-
-- name: Copy ADMX FSlogix Files [2/2]
-  win_copy:
-    src: fslogix.adml
-    dest: C:\Windows\PolicyDefinitions\en-US\fslogix.adml
