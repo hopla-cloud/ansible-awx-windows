@@ -1,0 +1,41 @@
+---
+# tasks file for hoplacloud.windows_rds_standalone
+
+- name: Install Active Directory with sub features and management tools
+  win_feature:
+    name:
+    - RDS-Connection-Broker
+    - RDS-RD-Server
+    - RDS-Web-Access
+    - NET-Framework-Core
+    state: present
+    include_sub_features: yes
+    include_management_tools: yes
+
+- name: Create directory odt
+  win_file:
+    path: C:\odt
+    state: directory
+
+- name: Copy office setup file
+  win_copy:
+    src: setup.exe
+    dest: C:\odt
+
+- name: Copy office config file
+  win_copy:
+    src: configuration.xml
+    dest: C:\odt
+
+- name: Ensure Office is present
+  win_shell: |
+    cd "C:\odt"
+    if (!(Test-Path "C:\odt\setup_office.ansible")){
+    Write-Host OK
+    setup.exe /download
+    setup.exe /configure
+    New-Item -Name setup_office.ansible -ItemType File -Path "C:\odt\"
+    Write-Host Change
+    }
+  register: rds_office_install
+  changed_when: ("Change" in rds_office_install.stdout)

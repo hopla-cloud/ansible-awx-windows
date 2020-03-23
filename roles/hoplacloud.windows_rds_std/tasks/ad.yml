@@ -1,0 +1,93 @@
+---
+# tasks file for hoplacloud.windows_rds_standalone
+
+- name: Get DistinguishedName
+  win_shell: (Get-ADDomain).DistinguishedName
+  register: ad_domain
+  changed_when: ad_domain.rc == 1
+
+- name: Set fact ad_domain
+  set_fact:
+    ad_domain: "{{ ad_domain.stdout_lines[0] }}"
+
+- name: Ensure Organizational Unit is present [1/2]
+  win_shell: |
+    $ou_check = (Get-ADOrganizationalUnit -Filter 'Name -like "RDS"').Name
+    if ($ou_check -notlike "RDS"){New-ADOrganizationalUnit -Name "RDS" -Path "OU=servers,OU=ORGANIZATION,{{ ad_domain }}"}
+  register: ad_ou_create
+  changed_when: ("Change" in ad_ou_create.stdout)
+
+- name: Ensure Organizational Unit is present [2/2]
+  win_shell: |
+    $ou_check = (Get-ADOrganizationalUnit -Filter 'Name -like "Office 365"').Name
+    if ($ou_check -notlike "Office 365"){New-ADOrganizationalUnit -Name "Office 365" -Path "OU=ORGANIZATION,{{ ad_domain }}"}
+  register: ad_ou_create
+  changed_when: ("Change" in ad_ou_create.stdout)
+
+- name: Ensure GG_USR_RDS is present
+  win_domain_group:
+    name: GG_USR_RDS
+    scope: global
+    path: "OU=Security groups,OU=ORGANIZATION,{{ ad_domain }}"
+
+- name: Install Active Directory with sub features and management tools
+  win_feature:
+    name: RDS-Licensing
+    state: present
+    include_sub_features: yes
+    include_management_tools: yes
+
+- name: Ensure GPO RDS_SERVERS is present
+  win_shell: |
+    $gpo_check = (Get-GPO -all ).DisplayName
+    if ($gpo_check -notcontains "_RDS_SERVERS"){
+    New-GPO -Name "_RDS_SERVERS"
+    Write-Host Change
+    }
+  register: ad_gpo_rds_servers_create
+  changed_when: ("Change" in ad_gpo_rds_servers_create.stdout)
+
+- name: Ensure GPO RDS_USERS is present
+  win_shell: |
+    $gpo_check = (Get-GPO -all ).DisplayName
+    if ($gpo_check -notcontains "_RDS_USERS"){
+    New-GPO -Name "_RDS_USERS"
+    Write-Host Change
+    }
+  register: ad_gpo_rds_users_create
+  changed_when: ("Change" in ad_gpo_rds_users_create.stdout)
+
+- name: Ensure GPO RDS_SERVERS is linked
+  win_shell: |
+    [xml]$gpoReport = Get-GPOReport -Name _RDS_SERVERS -ReportType xml
+    if ($gpoReport.GPO.LinksTo.Enabled -notlike "true"){
+    new-GPLink -Name "_RDS_SERVERS" -Target "OU=RDS,OU=Servers,OU=ORGANIZATION,{{ ad_domain }}" -LinkEnabled Yes
+    Write-Host Change
+    }
+  register: ad_gpo_rds_servers_link_create
+  changed_when: ("Change" in ad_gpo_rds_servers_link_create.stdout)
+
+- name: Ensure GPO RDS_USERS is linked
+  win_shell: |
+    [xml]$gpoReport = Get-GPOReport -Name _RDS_USERS -ReportType xml
+    if ($gpoReport.GPO.LinksTo.Enabled -notlike "true"){
+    new-GPLink -Name "_RDS_USERS" -Target "OU=Users,OU=ORGANIZATION,{{ ad_domain }}" -LinkEnabled Yes
+    Write-Host Change
+    }
+  register: ad_gpo_rds_users_link_create
+  changed_when: ("Change" in ad_gpo_rds_users_link_create.stdout)
+
+- name: Copy ADMX FSlogix Files [1/2]
+  win_copy:
+    src: fslogix.admx
+    dest: C:\Windows\PolicyDefinitions\fslogix.admx
+
+- name: Copy ADMX FSlogix Files [2/2]
+  win_copy:
+    src: fslogix.adml
+    dest: C:\Windows\PolicyDefinitions\en-US\fslogix.adml
+
+- name: Copy ADMX FSlogix Files [2/2]
+  win_copy:
+    src: fslogix.adml
+    dest: C:\Windows\PolicyDefinitions\en-US\fslogix.adml

@@ -62,9 +62,12 @@
 - name: Ensure GPO Hopla.cloud is present
   win_shell: |
     $gpo_check = (Get-GPO -all ).DisplayName
-    if ($gpo_check -notcontains "Hopla.cloud"){New-GPO -Name "Hopla.cloud"}
+    if ($gpo_check -notcontains "Hopla.cloud"){
+    New-GPO -Name "Hopla.cloud"
+    Write-Host Change
+    }
   register: ad_gpo_create
-  changed_when: ad_gpo_create.stdout != ""
+  changed_when: ("Change" in ad_gpo_create.stdout)
 
 - name: GPO Hopla.cloud windows update
   win_shell: |
