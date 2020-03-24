@@ -87,13 +87,13 @@
     src: fslogix.adml
     dest: C:\Windows\PolicyDefinitions\en-US\fslogix.adml
 
-- name: Set GPO options : "_RDS_SERVERS"
+- name: Set GPO options "_RDS_SERVERS"
   win_shell: |
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\Policies\Google\Chrome\ExtensionInstallForcelist" -ValueName "1" -Type string  -Value "klbibkeccnjlkjkiokjodocebajanakg;https://clients2.google.com/service/update2/crx"
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\Software\Policies\Microsoft\Windows\Server\ServerManager" -ValueName "DoNotOpenAtLogon" -Type DWORD  -Value 1
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\Software\Policies\Microsoft\Windows\System" -ValueName "DefaultAssociationsConfiguration" -Type string  -Value "\\{{ ansible_hostname }}\NETLOGON\FilesAssociations.xml"
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SYSTEM\ControlSet001\Services\AdobeARMservice" -ValueName "Start" -Type DWORD  -Value 4
 
-- name: Set GPO options : "_RDS_USERS"
+- name: Set GPO options "_RDS_USERS"
   win_shell: |
     Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile" -ValueName "EnableFirewall" -Type DWORD  -Value 0
