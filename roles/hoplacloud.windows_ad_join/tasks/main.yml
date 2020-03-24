@@ -6,13 +6,14 @@
 
 - name: Ensure the server is present in the active directory (Other RDS servers)
   block:
-    - win_domain_membership:
+    - name: Join domain
+      win_domain_membership:
         dns_domain_name: "{{ ad_domain_name }}"
         domain_admin_user: administrator
         domain_admin_password: "{{ administrator_password }}"
         domain_ou_path: "OU=Servers,OU=ORGANIZATION,{{ ad_domain }}"
         state: domain
-    register: domain_state1
+      register: domain_state1
     - name: Reboot if required
       win_reboot:
       when: domain_state1.reboot_required
@@ -20,13 +21,14 @@
 
 - name: Ensure the server is present in the active directory (Other RDS servers)
   block:
-    - win_domain_membership:
+    - name: Join domain
+      win_domain_membership:
         dns_domain_name: "{{ ad_domain_name }}"
         domain_admin_user: administrator
         domain_admin_password: "{{ administrator_password }}"
         domain_ou_path: "OU=RDS,OU=Servers,OU=ORGANIZATION,{{ ad_domain }}"
         state: domain
-    register: domain_state2
+      register: domain_state2
     - name: Reboot if required
       win_reboot:
       when: domain_state2.reboot_required
