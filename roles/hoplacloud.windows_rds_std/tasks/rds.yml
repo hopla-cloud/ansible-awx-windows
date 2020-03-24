@@ -37,7 +37,7 @@
     $odt_check = (Get-ChildItem -Path "C:\odt").Name
     if ($odt_check -notcontains 'setup_office_ansible'){
     C:\odt\setup.exe /download
-    C:\odt\setup.exe /configure
+    C:\odt\setup.exe /configure configuration.xml
     New-Item -Name setup_office_ansible -ItemType File -Path C:\odt\
     Write-Host Change}
   register: rds_office_install
@@ -48,10 +48,10 @@
     path: C:\scripts\fslogix
     state: directory
 
-- name: Copy office config file
+- name: Copy fslogix file
   win_copy:
     src: FSLogixAppsSetup.exe
-    dest: C:\scripts\fslogix
+    dest: C:\scripts\fslogix\FSLogixAppsSetup.exe
 
 - name: Ensure FSlogix is present
   win_shell: |
