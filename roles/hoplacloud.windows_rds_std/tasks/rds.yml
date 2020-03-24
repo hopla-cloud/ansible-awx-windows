@@ -36,10 +36,10 @@
   win_shell: |
     cd C:\odt
     $odt_check = (Get-ChildItem).Name
-    if ($odt_check -notcontains 'setup_office.ansible'){
+    if ($odt_check -notcontains 'setup_office_ansible'){
     Start-Process 'setup.exe /download'
-    Start-Process' setup.exe /configure'
-    New-Item -Name 'setup_office.ansible' -ItemType File -Path "C:\odt\"
+    Start-Process 'setup.exe /configure'
+    New-Item -Name 'setup_office_ansible' -ItemType File -Path "C:\odt\"
     Write-Host Change
     }
   register: rds_office_install
