@@ -75,10 +75,10 @@
     src: Disconnect.lnk
     dest: C:\Users\Public\Desktop\
 
-- name: Download TeamViewer
-  win_get_url:
-    url: https://get.teamviewer.com/iilyo-qs1
-    dest: "C:\Users\Public\Desktop\Support iilyo.exe"
+#- name: Download TeamViewer
+#  win_get_url:
+#    url: https://get.teamviewer.com/iilyo-qs1
+#    dest: C:\Users\Public\Desktop\Support iilyo.exe
 
 - name: Install adobereader
   win_chocolatey:
