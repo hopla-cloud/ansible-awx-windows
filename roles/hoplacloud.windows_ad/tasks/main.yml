@@ -164,4 +164,4 @@
 - name: Copy ADMX Google Files [4/4]
   win_copy:
     src: files/admx/en-US/google.adml
-    dest: C:\Windows\PolicyDefinitions\en-US\google.admx
+    dest: C:\Windows\PolicyDefinitions\en-US\google.adml
