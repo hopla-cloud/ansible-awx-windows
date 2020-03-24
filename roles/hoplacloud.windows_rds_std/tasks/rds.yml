@@ -39,7 +39,7 @@
     C:\odt\setup.exe /download
     C:\odt\setup.exe /configure
     New-Item -Name setup_office_ansible -ItemType File -Path C:\odt\
-    Wite-Host Change}
+    Write-Host Change}
   register: rds_office_install
   changed_when: ("Change" in rds_office_install.stdout)
 
