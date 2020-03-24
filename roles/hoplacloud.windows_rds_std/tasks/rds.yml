@@ -34,7 +34,8 @@
 
 - name: Ensure Office is present
   win_shell: |
-    Write-Host Change
+    $odt_check = (Get-ChildItem -Path "C:\odt").Name
+    if ($odt_check -notcontains 'setup_office_ansible'){Wite-Host Change}
   register: rds_office_install
   changed_when: ("Change" in rds_office_install.stdout)
 
