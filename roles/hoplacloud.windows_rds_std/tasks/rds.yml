@@ -55,10 +55,10 @@
 
 - name: Ensure FSlogix is present
   win_shell: |
-    cd "C:\scripts\fslogix"
-    if (!(Test-Path "C:\scripts\fslogix\fslogix_setup.ansible")){
-    FSLogixAppsSetup.exe /install /quiet /norestart
-    New-Item -Name fslogix_setup.ansible -ItemType File -Path "C:\scripts\fslogix\"
+    $fslogix_check = (Get-ChildItem -Path C:\scripts\fslogix).Name
+    if ($odt_check -notcontains 'fslogix_setup_ansible'){
+    C:\scripts\fslogix\FSLogixAppsSetup.exe /install /quiet /norestart
+    New-Item -Name fslogix_setup_ansible -ItemType File -Path C:\scripts\fslogix\
     Write-Host Change
     }
   register: rds_fslogix_install
