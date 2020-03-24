@@ -35,4 +35,4 @@
     ansible_user: Admin
     ansible_password: "{{hostvars['localhost']['windows_passwords'][inventory_hostname]}}"
   roles:
-    - hoplacloud.windows_ad
+    - hoplacloud.windows_rds_std
