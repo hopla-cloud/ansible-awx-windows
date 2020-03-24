@@ -32,15 +32,26 @@
     src: configuration.xml
     dest: C:\odt
 
+- name: Ensure GPO Hopla.cloud is present
+  win_shell: |
+    $gpo_check = (Get-GPO -all ).DisplayName
+    if ($gpo_check -notcontains "Hopla.cloud"){
+    New-GPO -Name "Hopla.cloud"
+    Write-Host Change
+    }
+  register: ad_gpo_create
+  changed_when: ("Change" in ad_gpo_create.stdout)
+
+
 - name: Ensure Office is present
   win_shell: |
     cd C:\odt
-    if (!(Test-Path "C:\odt\setup_office.ansible")){
+#    if (!(Test-Path "C:\odt\setup_office.ansible")){
     setup.exe /download
     setup.exe /configure
     New-Item -Name setup_office.ansible -ItemType File -Path "C:\odt\"
     Write-Host Change
-    }
+#    }
   register: rds_office_install
   changed_when: ("Change" in rds_office_install.stdout)
 
