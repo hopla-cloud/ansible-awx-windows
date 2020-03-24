@@ -159,7 +159,7 @@
 - name: Copy ADMX Google Files [3/4]
   win_copy:
     src: files/admx/en-US/chrome.adml
-    dest: C:\Windows\PolicyDefinitions\en-US\chrome.admx
+    dest: C:\Windows\PolicyDefinitions\en-US\chrome.adml
 
 - name: Copy ADMX Google Files [4/4]
   win_copy:
