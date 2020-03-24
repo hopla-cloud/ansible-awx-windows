@@ -48,8 +48,8 @@
     cd C:\odt
     $odt_check = (Get-ChildItem).Name
     if ($odt_check -notcontains "setup_office.ansible"){
-    setup.exe /download
-    setup.exe /configure
+    "setup.exe /download"
+    "setup.exe /configure"
     New-Item -Name setup_office.ansible -ItemType File -Path "C:\odt\"
     Write-Host Change
     }
