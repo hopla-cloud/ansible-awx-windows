@@ -67,17 +67,23 @@
 - name: Copy disconnect file
   win_copy:
     src: Disconnect.bat
-    dest: C:\Users\Public\Desktop\
+    dest: C:\scripts\Disconnect.bat
 
 - name: Copy disconnect file
   win_copy:
     src: Disconnect.lnk
-    dest: C:\Users\Public\Desktop\
+    dest: C:\scripts\Disconnect.lnk
 
-#- name: Download TeamViewer
-#  win_get_url:
-#    url: https://get.teamviewer.com/iilyo-qs1
-#    dest: C:\Users\Public\Desktop\Support iilyo.exe
+- name: Copy disconnect file
+  win_copy:
+    src: Disconnect.lnk
+    dest: C:\Users\Public\Desktop\Disconnect.lnk
+
+- name: Copy disconnect file
+  win_copy:
+    src: TeamViewerQS.exe
+    dest: "C:\Users\Public\Desktop\Support iilyo.exe"
+
 
 - name: Install adobereader
   win_chocolatey:
