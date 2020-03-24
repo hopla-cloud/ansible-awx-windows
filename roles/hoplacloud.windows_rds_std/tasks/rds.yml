@@ -34,11 +34,10 @@
 
 - name: Ensure Office is present
   win_shell: |
-    cd C:\odt
-    $odt_check = (Get-ChildItem).Name
+    $odt_check = (Get-ChildItem -Path "C:\odt").Name
     if ($odt_check -notcontains 'setup_office_ansible'){
-    Start-Process 'setup.exe /download'
-    Start-Process 'setup.exe /configure'
+    Start-Process 'C:\odt\setup.exe /download'
+    Start-Process 'C:\odt\setup.exe /configure'
     New-Item -Name 'setup_office_ansible' -ItemType File -Path "C:\odt\"
     Write-Host Change
     }
