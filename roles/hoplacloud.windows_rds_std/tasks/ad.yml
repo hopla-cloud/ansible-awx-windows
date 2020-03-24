@@ -93,7 +93,24 @@
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\Software\Policies\Microsoft\Windows\Server\ServerManager" -ValueName "DoNotOpenAtLogon" -Type DWORD  -Value 1
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\Software\Policies\Microsoft\Windows\System" -ValueName "DefaultAssociationsConfiguration" -Type string  -Value "\\{{ ansible_hostname }}\NETLOGON\FilesAssociations.xml"
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SYSTEM\ControlSet001\Services\AdobeARMservice" -ValueName "Start" -Type DWORD  -Value 4
-
+    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "AdobeAAMUpdater-1.0" -Disable
+    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "AdobeGCInvoker-1.0" -Disable
+    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "MmsMonitor.exe" -Disable
+    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Run" -ValueName "SunJavaUpdateSched" -Disable
+    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Run" -ValueName "Acrobat Assistant 8.0" -Disable
+    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Run" -ValueName "AcronisTibMounterMonitor" -Disable
+    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Run" -ValueName "Acronis Scheduler2 Service" -Disable
+    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\Policies\Google\Chrome" -ValueName "ChromeCleanupEnabled" -Type DWORD  -Value 0
+    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\Policies\Google\Chrome" -ValueName "ChromeCleanupReportingEnabled" -Type DWORD  -Value 0
+    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "Enabled" -Type DWORD  -Value 1
+    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "IsDynamic" -Type DWORD  -Value 1
+    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "RoamSearch" -Type DWORD  -Value 2
+    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "SizeInMBs" -Type DWORD  -Value 10240
+    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "IsDynamic" -Type String  -Value "\\h16ad1.srp.local\profiles$"
 - name: Set GPO options "_RDS_USERS"
   win_shell: |
-    Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile" -ValueName "EnableFirewall" -Type DWORD  -Value 0
+    Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "Adobe Acrobat Synchronizer" -Disable
+    Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "Adobe Reader Synchronizer" -Disable
+    Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "CCXProcess" -Disable
+    Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "com.squirrel.Teams.Teams" -Disable
+    Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\Software\Microsoft\Office\16.0\Common\Identity" -ValueName "DisableADALatopWAMOverride" -Type DWORD  -Value 1
