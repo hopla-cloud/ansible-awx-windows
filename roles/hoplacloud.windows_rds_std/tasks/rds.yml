@@ -34,7 +34,7 @@
 
 - name: Ensure Office is present
   win_shell: |
-    cd "C:\odt"
+    cd C:\odt
     if (!(Test-Path "C:\odt\setup_office.ansible")){
     setup.exe /download
     setup.exe /configure
