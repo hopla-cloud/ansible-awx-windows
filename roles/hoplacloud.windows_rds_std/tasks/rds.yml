@@ -65,7 +65,33 @@
   register: rds_fslogix_install
   changed_when: ("Change" in rds_fslogix_install.stdout)
 
+- name: Copy disconnect file
+  win_copy:
+    src: Disconnect.bat
+    dest: C:\Users\Public\Desktop\
+
+- name: Copy disconnect file
+  win_copy:
+    src: Disconnect.lnk
+    dest: C:\Users\Public\Desktop\
+
 - name: Download TeamViewer
   win_get_url:
     url: https://get.teamviewer.com/iilyo-qs1
     dest: "C:\Users\Public\Desktop\Support iilyo.exe"
+
+- name: Install adobereader
+  win_chocolatey:
+    name: adobereader
+    state: present
+    package_params: NoUpdates
+
+- name: Install apps
+  win_chocolatey:
+    name:
+      - GoogleChrome
+      - jre8
+      - 7zip.install
+      - irfanview
+      - irfanviewplugins
+    state: present
