@@ -12,6 +12,17 @@
       domain_ou_path: "OU=Servers,OU=ORGANIZATION,{{ ad_domain }}"
       state: domain
   register: domain_state
+  when: "'meta-is_rds_std_true' not in group_names and 'meta-is_rds_std_true' not in group_names"
+
+- name: Ensure the server is present in the active directory
+  win_domain_membership:
+      dns_domain_name: "{{ ad_domain_name }}"
+      domain_admin_user: administrator
+      domain_admin_password: "{{ administrator_password }}"
+      domain_ou_path: "OU=RDS,OU=Servers,OU=ORGANIZATION,{{ ad_domain }}"
+      state: domain
+  register: domain_state
+  when: "'meta-is_rds_std_true' in group_names"
 
 - name: Reboot if required
   win_reboot:

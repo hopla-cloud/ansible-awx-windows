@@ -25,12 +25,12 @@
 - name: Copy office setup file
   win_copy:
     src: setup.exe
-    dest: C:\odt
+    dest: C:\odt\setup.exe
 
 - name: Copy office config file
   win_copy:
     src: configuration.xml
-    dest: C:\odt
+    dest: C:\odt\configuration.xml
 
 - name: Ensure Office is present
   win_shell: |
