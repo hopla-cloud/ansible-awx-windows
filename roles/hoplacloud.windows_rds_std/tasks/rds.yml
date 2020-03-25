@@ -69,7 +69,7 @@
     name: FSLogix Profile Exclude List
     members:
       - administrator
-      - "{{ ad_netbios_name }} + \ + administrator"
+      - "{{ ad_netbios_name }}'\'administrator"
     state: present
 
 - name: Copy disconnect file
