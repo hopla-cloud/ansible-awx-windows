@@ -67,6 +67,7 @@
   win_acl_inheritance:
     path: D:\profiles
     state: absent
+  when: "OK" in ad_volume_d.stdout
 
 - name: Add security profiles folder
   win_acl:
@@ -76,6 +77,7 @@
     type: allow
     state: present
     inherit: ContainerInherit, ObjectInherit
+  when: "OK" in ad_volume_d.stdout
 
 - name: Add security profiles folder
   win_acl:
@@ -85,6 +87,7 @@
     type: allow
     state: present
     inherit: ContainerInherit, ObjectInherit
+  when: "OK" in ad_volume_d.stdout
 
 - name: Add security profiles folder
   win_acl:
@@ -94,7 +97,8 @@
     type: allow
     state: present
     inherit: ContainerInherit, ObjectInherit
-
+  when: "OK" in ad_volume_d.stdout
+  
 - name: Ensure GPO RDS_SERVERS is present
   win_shell: |
     $gpo_check = (Get-GPO -all ).DisplayName
