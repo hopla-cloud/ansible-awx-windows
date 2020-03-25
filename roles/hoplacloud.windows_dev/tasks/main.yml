@@ -18,7 +18,7 @@
 - name: Set fact rds servers
   set_fact:
     ad_session_hosts_list: "{{groups['meta-is_rds_std_true']}}"
-    ad_session_hosts_list2: "{{groups['meta-is_rds_std_true'] | join('\n')}}"
+    ad_session_hosts_list2: "{{groups['meta-is_rds_std_true'] | join(',')}}"
 
 
 #- name: Set fact rd servers
