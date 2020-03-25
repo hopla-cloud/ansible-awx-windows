@@ -1,10 +1,5 @@
 ---
 # tasks file for hoplacloud.windows_rds_standalone
-
-- name: Set fact ad_domain
-  set_fact:
-    ad_domain_admin: (HOPLA\Administrator)
-
 - name: Install Active Directory with sub features and management tools
   win_feature:
     name:
@@ -73,7 +68,7 @@
     name: FSLogix Profile Exclude List
     members:
       - administrator
-      - HOPLA\Administrator
+      - ("{{ ad_netbios_name }}"\Administrator)
     state: present
 
 - name: Copy disconnect file
