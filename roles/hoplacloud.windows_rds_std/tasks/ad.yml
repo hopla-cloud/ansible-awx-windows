@@ -123,3 +123,16 @@
     Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "CCXProcess" -Disable
     Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "com.squirrel.Teams.Teams" -Disable
     Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\Software\Microsoft\Office\16.0\Common\Identity" -ValueName "DisableADALatopWAMOverride" -Type DWORD  -Value 1
+
+- name: Get disk facts
+  win_disk_facts:
+
+#- name: Add profiles share
+#  win_share:
+#    name: profiles$
+#    description: Users disks profiles share
+#    path: D:\profiles\
+#    list: no
+#    full: Administrators,GG_ADM_ALL
+#    read: GG_USR_RDS
+#    change: GG_USR_RDS

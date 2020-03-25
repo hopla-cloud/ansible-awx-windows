@@ -179,7 +179,6 @@
     if ($off_disk){
     $off_disk | Set-Disk -IsOffline $False
     $off_disk | Initialize-Disk -PartitionStyle GPT
-    $off_disk | New-Partition -UseMaximumSize -AssignDriveLetter
     $off_disk | New-Partition -UseMaximumSize -AssignDriveLetter | Format-Volume
     Write-Host Change
     }
