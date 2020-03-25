@@ -22,6 +22,6 @@
 
 - name: Set fact rd servers
   set_fact:
-    ad_session_host: "{{ad_ad_session_host_list.stdout | join('\n')}}"
+    #ad_session_host: "{{ad_ad_session_host_list.stdout}}"
     ad_connection_broker: "{{ansible_fqdn}}"
     ad_web_access: "{{ansible_fqdn}}"
