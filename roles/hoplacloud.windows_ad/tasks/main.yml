@@ -176,7 +176,7 @@
 - name: Mount all offlines volumes
   win_shell: |
     $off_disk=(Get-Disk | Where-Object OperationalStatus -eq "Offline")
-    if ($off_disk"){
+    if ($off_disk){
     $off_disk | Set-Disk -IsOffline $False
     $off_disk | Initialize-Disk -PartitionStyle GPT
     $off_disk | New-Partition -UseMaximumSize -AssignDriveLetter
