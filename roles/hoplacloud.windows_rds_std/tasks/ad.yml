@@ -197,7 +197,7 @@
   win_shell: |
     if (!(Get-RDServer -erroraction 'silentlycontinue')){
     New-RDSessionDeployment -SessionHost @("{{ad_session_host}}") -ConnectionBroker "{{ad_connection_broker}}" -WebAccessServer "{{ad_web_access}}"
-    New-RDSessionCollection -CollectionName "Default" -SessionHost "{{ad_session_host}}" -ConnectionBroker "{{ad_connection_broker}}"
+    New-RDSessionCollection -CollectionName "Default" -SessionHost  @("{{ad_session_host}}") -ConnectionBroker "{{ad_connection_broker}}"
     Set-RDLicenseConfiguration -LicenseServer "{{ansible_fqdn}}" -ConnectionBroker "{{ad_connection_broker}}" -Mode PerUser
     Write-Host Change
     }
