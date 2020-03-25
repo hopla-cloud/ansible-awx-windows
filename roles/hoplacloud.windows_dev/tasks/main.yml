@@ -17,11 +17,11 @@
 
 - name: Set fact rd servers
   set_fact:
-    ad_session_host_2: "{{groups.meta-is_rds_std_true}}"
+    ad_session_host_2: "{{groups.meta-is_rds_std_true[]}}"
 
-- name: Set fact rd servers
-  set_fact:
-    ad_session_host: "{{ad_session_host_list.stdout | join('\n')}}"
+#- name: Set fact rd servers
+#  set_fact:
+#    ad_session_host: "{{ad_session_host_list.stdout | join('\n')}}"
   #with_item: ad_session_host_list.stdout
 
 - name: Set fact rd servers
