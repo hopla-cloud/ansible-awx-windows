@@ -1,54 +1,27 @@
 ---
-# tasks file for hoplacloud.windows-dev
-- name: Get all facts
-  setup:
+# tasks file for hoplacloud.windows_dev
 
-- name: Disable firewall
-  win_firewall:
-    state: disabled
+- name: Get DistinguishedName
+  win_shell: (Get-ADDomain).DistinguishedName
+  register: ad_domain
+  changed_when: ad_domain.rc == 1
 
-- name: Ensure user Admin account password never expire
-  win_user:
-    name: admin
-    password_never_expires: yes
-    update_password: on_create
+- name: Set fact ad_domain
+  set_fact:
+    ad_domain: "{{ ad_domain.stdout_lines[0] }}"
 
-- name: Ensure user Administrator is disabled
-  win_user:
-    name: administrator
-    account_disabled: yes
+- name: Get RDS session hosts
+  win_shell: |
+    (Get-ADComputer -SearchBase "OU=RDS,OU=Servers,OU=ORGANIZATION,{{ad_domain}}" -Filter *).DNSHostName
+  register: ad_ad_session_host_list
 
-- name: Set windows edition to datacenter
-  win_shell: dism /online /set-edition:ServerDatacenter /ProductKey:WMDGN-G9PQG-XVVXX-R3X43-63DFG /AcceptEula /NoRestart
-  when: ansible_os_name == "Microsoft Windows Server 2019 Datacenter Evaluation"
-  register: win_edition
+- name: Set fact rd servers
+  set_fact:
+    ad_session_host: "{{ad_ad_session_host_list.stdout | join('\n')}}"
+  with_item: ad_ad_session_host_list.stdout
 
-- name: Reboot server
-  win_reboot:
-    reboot_timeout: 3600
-  when: win_edition.changed
-
-- name: Enable Windows Update Active Hours
-  win_regedit:
-    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate
-    name: SetActiveHours
-    data: 1
-    type: dword
-
-- name: Set Windows Update Active Hours Start
-  win_regedit:
-    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate
-    name: ActiveHoursStart
-    data: 6
-    type: dword
-
-- name: Set Windows Update Active Hours End
-  win_regedit:
-    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate
-    name: ActiveHoursEnd
-    data: 15
-    type: dword
-
-- name: Install all security, critical, and rollup updates without a scheduled task and reboot if needed.
-  win_updates:
-    reboot: yes
+- name: Set fact rd servers
+  set_fact:
+    ad_session_host: "{{ad_ad_session_host_list.stdout | join('\n')}}"
+    ad_connection_broker: "{{ansible_fqdn}}"
+    ad_web_access: "{{ansible_fqdn}}"
