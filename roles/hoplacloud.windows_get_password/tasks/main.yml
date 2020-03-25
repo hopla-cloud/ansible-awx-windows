@@ -40,9 +40,11 @@
    | openssl rsautl -decrypt -inkey private_key.pem -keyform PEM
   register: password_clear
   with_items: "{{ windows_instances_password_list }}"
+  changed_when: false
 
 - name: Copy private key
   shell: rm -f private_key.pem
+  changed_when: false
 
 - set_fact:
       windows_passwords: "{{ windows_passwords | default({}) | combine({ item: password_clear.results[cpt_2|int].stdout}) }}"
