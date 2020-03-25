@@ -59,8 +59,8 @@
     path: D:\profiles\
     list: no
     full: Administrators,GG_ADM_ALL
-    read: GG_USR_RDS
-    change: GG_USR_RDS
+    read: Everyone
+    change: Everyone
   when: ("OK" in ad_volume_d.stdout)
 
 - name: Disable inherited ACE's profiles folder
@@ -84,7 +84,7 @@
   win_acl:
     path: D:\profiles
     user: GG_USR_RDS
-    rights: Traverse, ListDirectory, ReadAttributes, CreateDirectories
+    rights: Traverse, ListDirectory, ReadAttributes, ReadExtendedAttributes, CreateDirectories
     type: allow
     state: present
     inherit: ContainerInherit, ObjectInherit
