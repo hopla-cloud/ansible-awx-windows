@@ -3,7 +3,7 @@
 
 - name: Set fact ad_domain
   set_fact:
-    ad_domain_admin: ("{{ ad_netbios_name }}"\Administrator)
+    ad_domain_admin: (HOPLA\Administrator)
 
 - name: Install Active Directory with sub features and management tools
   win_feature:
