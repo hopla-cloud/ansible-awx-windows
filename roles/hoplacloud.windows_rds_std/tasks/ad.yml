@@ -50,7 +50,7 @@
   win_file:
     path: D:\profiles
     state: directory
-  when: "OK" in ad_volume_d.stdout
+  when: ("OK" in ad_volume_d.stdout)
 
 - name: Add profiles share
   win_share:
@@ -61,13 +61,13 @@
     full: Administrators,GG_ADM_ALL
     read: GG_USR_RDS
     change: GG_USR_RDS
-  when: "OK" in ad_volume_d.stdout
+  when: ("OK" in ad_volume_d.stdout)
 
 - name: Disable inherited ACE's profiles folder
   win_acl_inheritance:
     path: D:\profiles
     state: absent
-  when: "OK" in ad_volume_d.stdout
+  when: ("OK" in ad_volume_d.stdout)
 
 - name: Add security profiles folder
   win_acl:
@@ -77,7 +77,7 @@
     type: allow
     state: present
     inherit: ContainerInherit, ObjectInherit
-  when: "OK" in ad_volume_d.stdout
+  when: ("OK" in ad_volume_d.stdout)
 
 - name: Add security profiles folder
   win_acl:
@@ -87,7 +87,7 @@
     type: allow
     state: present
     inherit: ContainerInherit, ObjectInherit
-  when: "OK" in ad_volume_d.stdout
+  when: ("OK" in ad_volume_d.stdout)
 
 - name: Add security profiles folder
   win_acl:
@@ -97,8 +97,8 @@
     type: allow
     state: present
     inherit: ContainerInherit, ObjectInherit
-  when: "OK" in ad_volume_d.stdout
-  
+  when: ("OK" in ad_volume_d.stdout)
+
 - name: Ensure GPO RDS_SERVERS is present
   win_shell: |
     $gpo_check = (Get-GPO -all ).DisplayName
