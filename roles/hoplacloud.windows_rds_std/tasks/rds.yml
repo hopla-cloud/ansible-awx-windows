@@ -64,6 +64,14 @@
   register: rds_fslogix_install
   changed_when: ("Change" in rds_fslogix_install.stdout)
 
+- name: Add a local and domain user to a local group
+  win_group_membership:
+    name: FSLogix Profile Exclude List
+    members:
+      - administrator
+      - "{{ ad_netbios_name }}\administrator"
+    state: present
+
 - name: Copy disconnect file
   win_copy:
     src: Disconnect.bat

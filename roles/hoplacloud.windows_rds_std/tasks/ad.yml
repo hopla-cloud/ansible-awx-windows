@@ -94,10 +94,11 @@
 
 - name: Set GPO options "_RDS_SERVERS"
   win_shell: |
-    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\Policies\Google\Chrome\ExtensionInstallForcelist" -ValueName "1" -Type string  -Value "klbibkeccnjlkjkiokjodocebajanakg;https://clients2.google.com/service/update2/crx"
+    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\Software\Policies\Google\Chrome\ExtensionInstallForcelist" -ValueName "1" -Type string  -Value "klbibkeccnjlkjkiokjodocebajanakg;https://clients2.google.com/service/update2/crx"
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\Software\Policies\Microsoft\Windows\Server\ServerManager" -ValueName "DoNotOpenAtLogon" -Type DWORD  -Value 1
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\Software\Policies\Microsoft\Windows\System" -ValueName "DefaultAssociationsConfiguration" -Type string  -Value "\\{{ ansible_hostname }}\NETLOGON\FilesAssociations.xml"
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SYSTEM\ControlSet001\Services\AdobeARMservice" -ValueName "Start" -Type DWORD  -Value 4
+    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SYSTEM\ControlSet001\Services\WSearch" -ValueName "Start" -Type DWORD  -Value 2
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "AdobeAAMUpdater-1.0" -Disable
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "AdobeGCInvoker-1.0" -Disable
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "MmsMonitor.exe" -Disable
@@ -111,7 +112,7 @@
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "IsDynamic" -Type DWORD  -Value 1
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "RoamSearch" -Type DWORD  -Value 2
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "SizeInMBs" -Type DWORD  -Value 10240
-    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "VHDLocations" -Type String  -Value "\\h16ad1.srp.local\profiles$"
+    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "VHDLocations" -Type String  -Value "\\{{ ansible_hostname }}\profiles$"
 - name: Set GPO options "_RDS_USERS"
   win_shell: |
     Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "Adobe Acrobat Synchronizer" -Disable
