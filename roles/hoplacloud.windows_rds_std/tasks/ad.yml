@@ -46,7 +46,7 @@
   register: ad_volume_d
   changed_when: false
 
-- name: Create directory odt
+- name: Create directory profiles
   win_file:
     path: D:\profiles
     state: directory
@@ -77,26 +77,29 @@
     type: allow
     state: present
     inherit: ContainerInherit, ObjectInherit
+    propagation: 'InheritOnly'
   when: ("OK" in ad_volume_d.stdout)
 
 - name: Add security profiles folder
   win_acl:
     path: D:\profiles
     user: GG_USR_RDS
-    rights: FullControl
+    rights: Traverse, ListDirectory, ReadAttributes, CreateDirectories
     type: allow
     state: present
     inherit: ContainerInherit, ObjectInherit
+    propagation: 'InheritOnly'
   when: ("OK" in ad_volume_d.stdout)
 
 - name: Add security profiles folder
   win_acl:
     path: D:\profiles
     user: CREATOR OWNER
-    rights: Traverse, ListDirectory, ReadAttributes, CreateDirectories
+    rights: FullControl
     type: allow
     state: present
     inherit: ContainerInherit, ObjectInherit
+    propagation: 'InheritOnly'
   when: ("OK" in ad_volume_d.stdout)
 
 - name: Ensure GPO RDS_SERVERS is present
