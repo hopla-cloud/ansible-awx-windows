@@ -11,6 +11,8 @@
     ad_domain: "{{ ad_domain.stdout_lines[0] }}"
     ad_session_host_list: "{{groups['meta-is_rds_std_true']}}"
 #    ad_session_host_list: "{{groups['meta-is_rds_std_true']| join(',')}}"
+
+
 - set_fact:
     ad_session_host_list2: "{{hostvars[item]['ansible_fqdn']}}"
   with_items: ad_session_host_list
