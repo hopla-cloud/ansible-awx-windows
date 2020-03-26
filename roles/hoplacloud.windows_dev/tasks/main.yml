@@ -10,6 +10,7 @@
   set_fact:
     ad_domain: "{{ ad_domain.stdout_lines[0] }}"
     ad_session_host_list: "{{groups['meta-is_rds_std_true'] | map('regex_replace', '$', '.') | list}}"
+    ad_session_host: "{{groups['meta-is_rds_std_true'][0]}}"
 #    ad_session_host_list: "{{groups['meta-is_rds_std_true'] | map(‘regex_replace’, ‘$’, ‘’) | list}}"
 #    ad_session_host_list: "{{groups['meta-is_rds_std_true']| join(',')}}"
 
@@ -23,29 +24,28 @@
 #    ad_session_host_list: "{{ad_session_host_list | regex_replace(',', '\",\"')}}"
 - name: Set fact1
   set_fact:
-    ad_session_host: "{{ad_session_host_list | join(',')}}"
+    ad_session_hosts: "{{ad_session_host_list | join(',')}}"
     ad_connection_broker: "{{ansible_fqdn}}"
     ad_web_access: "{{ansible_fqdn}}"
     ad_license: "{{ansible_fqdn}}"
 
-- debug:
-    msg: System {{ ad_session_host }}
 - name: Create collection
   win_shell: |
     if (!(Get-RDServer -erroraction 'silentlycontinue')){
     $ad_session_host="{{ad_session_host}}"
-    $ad_session_host=$ad_session_host -replace ",", '","'
-    $ad_session_host=$ad_session_host -replace "^", '"'
-    $ad_session_host=$ad_session_host -replace "$", '"'
-    Write-Host $ad_session_host
+    $ad_session_hosts="{{ad_session_hosts}}"
+    $ad_session_hosts=$ad_session_host -replace ",", '","'
+    $ad_session_hosts=$ad_session_host -replace "^", '"'
+    $ad_session_hosts=$ad_session_host -replace "$", '"'
+    Write-Host $ad_session_hosts
     $ad_connection_broker="{{ad_connection_broker}}"
     Write-Host $ad_connection_broker
     $ad_web_access="{{ad_web_access}}"
     Write-Host $ad_web_access
     $ad_license="{{ad_license}}"
     Write-Host $ad_license
-    New-RDSessionDeployment -SessionHost @($ad_session_host) -ConnectionBroker $ad_connection_broker -WebAccessServer $ad_web_access
-    New-RDSessionCollection -CollectionName "Default" -SessionHost  @($ad_session_host) -ConnectionBroker $ad_connection_broker
+    New-RDSessionDeployment -SessionHost $ad_session_host -ConnectionBroker $ad_connection_broker -WebAccessServer $ad_web_access
+    New-RDSessionCollection -CollectionName "Default" -SessionHost  @($ad_session_hosts) -ConnectionBroker $ad_connection_broker
     Set-RDLicenseConfiguration -LicenseServer $ad_license -ConnectionBroker $ad_connection_broker -Mode PerUser
     Write-Host Change
     }
