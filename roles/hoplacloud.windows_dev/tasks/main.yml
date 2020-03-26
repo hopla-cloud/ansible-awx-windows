@@ -26,15 +26,20 @@
     ad_session_host: "{{ad_session_host_list | join(',')}}"
     ad_connection_broker: "{{ansible_fqdn}}"
     ad_web_access: "{{ansible_fqdn}}"
+    ad_license: "{{ansible_fqdn}}"
 
 - debug:
     msg: System {{ ad_session_host }}
 - name: Create collection
   win_shell: |
     if (!(Get-RDServer -erroraction 'silentlycontinue')){
-    New-RDSessionDeployment -SessionHost @("{{ad_session_host}}") -ConnectionBroker "{{ad_connection_broker}}" -WebAccessServer "{{ad_web_access}}"
-    New-RDSessionCollection -CollectionName "Default" -SessionHost  @("{{ad_session_host}}") -ConnectionBroker "{{ad_connection_broker}}"
-    Set-RDLicenseConfiguration -LicenseServer "{{ansible_fqdn}}" -ConnectionBroker "{{ad_connection_broker}}" -Mode PerUser
+    $ad_session_host="{{ad_session_host}}"
+    $ad_connection_broker="{{ad_connection_broker}}"
+    $ad_web_access="{{ad_web_access}}"
+    $ad_license="{{ad_license}}"
+    New-RDSessionDeployment -SessionHost @($ad_session_host) -ConnectionBroker $ad_connection_broker -WebAccessServer $ad_web_access
+    New-RDSessionCollection -CollectionName "Default" -SessionHost  @($ad_session_host) -ConnectionBroker $ad_connection_broker
+    Set-RDLicenseConfiguration -LicenseServer $ad_license -ConnectionBroker $ad_connection_broker -Mode PerUser
     Write-Host Change
     }
   register: ad_collection
