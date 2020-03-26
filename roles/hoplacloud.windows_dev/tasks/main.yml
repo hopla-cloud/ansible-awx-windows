@@ -34,9 +34,9 @@
     if (!(Get-RDServer -erroraction 'silentlycontinue')){
     $ad_session_host="{{ad_session_host}}"
     $ad_session_hosts="{{ad_session_hosts}}"
-    $ad_session_hosts=$ad_session_host -replace ",", '","'
-    $ad_session_hosts=$ad_session_host -replace "^", '"'
-    $ad_session_hosts=$ad_session_host -replace "$", '"'
+    $ad_session_hosts=$ad_session_hosts -replace ",", '","'
+    $ad_session_hosts=$ad_session_hosts -replace "^", '"'
+    $ad_session_hosts=$ad_session_hosts -replace "$", '"'
     Write-Host $ad_session_hosts
     $ad_connection_broker="{{ad_connection_broker}}"
     Write-Host $ad_connection_broker
