@@ -40,6 +40,11 @@
     include_sub_features: yes
     include_management_tools: yes
 
+- name: Create directory scripts
+  win_file:
+    path: C:\scripts
+    state: directory
+
 - name: Check volume D
   win_shell: |
     if ((Get-Volume).DriveLetter -contains "D"){Write-Host OK}

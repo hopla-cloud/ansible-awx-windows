@@ -10,7 +10,7 @@
   set_fact:
     ad_domain: "{{ ad_domain.stdout_lines[0] }}"
     ad_session_host_list: "{{groups['meta-is_rds_std_true'] | map('regex_replace', '$', '.') | list}}"
-    ad_session_host: "{{groups['meta-is_rds_std_true'][0]}}"
+#    ad_session_host: "{{groups['meta-is_rds_std_true'][0]}}"
 #    ad_session_host_list: "{{groups['meta-is_rds_std_true'] | map(‘regex_replace’, ‘$’, ‘’) | list}}"
 #    ad_session_host_list: "{{groups['meta-is_rds_std_true']| join(',')}}"
 
@@ -29,25 +29,12 @@
     ad_web_access: "{{ansible_fqdn}}"
     ad_license: "{{ansible_fqdn}}"
 
-- name: Create collection
-  win_shell: |
-    if (!(Get-RDServer -erroraction 'silentlycontinue')){
-    $ad_session_host="{{ad_session_host}}"
-    $ad_session_hosts="{{ad_session_hosts}}"
-    $ad_session_hosts=$ad_session_hosts -replace ",", '","'
-    $ad_session_hosts=$ad_session_hosts -replace "^", '"'
-    $ad_session_hosts=$ad_session_hosts -replace "$", '"'
-    Write-Host $ad_session_hosts
-    $ad_connection_broker="{{ad_connection_broker}}"
-    Write-Host $ad_connection_broker
-    $ad_web_access="{{ad_web_access}}"
-    Write-Host $ad_web_access
-    $ad_license="{{ad_license}}"
-    Write-Host $ad_license
-    New-RDSessionDeployment -SessionHost $ad_session_host -ConnectionBroker $ad_connection_broker -WebAccessServer $ad_web_access
-    New-RDSessionCollection -CollectionName "Default" -SessionHost  @($ad_session_hosts) -ConnectionBroker $ad_connection_broker
-    Set-RDLicenseConfiguration -LicenseServer $ad_license -ConnectionBroker $ad_connection_broker -Mode PerUser
-    Write-Host Change
-    }
-  register: ad_collection
-  changed_when: ("Change" in ad_collection.stdout)
+- name: Create directory scripts
+  win_file:
+    path: C:\scripts
+    state: directory
+
+- name: Create RD Deployement script
+  win_template:
+    src: RD_Session_Deployment.ps1.j2
+    dest: C:\scripts\RD_Session_Deployment.ps2.j2
