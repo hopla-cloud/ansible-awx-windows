@@ -20,7 +20,7 @@
 - set_fact:
     ad_session_host_list: "{{ad_session_host_list | map('regex_replace', '$', '\"') | list}}"
 - set_fact:
-    ad_session_host_list: "{{ad_session_host_list | map('regex_replace', '^(.*)$', '\"\\1') | list}}"
+    ad_session_host_list: "{{ad_session_host_list | map('regex_replace', '^(.*)$', '"\\1') | list}}"
 - name: Set fact1
   set_fact:
     ad_session_host: "{{ad_session_host_list}}"
