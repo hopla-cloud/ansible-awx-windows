@@ -12,7 +12,7 @@
 
 - name: Set fact rd servers
   set_fact:
-    ad_session_host: "{{ \"+ ad_session_host_list + \" | regex_replace(',', '\",\"') }}"
+    ad_session_host: "\"+ {{ad_session_host_list}} + \" | regex_replace(',', '\",\"')"
     ad_connection_broker: "{{ansible_fqdn}}"
     ad_web_access: "{{ansible_fqdn}}"
 
