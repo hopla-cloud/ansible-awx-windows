@@ -1,6 +1,7 @@
 
 if (!(Get-RDServer -erroraction 'silentlycontinue')){
-New-RDSessionDeployment -SessionHost @("\"{{ad_session_hosts}}"\")  -ConnectionBroker "{{ad_connection_broker}}" -WebAccessServer "{{ad_web_access}}"
-New-RDSessionCollection -CollectionName "Default" -SessionHost  @("\"{{ad_session_hosts}}"\")  -ConnectionBroker "{{ad_connection_broker}}"
+New-RDSessionDeployment -SessionHost @("{{ad_session_hosts}}")  -ConnectionBroker "{{ad_connection_broker}}" -WebAccessServer "{{ad_web_access}}"
+New-RDSessionCollection -CollectionName "Default" -SessionHost  @("{{ad_session_hosts}}")  -ConnectionBroker "{{ad_connection_broker}}"
 Set-RDLicenseConfiguration -LicenseServer "{{ad_license}}" -ConnectionBroker "{{ad_connection_broker}}" -Mode PerUser
+Set-RDSessionCollectionConfiguration -CollectionName "Default" -UserGroup "GG_USR_RDS" -DisconnectedSessionLimitMin 480 -IdleSessionLimitMin 480
 }

@@ -10,10 +10,6 @@
   set_fact:
     ad_domain: "{{ ad_domain.stdout_lines[0] }}"
     ad_session_host_list: "{{groups['meta-is_rds_std_true'] | map('regex_replace', '$', '.') | list}}"
-#    ad_session_host: "{{groups['meta-is_rds_std_true'][0]}}"
-#    ad_session_host_list: "{{groups['meta-is_rds_std_true'] | map(‘regex_replace’, ‘$’, ‘’) | list}}"
-#    ad_session_host_list: "{{groups['meta-is_rds_std_true']| join(',')}}"
-
 - set_fact:
     ad_session_host_list: "{{ad_session_host_list | map('regex_replace', '$', ad_domain_name) | list}}"
 - set_fact:
@@ -33,11 +29,6 @@
     ad_connection_broker: "{{ansible_fqdn}}"
     ad_web_access: "{{ansible_fqdn}}"
     ad_license: "{{ansible_fqdn}}"
-
-- name: Create directory scripts
-  win_file:
-    path: C:\scripts
-    state: directory
 
 - name: Create RD Deployement script
   win_template:
