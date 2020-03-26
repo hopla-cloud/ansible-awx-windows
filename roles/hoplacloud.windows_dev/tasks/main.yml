@@ -16,18 +16,13 @@
 
 - set_fact:
     ad_session_host_list: "{{ad_session_host_list | map('regex_replace', '$', ad_domain_name) | list}}"
-#    comma: '","'
-#- set_fact:
-#    ad_session_host_list: "{{ad_session_host_list | map('regex_replace', '$', '\"') | list}}"
-#- set_fact:
-#    ad_session_host_list: "{{ad_session_host_list | map('regex_replace', '^(.*)$', '\"\\1') | list}}"
 - set_fact:
     ad_session_host_list: "{{ad_session_host_list | join(',')}}"
 
 - name: Set pw facts
   win_shell: |
     $ad_session_hosts="{{ad_session_host_list}}"
-    $ad_session_host=$ad_session_host -replace ",", '","'
+    $ad_session_hosts=$ad_session_hosts -replace ",", '","'
     Write-Host $ad_session_hosts
   register: ad_session_host_fact
   changed_when: ("Change" in ad_session_host_fact.stdout)
