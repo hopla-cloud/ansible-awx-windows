@@ -19,7 +19,7 @@
 
 - name: Set fact2
   set_fact:
-    ad_session_host: "{{ad_session_host | regex_replace('(.*)',' \\1\"') }}"
+    ad_session_host: "{{ad_session_host }}\""
 
 - name: Set fact3
   set_fact:
