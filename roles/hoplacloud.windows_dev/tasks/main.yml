@@ -11,12 +11,19 @@
     ad_domain: "{{ ad_domain.stdout_lines[0] }}"
     ad_session_host_list: "{{groups['meta-is_rds_std_true'] | join(',')}}"
 
-- name: Set fact rd servers
+- name: Set fact1
   set_fact:
-    ad_session_host: "{{ad_session_host_list | regex_replace('^(.*)$', '\"\\1') | (‘regex_replace’, '(.*)',' \\1\"')  |regex_replace(',', '\",\"')}}"
+    ad_session_host: "{{ad_session_host_list | regex_replace('^(.*)$', '\"\\1') }}"
     ad_connection_broker: "{{ansible_fqdn}}"
     ad_web_access: "{{ansible_fqdn}}"
 
+- name: Set fact2
+  set_fact:
+    ad_session_host: "{{ad_session_host | (‘regex_replace’, '(.*)',' \\1\"') }}"
+
+- name: Set fact3
+  set_fact:
+    ad_session_host: "{{ad_session_host | regex_replace(',', '\",\"')}}"
 - debug:
     msg: System {{ ad_session_host }}
 #- name: Create collection
