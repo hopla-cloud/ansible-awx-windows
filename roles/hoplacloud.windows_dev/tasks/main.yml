@@ -13,7 +13,7 @@
 
 - set_fact:
     ad_session_host_list2: "{{hostvars[item]['ansible_fqdn']}}"
-  with_items:: ad_session_host_list
+  with_items: ad_session_host_list
 
 - name: Set fact1
   set_fact:
