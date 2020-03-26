@@ -123,3 +123,13 @@
       - irfanviewplugins
       - ghostscript
     state: present
+
+- name: Copy irfanview fr dll file
+  win_copy:
+    src: irfanview/French.dll
+    dest: C:\Program Files\IrfanView\Languages\French.dll
+
+- name: Copy irfanview fr lng file
+  win_copy:
+    src: irfanview/IP_French.lng
+    dest: C:\Program Files\IrfanView\Languages\IP_French.lng
