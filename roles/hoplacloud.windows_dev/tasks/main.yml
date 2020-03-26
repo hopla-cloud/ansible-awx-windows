@@ -13,13 +13,9 @@
 
 - name: Set fact1
   set_fact:
-    ad_session_host: "\"{{ad_session_host_list}}"
+    ad_session_host: "\"{{ad_session_host_list}}\""
     ad_connection_broker: "{{ansible_fqdn}}"
     ad_web_access: "{{ansible_fqdn}}"
-
-- name: Set fact2
-  set_fact:
-    ad_session_host: "{{ad_session_host }}\""
 
 - name: Set fact3
   set_fact:
