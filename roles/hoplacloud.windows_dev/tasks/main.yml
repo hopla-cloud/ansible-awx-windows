@@ -6,28 +6,26 @@
   register: ad_domain
   changed_when: ad_domain.rc == 1
 
-- name: Set fact ad_domain
+- name: Set facts
   set_fact:
     ad_domain: "{{ ad_domain.stdout_lines[0] }}"
-
-#- name: Get RDS session hosts
-#  win_shell: |
-#    (Get-ADComputer -SearchBase "OU=RDS,OU=Servers,OU=ORGANIZATION,{{ad_domain}}" -Filter *).DNSHostName
-#  register: ad_session_host_list
-
-- name: Set fact rds servers
-  set_fact:
-    ad_session_hosts_list: "{{groups['meta-is_rds_std_true']}}"
-    ad_session_hosts_list2: "{{groups['meta-is_rds_std_true'] | join(',')}}"
-
-
-#- name: Set fact rd servers
-#  set_fact:
-#    ad_session_host: "{{ad_session_host_list.stdout | join('\n')}}"
-  #with_item: ad_session_host_list.stdout
+    ad_session_host_list: "{{groups['meta-is_rds_std_true'] | join(',')}}"
 
 - name: Set fact rd servers
   set_fact:
-    #ad_session_host: "{{ad_ad_session_host_list.stdout}}"
+    ad_session_host: "\"{{ad_session_host_list}}\" | regex_replace(',', '\",\"')"
     ad_connection_broker: "{{ansible_fqdn}}"
     ad_web_access: "{{ansible_fqdn}}"
+
+- debug:
+    msg: System {{ ad_session_host }}
+#- name: Create collection
+#  win_shell: |
+#    if (!(Get-RDServer -erroraction 'silentlycontinue')){
+#    New-RDSessionDeployment -SessionHost @("{{ad_session_host}}") -ConnectionBroker "{{ad_connection_broker}}" -WebAccessServer "{{ad_web_access}}"
+#    New-RDSessionCollection -CollectionName "Default" -SessionHost  @("{{ad_session_host}}") -ConnectionBroker "{{ad_connection_broker}}"
+#    Set-RDLicenseConfiguration -LicenseServer "{{ansible_fqdn}}" -ConnectionBroker "{{ad_connection_broker}}" -Mode PerUser
+#    Write-Host Change
+#    }
+#  register: ad_collection
+#  changed_when: ("Change" in ad_collection.stdout)
