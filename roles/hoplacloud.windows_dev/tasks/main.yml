@@ -20,8 +20,8 @@
 #    ad_session_host_list: "{{ad_session_host_list | map('regex_replace', '$', '\"') | list}}"
 #- set_fact:
 #    ad_session_host_list: "{{ad_session_host_list | map('regex_replace', '^(.*)$', '\"\\1') | list}}"
-#- set_fact:
-#    ad_session_host_list: "{{ad_session_host_list | regex_replace(',', '\",\"')}}"
+- set_fact:
+    ad_session_host_list: "{{ad_session_host_list | regex_replace(',', '\",\"')}}"
 - name: Set fact1
   set_fact:
     ad_session_hosts: "{{ad_session_host_list | join(',')}}"
@@ -37,4 +37,4 @@
 - name: Create RD Deployement script
   win_template:
     src: RD_Session_Deployment.ps1.j2
-    dest: C:\scripts\RD_Session_Deployment.ps2.j2
+    dest: C:\scripts\RD_Session_Deployment.ps1
