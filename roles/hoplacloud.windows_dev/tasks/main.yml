@@ -25,7 +25,7 @@
     ad_session_host_list: "{{ad_session_host_list | regex_replace(',', '\",\"')}}"
 - name: Set fact1
   set_fact:
-    ad_session_host: "{{ad_session_host_list}}"
+    ad_session_host: "{{ad_session_host_list[]}}"
     ad_connection_broker: "{{ansible_fqdn}}"
     ad_web_access: "{{ansible_fqdn}}"
 
