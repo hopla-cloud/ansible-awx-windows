@@ -22,10 +22,15 @@
 #- set_fact:
 #    ad_session_host_list: "{{ad_session_host_list | map('regex_replace', '^(.*)$', '\"\\1') | list}}"
 - set_fact:
-    ad_session_host_list: "{{ad_session_host_list | regex_replace(',', 'comma')}}"
+    ad_session_host_list: "{{ad_session_host_list | join(',')}}"
+- name: Set pw facts
+  win_shell: |
+    $ad_session_hosts="{{ad_session_host_list}}"
+    Write-Host $ad_session_hosts
+    }
 - name: Set fact1
   set_fact:
-    ad_session_hosts: "{{ad_session_host_list[0]}}"
+    ad_session_hosts: "{{ad_session_host_list}}"
     ad_connection_broker: "{{ansible_fqdn}}"
     ad_web_access: "{{ansible_fqdn}}"
     ad_license: "{{ansible_fqdn}}"
