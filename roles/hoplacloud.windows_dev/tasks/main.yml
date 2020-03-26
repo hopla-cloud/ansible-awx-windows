@@ -34,7 +34,7 @@
 
 - name: Set fact1
   set_fact:
-    ad_session_hosts: "{{ad_session_host_fact.stdout}}"
+    ad_session_hosts: "{{ad_session_host_fact.stdout_lines[0]}}"
     ad_connection_broker: "{{ansible_fqdn}}"
     ad_web_access: "{{ansible_fqdn}}"
     ad_license: "{{ansible_fqdn}}"
