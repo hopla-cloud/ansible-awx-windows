@@ -20,25 +20,22 @@
 - set_fact:
     ad_session_host_list: "{{ad_session_host_list | map('regex_replace', '$', '\"') | list}}"
 - set_fact:
-    ad_session_host_list: "{{ad_session_host_list | map('regex_replace', '^(.*)$', '"\\1') | list}}"
+    ad_session_host_list: "{{ad_session_host_list | map('regex_replace', '^(.*)$', '\"\\1') | list}}"
 - name: Set fact1
   set_fact:
-    ad_session_host: "{{ad_session_host_list}}"
+    ad_session_host: "{{ad_session_host | regex_replace(',', '\",\"')}}""
     ad_connection_broker: "{{ansible_fqdn}}"
     ad_web_access: "{{ansible_fqdn}}"
 
-- name: Set fact3
-  set_fact:
-    ad_session_host: "{{ad_session_host | regex_replace(',', '\",\"')}}"
 - debug:
     msg: System {{ ad_session_host }}
-#- name: Create collection
-#  win_shell: |
-#    if (!(Get-RDServer -erroraction 'silentlycontinue')){
-#    New-RDSessionDeployment -SessionHost @("{{ad_session_host}}") -ConnectionBroker "{{ad_connection_broker}}" -WebAccessServer "{{ad_web_access}}"
-#    New-RDSessionCollection -CollectionName "Default" -SessionHost  @("{{ad_session_host}}") -ConnectionBroker "{{ad_connection_broker}}"
-#    Set-RDLicenseConfiguration -LicenseServer "{{ansible_fqdn}}" -ConnectionBroker "{{ad_connection_broker}}" -Mode PerUser
-#    Write-Host Change
-#    }
-#  register: ad_collection
-#  changed_when: ("Change" in ad_collection.stdout)
+- name: Create collection
+  win_shell: |
+    if (!(Get-RDServer -erroraction 'silentlycontinue')){
+    New-RDSessionDeployment -SessionHost @("{{ad_session_host}}") -ConnectionBroker "{{ad_connection_broker}}" -WebAccessServer "{{ad_web_access}}"
+    New-RDSessionCollection -CollectionName "Default" -SessionHost  @("{{ad_session_host}}") -ConnectionBroker "{{ad_connection_broker}}"
+    Set-RDLicenseConfiguration -LicenseServer "{{ansible_fqdn}}" -ConnectionBroker "{{ad_connection_broker}}" -Mode PerUser
+    Write-Host Change
+    }
+  register: ad_collection
+  changed_when: ("Change" in ad_collection.stdout)
