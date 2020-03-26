@@ -18,7 +18,7 @@
 - set_fact:
     ad_session_host_list: "{{groups['meta-is_rds_std_true'] | map('regex_replace', '$', ad_domain_name) | list}}"
 - set_fact:
-    ad_session_host_list: "{{groups['meta-is_rds_std_true'] | map('regex_replace', '$', \"'\") | list}}"
+    ad_session_host_list: "{{groups['meta-is_rds_std_true'] | map('regex_replace', '$', '\"') | list}}"
 - name: Set fact1
   set_fact:
     ad_session_host: "'"'{{ad_session_host_list}}'""
