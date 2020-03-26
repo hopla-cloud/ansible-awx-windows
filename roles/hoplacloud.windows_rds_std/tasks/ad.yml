@@ -63,7 +63,7 @@
     description: Users disks profiles share
     path: D:\profiles\
     list: no
-    full: Administrators,GG_ADM_ALL
+    full: GG_ADM_ALL
     read: Everyone
     change: Everyone
   when: ("OK" in ad_volume_d.stdout)
