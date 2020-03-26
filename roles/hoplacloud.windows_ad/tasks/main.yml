@@ -18,17 +18,17 @@
     include_sub_features: yes
     include_management_tools: yes
 
+- name: Reboot server
+  win_reboot:
+    reboot_timeout: 3600
+  when: domain_install.changed
+
 - name: Create new domain in a new forest on the target host
   win_domain:
     dns_domain_name: "{{ ad_domain_name }}"
     safe_mode_password: "{{ ad_safe_password }}"
     domain_netbios_name: "{{ ad_netbios_name }}"
   register: domain_install
-
-- name: Reboot server
-  win_reboot:
-    reboot_timeout: 3600
-  when: domain_install.changed
 
 - name: Get DistinguishedName
   win_shell: (Get-ADDomain).DistinguishedName
