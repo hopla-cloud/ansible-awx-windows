@@ -30,7 +30,7 @@
     $ad_session_host=$ad_session_host -replace ",", '","'
     Write-Host $ad_session_hosts
   register: ad_session_host_fact
-  changed_when: ("Change" in ad_collection.stdout)
+  changed_when: ("Change" in ad_session_host_fact.stdout)
 
 - name: Set fact1
   set_fact:
