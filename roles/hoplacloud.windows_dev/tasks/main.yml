@@ -21,10 +21,10 @@
 #- set_fact:
 #    ad_session_host_list: "{{ad_session_host_list | map('regex_replace', '^(.*)$', '\"\\1') | list}}"
 - set_fact:
-    ad_session_host_list: "{{ad_session_host_list | regex_replace(',', '\",\"')}}"
+    ad_session_host_list: "{{ad_session_host_list | regex_replace(',', '","')}}"
 - name: Set fact1
   set_fact:
-    ad_session_hosts: "{{ad_session_host_list | join(',')}}"
+    ad_session_hosts: "{{ad_session_host_list}}"
     ad_connection_broker: "{{ansible_fqdn}}"
     ad_web_access: "{{ansible_fqdn}}"
     ad_license: "{{ansible_fqdn}}"
