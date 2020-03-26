@@ -9,7 +9,7 @@
 - name: Set facts
   set_fact:
     ad_domain: "{{ ad_domain.stdout_lines[0] }}"
-    ad_session_host_list: "{{groups['meta-is_rds_std_true'] | join(',')}}"
+    ad_session_host_list: "{{groups['meta-is_rds_std_true'] +"."+ad_domain| join(',')}}"
 
 - name: Set fact1
   set_fact:
