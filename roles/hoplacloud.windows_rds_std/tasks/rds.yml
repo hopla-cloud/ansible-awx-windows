@@ -41,7 +41,7 @@
   win_shell: |
     $odt_check = (Get-ChildItem -Path "C:\odt").Name
     if ($odt_check -notcontains 'setup_office_ansible'){
-    C:\odt\setup.exe /download
+    C:\odt\setup.exe /download configuration.xml
     C:\odt\setup.exe /configure configuration.xml
     New-Item -Name setup_office_ansible -ItemType File -Path C:\odt\
     Write-Host Change}
