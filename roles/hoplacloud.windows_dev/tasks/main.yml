@@ -34,9 +34,13 @@
   win_shell: |
     if (!(Get-RDServer -erroraction 'silentlycontinue')){
     $ad_session_host="{{ad_session_host}}"
+    Write-Host $ad_session_host
     $ad_connection_broker="{{ad_connection_broker}}"
+    Write-Host $ad_connection_broker
     $ad_web_access="{{ad_web_access}}"
+    Write-Host $ad_web_access
     $ad_license="{{ad_license}}"
+    Write-Host $ad_license
     New-RDSessionDeployment -SessionHost @($ad_session_host) -ConnectionBroker $ad_connection_broker -WebAccessServer $ad_web_access
     New-RDSessionCollection -CollectionName "Default" -SessionHost  @($ad_session_host) -ConnectionBroker $ad_connection_broker
     Set-RDLicenseConfiguration -LicenseServer $ad_license -ConnectionBroker $ad_connection_broker -Mode PerUser
