@@ -2,7 +2,7 @@
 # tasks file for hoplacloud.windows_rds_standalone
 - name: Set fact ad_domain_admin
   set_fact:
-    ad_domain_admin_name: "\\Administrator"
+    ad_domain_admin_name: "\\GG_ADM_ALL"
 
 - name: Set fact ad_domain_admin
   set_fact:
@@ -73,7 +73,6 @@
   win_group_membership:
     name: FSLogix Profile Exclude List
     members:
-      - administrator
       - "{{ ad_domain_admin }}"
     state: present
 
@@ -122,4 +121,5 @@
       - 7zip.install
       - irfanview
       - irfanviewplugins
+      - ghostscript
     state: present
