@@ -1,0 +1,52 @@
+---
+# tasks file for hoplacloud.windows_get_password
+- set_fact:
+      windows_instances_list_name: []
+      windows_instances_list_id: []
+      windows_instances_password_list: []
+      cpt_1: 0
+      cpt_2: 0
+
+- set_fact:
+      windows_instances_list_name: "{{ windows_instances_list_name }} + ['{{item}}']"
+      windows_instances_list_id: "{{windows_instances_list_id + [hostvars[item]['openstack']['id']]}}"
+  with_items: "{{ groups['meta-is_windows_true'] }}"
+
+- name: Get auth_token
+  os_auth:
+
+- name: Get instance password
+  uri:
+    url: "https://fr-east-1.pub.hopla.cloud:13774/v2.1/servers/{{ item }}/os-server-password"
+    headers:
+      Content-Type: "application/json"
+      X-Auth-Token: "{{ auth_token }}"
+  register: password_crypt
+  with_items: "{{ windows_instances_list_id }}"
+
+- set_fact:
+      "windows_instances_password_{{item}}": "{{ password_crypt.results[cpt_1|int].json.password }}"
+      windows_instances_password_list: "{{windows_instances_password_list + [password_crypt.results[cpt_1|int].json.password] }}"
+      cpt_1: "{{cpt_1|int + 1}}"
+  with_items: "{{ windows_instances_list_name }}"
+
+- name: Copy private key
+  shell: echo "{{ private_key }}" > private_key.pem
+
+- name: Get clear password
+  shell: |
+   echo "{{ item }}" \
+   | openssl base64 -d \
+   | openssl rsautl -decrypt -inkey private_key.pem -keyform PEM
+  register: password_clear
+  with_items: "{{ windows_instances_password_list }}"
+  changed_when: false
+
+- name: Copy private key
+  shell: rm -f private_key.pem
+  changed_when: false
+
+- set_fact:
+      windows_passwords: "{{ windows_passwords | default({}) | combine({ item: password_clear.results[cpt_2|int].stdout}) }}"
+      cpt_2: "{{cpt_2|int + 1}}"
+  with_items: "{{ windows_instances_list_name }}"

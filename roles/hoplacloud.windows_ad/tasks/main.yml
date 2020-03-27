@@ -33,7 +33,7 @@
 
 - name: Reboot server
   win_reboot:
-    reboot_timeout: 3600
+    reboot_timeout: 6000
   when: domain_install.changed
 
 - name: Get DistinguishedName
