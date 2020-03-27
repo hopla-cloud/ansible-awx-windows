@@ -1,0 +1,6 @@
+---
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - debug:
+        var: [hostvars[h9999ad1]['openstack']

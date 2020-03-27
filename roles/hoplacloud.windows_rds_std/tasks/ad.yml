@@ -166,7 +166,7 @@
   win_shell: |
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\Software\Policies\Google\Chrome\ExtensionInstallForcelist" -ValueName "1" -Type string  -Value "klbibkeccnjlkjkiokjodocebajanakg;https://clients2.google.com/service/update2/crx"
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\Software\Policies\Microsoft\Windows\Server\ServerManager" -ValueName "DoNotOpenAtLogon" -Type DWORD  -Value 1
-    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\Software\Policies\Microsoft\Windows\System" -ValueName "DefaultAssociationsConfiguration" -Type string  -Value "\\{{ ansible_hostname }}\NETLOGON\FilesAssociations.xml"
+    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\Software\Policies\Microsoft\Windows\System" -ValueName "DefaultAssociationsConfiguration" -Type string  -Value "\\{{ ansible_windows_domain }}\NETLOGON\FilesAssociations.xml"
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SYSTEM\ControlSet001\Services\AdobeARMservice" -ValueName "Start" -Type DWORD  -Value 4
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SYSTEM\ControlSet001\Services\WSearch" -ValueName "Start" -Type DWORD  -Value 2
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "AdobeAAMUpdater-1.0" -Disable

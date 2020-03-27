@@ -3,6 +3,7 @@
   gather_facts: no
   roles:
     - hoplacloud.windows_get_password
+    - hoplacloud.windows_get_disk
 
 #- hosts: "{{ instance_name }}"
 #  vars:
