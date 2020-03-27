@@ -1,14 +1,9 @@
 ---
 - set_fact:
       windows_instances_list_name: []
-      windows_instances_list_id: []
-      windows_instances_password_list: []
-      cpt_1: 0
-      cpt_2: 0
 
 - set_fact:
       windows_instances_list_name: "{{ windows_instances_list_name }} + ['{{item}}']"
-      windows_instances_list_id: "{{windows_instances_list_id + [hostvars[item]['openstack']['id']]}}"
   with_items: "{{ groups['meta-is_windows_true'] }}"
 
 - os_auth:
@@ -33,5 +28,5 @@
   loop: "{{ query('together', volumes_id, volumes_name) }}"
 
 - set_fact:
-      windows_disk: "{{ [hostvars[item]['openstack'] }}"
+      "windows_disk_{{item}}": "{{ [hostvars[item]['openstack'].volumes }}"
   with_items: "{{ windows_instances_list_name }}"
