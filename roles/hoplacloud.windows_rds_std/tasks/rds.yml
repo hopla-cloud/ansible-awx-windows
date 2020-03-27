@@ -37,16 +37,21 @@
     src: configuration.xml
     dest: C:\odt\configuration.xml
 
+- name: Obtain information about a setup_office_ansible file
+  win_stat:
+    path: C:\odt\setup_office_ansible
+  register: setup_office_ansible
+
 - name: Ensure Office is present
-  win_shell: |
-    $odt_check = (Get-ChildItem -Path "C:\odt").Name
-    if ($odt_check -notcontains 'setup_office_ansible'){
-    C:\odt\setup.exe /download configuration.xml
-    C:\odt\setup.exe /configure configuration.xml
-    New-Item -Name setup_office_ansible -ItemType File -Path C:\odt\
-    Write-Host Change}
+  win_shell: C:\odt\setup.exe /configure configuration.xml
   register: rds_office_install
-  changed_when: ("Change" in rds_office_install.stdout)
+  when: setup_office_ansible.stat.exists == False
+
+- name: Touch setup_office_ansible file
+  win_file:
+    path: C:\odt\setup_office_ansible
+    state: touch
+  when: rds_office_install.changed
 
 - name: Create directory scripts
   win_file:
