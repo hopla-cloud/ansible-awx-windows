@@ -1,16 +1,18 @@
 ---
-- set_fact:
-      windows_instances_list_name: []
+- name: Init list
+  set_fact:
+    windows_instances_list_name: []
 
-- set_fact:
-      windows_instances_list_name: "{{ windows_instances_list_name }} + ['{{item}}']"
+- name: Creation de la list des serveurs windows
+  set_fact:
+    windows_instances_list_name: "{{ windows_instances_list_name }} + ['{{item}}']"
   with_items: "{{ groups['meta-is_windows_true'] }}"
 
 - os_auth:
 - os_client_config:
   register: client_conf
 
-- name: Get
+- name: Get openstack volumes list
   uri:
     url: "https://fr-east-1.pub.hopla.cloud:13776/v3/{{ client_conf.ansible_facts.openstack.clouds[0].auth.project_id }}/volumes"
     headers:
@@ -18,15 +20,17 @@
       X-Auth-Token: "{{ auth_token }}"
   register: volumes_list_os
 
-- set_fact:
-  volumes_name: "{{ volumes_list_os.json.volumes | json_query('[].name') }}"
-  volumes_id: "{{ volumes_list_os.json.volumes | json_query('[].id') }}"
+- name: Creation des list name et id
+  set_fact:
+    volumes_name: "{{ volumes_list_os.json.volumes | json_query('[].name') }}"
+    volumes_id: "{{ volumes_list_os.json.volumes | json_query('[].id') }}"
 
 - name: populate volumes list
   set_fact:
     volumes_list: "{{ combined_var|default({}) | combine({ item.0: item.1 }) }}"
   loop: "{{ query('together', volumes_id, volumes_name) }}"
 
-- set_fact:
-      "windows_disk_{{item}}": "{{ [hostvars[item]['openstack'].volumes }}"
+- name: Creation de la list finale
+  set_fact:
+    "windows_disk_{{item}}": "{{ [hostvars[item]['openstack'].volumes }}"
   with_items: "{{ windows_instances_list_name }}"
