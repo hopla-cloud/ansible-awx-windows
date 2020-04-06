@@ -20,12 +20,13 @@
       X-Auth-Token: "{{ auth_token }}"
   register: projects_list_os
 
-- debug:
-    var: projects_list_os.json.projects[0].id
+- name: Set project id
+  set_fact:
+    project_id: projects_list_os.json.projects[0].id
 
 - name: Get openstack volumes list
   uri:
-    url: "https://fr-east-1.pub.hopla.cloud:13776/v3/{{ projects_list_os.json.projects.clouds[0].id }}/volumes"
+    url: "https://fr-east-1.pub.hopla.cloud:13776/v3/{{ project_id | int }}/volumes"
     headers:
       Content-Type: "application/json"
       X-Auth-Token: "{{ auth_token }}"
