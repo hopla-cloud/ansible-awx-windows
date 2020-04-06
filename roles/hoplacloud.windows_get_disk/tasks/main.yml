@@ -66,6 +66,7 @@
   set_fact:
     "windows_disk_{{item}}": "{{hostvars[item]['openstack'].volumes}}"
   with_items: "{{ windows_instances_list_name }}"
-
-- set_fact:
-  test: "{{volumes_list2.['h9999ad1-filer']}}"
+  
+- name: Test
+  set_fact:
+    test: "{{volumes_list2.['h9999ad1-filer']}}"
