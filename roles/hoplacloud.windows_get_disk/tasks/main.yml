@@ -12,7 +12,7 @@
 - os_client_config:
   register: client_conf
 
-- name: Get openstack volumes list
+- name: Get openstack projects list
   uri:
     url: "https://fr-east-1.pub.hopla.cloud:13000/v3/auth/projects"
     headers:
@@ -22,7 +22,7 @@
 
 - name: Get openstack volumes list
   uri:
-    url: "https://fr-east-1.pub.hopla.cloud:13776/v3/{{ client_conf.ansible_facts.openstack.clouds[0].auth.project_id }}/volumes"
+    url: "https://fr-east-1.pub.hopla.cloud:13776/v3/{{ projects_list_os.json.projects.clouds[0].id }}/volumes"
     headers:
       Content-Type: "application/json"
       X-Auth-Token: "{{ auth_token }}"
