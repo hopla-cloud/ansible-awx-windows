@@ -72,6 +72,15 @@
     "windows_disk_{{item}}": "{{hostvars[item]['openstack'].volumes}}"
   with_items: "{{ windows_instances_list_name }}"
 
+- name: Get toto
+  shell: |
+   echo {{volumes_list2}}
+   | egrep "{{item}}"
+   | "egrep "_profiles"
+   | awk -F ": " '{ print $2 }'
+  register: toto
+  with_items: "{{ windows_instances_list_name }}"
+  changed_when: false
 
 - name: Test
   set_fact:
