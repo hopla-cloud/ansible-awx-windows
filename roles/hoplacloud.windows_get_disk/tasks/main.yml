@@ -74,7 +74,7 @@
 
 - name: Get toto
   shell: |
-   echo "{{volumes_list2}}" | sed "s/\,/\n/g" | egrep "{{item}}"
+   echo "{{volumes_list2}}" | sed "s/\,/\n/g" | egrep "{{item}}" | egrep _filer | awk -F ": " '{ print $2 }'
   register: toto
   with_items: "{{ windows_instances_list_name }}"
   changed_when: false
