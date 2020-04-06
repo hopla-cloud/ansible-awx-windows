@@ -68,4 +68,4 @@
   with_items: "{{ windows_instances_list_name }}"
 
 - debug:
-    var: volumes_list2.h9999ad1-filer
+    var: volumes_list2.['h9999ad1-filer']
