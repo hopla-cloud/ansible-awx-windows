@@ -69,4 +69,4 @@
 
 - name: Test
   set_fact:
-    test: "{{ volumes_list2.h9999ad1-filer }}"
+    test: "{{ volumes_list2 }}"
