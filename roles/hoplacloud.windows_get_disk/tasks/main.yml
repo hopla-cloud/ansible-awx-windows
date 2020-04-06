@@ -69,4 +69,4 @@
 
 - name: Test
   set_fact:
-    test: "{{ volumes_list2 }}"
+    test: "{{ dict(volumes_id | zip(volumes_name)) }}"
