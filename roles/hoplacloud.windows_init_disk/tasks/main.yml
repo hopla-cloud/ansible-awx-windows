@@ -7,11 +7,12 @@
 
 - name: Creation de la list des volumes attaches
   set_fact:
-#    vol_attach: "{{ hostvars['localhost'].volumes_list2 }}"
+    search_filer: "{{ ansible_hostname|lower }}_filer"
     vol_attach: "{{ hostvars['localhost'].volumes_list2 | dict2items | selectattr('key', 'match', ansible_hostname|lower) | list | items2dict }}"
+
 - name: Rechercher des types de volumes
   set_fact:
-    vol_filer: "{{ vol_attach | dict2items | selectattr('key', 'match', 'filer$') | list | items2dict }}"
+    vol_filer: "{{ vol_attach | dict2items | selectattr('key', 'match', search_filer) | list | items2dict }}"
     vol_profiles: "{{ vol_attach | dict2items | selectattr('key', 'match', 'profiles$') | list | items2dict }}"
 
 #- name: Mount all offlines volumes
