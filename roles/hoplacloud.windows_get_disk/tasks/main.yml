@@ -79,4 +79,4 @@
 - name: Creation de la list des volumes attachés aux instances
   set_fact:
     test2: "{{item}}"
-  loop: "{{ query('dict', 'h9999ad1') }}"
+  loop: "{{ query('volumes_list2', 'h9999ad1') }}"
