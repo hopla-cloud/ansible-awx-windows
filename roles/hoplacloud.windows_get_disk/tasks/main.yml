@@ -79,7 +79,7 @@
 
 - name: Test
   set_fact:
-    test: "{{ volumes_list2.test_id }}"
+    test: "{{volumes_list2}}.{{test_id }}"
 
 #- name: Creation de la list des volumes attachés aux instances
 #  set_fact:
