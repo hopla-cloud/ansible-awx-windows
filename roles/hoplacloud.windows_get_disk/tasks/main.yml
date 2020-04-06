@@ -42,7 +42,14 @@
     volumes_name: "{{ volumes_list_os.json.volumes | json_query('[].name') }}"
     volumes_id: "{{ volumes_list_os.json.volumes | json_query('[].id') }}"
 
-- name: with_together
+- name: Create list volumes_id volumes_name
+  set_fact:
+    volumes_list: "{{ volumes_list | combine({item.0: item.1}) }}"
+  with_together:
+    - "{{ volumes_id }}"
+    - "{{ volumes_name }}"
+
+- name: Create list volumes_name volumes_id
   set_fact:
     volumes_list: "{{ volumes_list | combine({item.0: item.1}) }}"
   with_together:
@@ -58,3 +65,6 @@
   set_fact:
     "windows_disk_{{item}}": "{{hostvars[item]['openstack'].volumes}}"
   with_items: "{{ windows_instances_list_name }}"
+
+- debug:
+  var: volumes_list.6f42c5a7-1607-4287-ad28-ff655e356f17
