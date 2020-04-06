@@ -78,5 +78,5 @@
 
 - name: Creation de la list des volumes attachés aux instances
   set_fact:
-    test2: "windows_disk_{{item}}"
-  with_items: "{{ windows_instances_list_name }}"
+    test2: "{{item}}"
+  loop: "{{ query('dict', h9999ad1) }}"
