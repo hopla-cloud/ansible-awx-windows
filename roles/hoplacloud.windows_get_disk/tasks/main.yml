@@ -76,7 +76,7 @@
   shell: |
    echo {{volumes_list2}}
    | egrep "{{item}}"
-   | "egrep "_profiles"
+   | egrep "_profiles"
    | awk -F ": " '{ print $2 }'
   register: toto
   with_items: "{{ windows_instances_list_name }}"
