@@ -2,7 +2,7 @@
 - name: Init list
   set_fact:
     windows_instances_list_name: []
-    volumes_list: ""
+    volumes_list: []
 
 - name: Creation de la list des serveurs windows
   set_fact:
