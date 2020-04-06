@@ -14,7 +14,7 @@
 
 - name: Get openstack volumes list
   uri:
-    url: "https://fr-east-1.pub.hopla.cloud:13000/v3/projects"
+    url: "https://fr-east-1.pub.hopla.cloud:13000/v3/auth/projects"
     headers:
       Content-Type: "application/json"
       X-Auth-Token: "{{ auth_token }}"
