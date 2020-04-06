@@ -7,7 +7,7 @@
 
 - name: Creation de la list des volumes attaches
   set_fact:
-    search_vol: "{{ ansible_hostname|lower }}_filer"
+    search_filer: "{{ ansible_hostname|lower }}_filer"
     search_profiles: "{{ ansible_hostname|lower }}_profiles"
     vol_attach: "{{ hostvars['localhost'].volumes_list2 | dict2items | selectattr('key', 'match', ansible_hostname|lower) | list | items2dict }}"
 
