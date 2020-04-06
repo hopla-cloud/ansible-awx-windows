@@ -43,6 +43,10 @@
     volumes_list: "{{ combined_var|default({}) | combine({ item.0: item.1 }) }}"
   loop: "{{ query('together', volumes_id, volumes_name) }}"
 
+- name: Set project id
+  set_fact:
+    project_id: "{{volumes_list}}"
+
 - name: Creation de la list finale
   set_fact:
     "windows_disk_{{item}}": "{{ [hostvars[item]['openstack'].volumes }}"
