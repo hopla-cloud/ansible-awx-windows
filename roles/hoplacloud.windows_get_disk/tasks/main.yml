@@ -22,7 +22,7 @@
 
 - name: Set project id
   set_fact:
-    project_id: {{projects_list_os.json.projects[0].id}}
+    project_id: "{{projects_list_os.json.projects[0].id}}"
 
 - name: Get openstack volumes list
   uri:
