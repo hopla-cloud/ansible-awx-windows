@@ -56,5 +56,5 @@
 
 - name: Creation de la list des volumes attachés aux instances
   set_fact:
-    "windows_disk_{{item}}": "{{[hostvars[item]}}"
+    "windows_disk_{{item}}": "{{hostvars[item]}}"
   with_items: "{{ windows_instances_list_name }}"
