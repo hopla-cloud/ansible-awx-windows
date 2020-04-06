@@ -72,9 +72,14 @@
     "windows_disk_{{item}}": "{{hostvars[item]['openstack'].volumes}}"
   with_items: "{{ windows_instances_list_name }}"
 
+
 - name: Test
   set_fact:
-    test: "{{ volumes_list2.'6f42c5a7-1607-4287-ad28-ff655e356f17' }}"
+    test_id: "6f42c5a7-1607-4287-ad28-ff655e356f17"
+
+- name: Test
+  set_fact:
+    test: "{{ volumes_list2.test_id }}"
 
 #- name: Creation de la list des volumes attachés aux instances
 #  set_fact:
