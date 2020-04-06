@@ -4,6 +4,8 @@
   roles:
     - hoplacloud.windows_get_password
     - hoplacloud.windows_get_disk
+- hosts: meta-is_windows_true
+  roles:
     - hoplacloud.windows_init_disk
 
 #- hosts: "{{ instance_name }}"
