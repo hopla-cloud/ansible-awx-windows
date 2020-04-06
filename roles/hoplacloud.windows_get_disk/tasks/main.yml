@@ -67,4 +67,4 @@
   with_items: "{{ windows_instances_list_name }}"
 
 - debug:
-  var: volumes_list.6f42c5a7-1607-4287-ad28-ff655e356f17
+    var: volumes_list
