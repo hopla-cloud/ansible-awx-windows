@@ -1,21 +1,26 @@
 ---
-- os_auth:
-- os_client_config:
-  register: client_conf
+- name: Get offlines volumes id
+  win_shell: |
+    (get-disk | Where-Object OperationalStatus -eq "Offline").SerialNumber
+  register: vol_id
 
-- name: Get
-  uri:
-    url: "https://fr-east-1.pub.hopla.cloud:13776/v3/{{ client_conf.ansible_facts.openstack.clouds[0].auth.project_id }}/volumes"
-    headers:
-      Content-Type: "application/json"
-      X-Auth-Token: "{{ auth_token }}"
-  register: volumes_list_os
-
-- set_fact:
-  volumes_name: "{{ volumes_list_os.json.volumes | json_query('[].name') }}"
-  volumes_id: "{{ volumes_list_os.json.volumes | json_query('[].id') }}"
-
-- name: populate volumes list
+- name: Creation de la list des volumes attaches
   set_fact:
-    volumes_list: "{{ combined_var|default({}) | combine({ item.0: item.1 }) }}"
-  loop: "{{ query('together', volumes_id, volumes_name) }}"
+    vol_attach: "{{ hostvars['localhost'].volumes_list2 | dict2items | selectattr('key', 'match', ansible_hostname) | list | items2dict }}"
+
+- name: Rechercher des types de volumes
+  set_fact:
+    vol_filer: "{{ vol_attach | dict2items | selectattr('key', 'match', filer) | list | items2dict }}"
+    vol_profiles: "{{ vol_attach | dict2items | selectattr('key', 'match', profiles) | list | items2dict }}"
+
+#- name: Mount all offlines volumes
+#  win_shell: |
+#    $off_disk=(Get-Disk | Where-Object OperationalStatus -eq "Offline")
+#    if ($off_disk){
+#    $off_disk | Set-Disk -IsOffline $False
+#    $off_disk | Initialize-Disk -PartitionStyle GPT
+#    $off_disk | New-Partition -UseMaximumSize -AssignDriveLetter | Format-Volume
+#    Write-Host Change
+#    }
+#  register: ad_volumes_init
+#  changed_when: ("Change" in ad_volumes_init.stdout)

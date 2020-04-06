@@ -2,8 +2,9 @@
 - hosts: localhost
   gather_facts: no
   roles:
-#    - hoplacloud.windows_get_password
+    - hoplacloud.windows_get_password
     - hoplacloud.windows_get_disk
+    - hoplacloud.windows_init_disk
 
 #- hosts: "{{ instance_name }}"
 #  vars:
