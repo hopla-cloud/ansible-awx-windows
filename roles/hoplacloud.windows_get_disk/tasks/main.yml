@@ -40,7 +40,7 @@
 
 - name: populate volumes list
   set_fact:
-    volumes_list: "{{volumes_list|default({}) + ['{{ combined_var|default({})|combine({item.0: item.1}) }}'] }}"
+    volumes_list: "{{volumes_list|default({}) + ['{ combined_var|default({})|combine({item.0: item.1}) }'] }}"
   loop: "{{ query('together', volumes_id, volumes_name) }}"
 
 - name: Set project id
