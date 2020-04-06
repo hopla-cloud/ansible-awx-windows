@@ -5,6 +5,13 @@
     - hoplacloud.windows_get_password
     - hoplacloud.windows_get_disk
 - hosts: meta-is_windows_true
+  vars:
+    ansible_connection: winrm
+    ansible_winrm_server_cert_validation: ignore
+    ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
+    ansible_port: "{{openstack.metadata.ssh_pub_port}}"
+    ansible_user: Admin
+    ansible_password: "{{hostvars['localhost']['windows_passwords'][inventory_hostname]}}"
   roles:
     - hoplacloud.windows_init_disk
 
