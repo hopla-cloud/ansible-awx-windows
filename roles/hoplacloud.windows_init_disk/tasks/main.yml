@@ -7,7 +7,7 @@
 
 - name: Creation de la list des volumes attaches
   set_fact:
-    vol_attach: "{{ hostvars['localhost'] }}"
+    vol_attach: "{{ hostvars['localhost'].volumes_list2 }}"
 #    vol_attach: "{{ hostvars['localhost'].volumes_list2 | dict2items | selectattr('key', 'match', ansible_hostname) | list | items2dict }}"
 - name: Rechercher des types de volumes
   set_fact:
