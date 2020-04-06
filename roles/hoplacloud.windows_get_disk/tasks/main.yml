@@ -39,7 +39,7 @@
 
 - name: populate volumes list
   set_fact:
-    volumes_list: "{{ combined_var|default({}) | combine({ item.0: item.1 }) }}"
+    "volumes_{{item.0}}": "{{ combined_var|default({}) | combine({ item.0: item.1 }) }}"
   loop: "{{ query('together', volumes_id, volumes_name) }}"
 
 - name: Creation de la list finale
