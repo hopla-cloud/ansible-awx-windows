@@ -52,7 +52,7 @@
 
 - name: Create list volumes_name volumes_id
   set_fact:
-    volumes_list2: "{{ volumes_list2 | combine({item.1: item.2}) }}"
+    volumes_list2: "{{ volumes_list2 | combine({item.1: item.0}) }}"
   with_together:
     - "{{ volumes_id }}"
     - "{{ volumes_name }}"
