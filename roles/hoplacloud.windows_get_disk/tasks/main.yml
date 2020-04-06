@@ -74,7 +74,7 @@
 
 - name: Test
   set_fact:
-    test: "{{ volumes_list2.6f42c5a7-1607-4287-ad28-ff655e356f17 }}"
+    test: "{{ volumes_list2.'6f42c5a7-1607-4287-ad28-ff655e356f17' }}"
 
 #- name: Creation de la list des volumes attachés aux instances
 #  set_fact:
