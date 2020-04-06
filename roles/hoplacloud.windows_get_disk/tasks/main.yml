@@ -47,47 +47,14 @@
     volumes_list2: "{{ dict(volumes_name | zip(volumes_id)) }}"
 
 
-
-#- name: Create list volumes_id volumes_name
-#  set_fact:
-#    volumes_list1: "{{ volumes_list1 | combine({item.0: item.1}) }}"
-#  with_together:
-#    - "{{ volumes_id }}"
-#    - "{{ volumes_name }}"
-
-#- name: Create list volumes_name volumes_id
-#  set_fact:
-#    volumes_list2: "{{ volumes_list2 | combine({item.1: item.0}) }}"
-#  with_together:
-#    - "{{ volumes_id }}"
-#    - "{{ volumes_name }}"
-
-#- name: populate volumes list
-#  set_fact:
-#    volumes_list: "{{volumes_list + ['{ combined_var|default({})|combine({item.0: item.1}) }'] }}"
-#  loop: "{{ query('together', volumes_id, volumes_name) }}"
-
 - name: Creation de la list des volumes attachés aux instances
   set_fact:
     "windows_disk_{{item}}": "{{hostvars[item]['openstack'].volumes}}"
   with_items: "{{ windows_instances_list_name }}"
 
-- name: Get toto
+- name: Get filer volume
   shell: |
    echo "{{volumes_list2}}" | sed "s/\,/\n/g" | egrep "{{item}}" | egrep _filer | awk -F ": " '{ print $2 }'
-  register: toto
+  register: "{{item}}_filer"
   with_items: "{{ windows_instances_list_name }}"
   changed_when: false
-
-- name: Test
-  set_fact:
-    test_id: "6f42c5a7-1607-4287-ad28-ff655e356f17"
-
-- name: Test
-  set_fact:
-    test: "{{volumes_list2}}.{{test_id }}"
-
-#- name: Creation de la list des volumes attachés aux instances
-#  set_fact:
-#    test2: "{{item}}"
-#  loop: "{{ query('volumes_list2', 'h9999ad1') }}"
