@@ -6,7 +6,7 @@
 
 - debug:
     msg: "{{ item }}"
-  loop: "{{ query('inventory_hostnames', 'all:!is_windows_true') }}"
+  loop: "{{ query('inventory_hostnames', 'all:!meta-is_windows_true') }}"
 
 - name: Creation de la list des serveurs windows
   set_fact:
