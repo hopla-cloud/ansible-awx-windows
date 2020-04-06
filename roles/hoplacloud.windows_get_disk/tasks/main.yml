@@ -40,7 +40,7 @@
 
 - name: with_together
   set_fact:
-    volumes_list: "{{ volumes_list + ['{item.0: item.1}'] }}"
+    volumes_list: "{{ volumes_list + ['{{{item.0}}: {{item.1}}}'] }}"
   with_together:
     - "{{ volumes_id }}"
     - "{{ volumes_name }}"
