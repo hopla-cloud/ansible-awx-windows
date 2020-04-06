@@ -21,7 +21,7 @@
   register: projects_list_os
 
 - debug:
-    var: projects_list_os.json.projects
+    var: projects_list_os.json.projects[0]
 
 - name: Get openstack volumes list
   uri:
