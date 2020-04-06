@@ -2,7 +2,8 @@
 - name: Init list
   set_fact:
     windows_instances_list_name: []
-    volumes_list: []
+    volumes_list1: []
+    volumes_list2: []
 
 #- debug:
 #    msg: "{{ item }}"
@@ -44,14 +45,14 @@
 
 - name: Create list volumes_id volumes_name
   set_fact:
-    volumes_list1: "{{ volumes_list | combine({item.0: item.1}) }}"
+    volumes_list1: "{{ volumes_list1 | combine({item.0: item.1}) }}"
   with_together:
     - "{{ volumes_id }}"
     - "{{ volumes_name }}"
 
 - name: Create list volumes_name volumes_id
   set_fact:
-    volumes_list2: "{{ volumes_list | combine({item.1: item.2}) }}"
+    volumes_list2: "{{ volumes_list2 | combine({item.1: item.2}) }}"
   with_together:
     - "{{ volumes_id }}"
     - "{{ volumes_name }}"
