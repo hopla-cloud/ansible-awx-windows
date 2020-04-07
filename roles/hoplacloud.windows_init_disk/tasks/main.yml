@@ -3,7 +3,7 @@
   win_shell: |
     $disks=(get-disk | Where-Object OperationalStatus -eq "Offline").SerialNumber
     write-host $disks
-  register: vol_id
+  register: vol_offline_id
 
 - name: Creation de la list des volumes attaches
   set_fact:
@@ -22,6 +22,18 @@
     vol_filer: "{{ vol_filer[0].value }}"
     vol_profiles: "{{ vol_profiles[0].value }}"
   when: (vol_filer or vol_profiles)
+
+- name: Mount filer volumes
+  win_shell: |
+    $disk=(get-disk | Where-Object SerialNumber -eq "{{vol_filer}}")
+    $disk | Set-Disk -IsOffline $False
+    $disk | Initialize-Disk -PartitionStyle GPT
+    $disk | New-Partition -UseMaximumSize -DriveLetter "F:" | Format-Volume
+    Write-Host Change
+    }
+  register: vol_filer_mount
+  changed_when: ("Change" in vol_filer_mount.stdout)
+  when: (vol_filer and vol_filer in vol_offline_id)
 
 #- name: Mount all offlines volumes
 #  win_shell: |
