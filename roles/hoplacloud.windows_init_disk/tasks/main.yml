@@ -30,11 +30,23 @@
     $disk | Set-Disk -IsOffline $False
     $disk | Initialize-Disk -PartitionStyle GPT
     $disk | New-Partition -UseMaximumSize -DriveLetter "F" | Format-Volume
-    $disk | -DriveLetter F -NewFileSystemLabel "Filer"
+    $disk | Set-Volume -DriveLetter F -NewFileSystemLabel "Filer"
     Write-Host Change
   register: vol_filer_mount
   changed_when: ("Change" in vol_filer_mount.stdout)
   when: vol_filer in vol_offline_id.stdout
+
+- name: Mount profiles volumes
+  win_shell: |
+    $disk=(get-disk | Where-Object SerialNumber -eq "{{vol_profiles}}")
+    $disk | Set-Disk -IsOffline $False
+    $disk | Initialize-Disk -PartitionStyle GPT
+    $disk | New-Partition -UseMaximumSize -DriveLetter "P" | Format-Volume
+    $disk | Set-Volume -DriveLetter F -NewFileSystemLabel "Profiles"
+    Write-Host Change
+  register: vol_profiles_mount
+  changed_when: ("Change" in vol_profiles_mount.stdout)
+  when: vol_profiles in vol_offline_id.stdout
 
 #- name: Mount all offlines volumes
 #  win_shell: |
