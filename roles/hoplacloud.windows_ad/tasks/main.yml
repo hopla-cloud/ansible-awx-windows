@@ -3,7 +3,7 @@
 
 - name: Set password for Administrator
   win_user:
-    name: administrator
+    name: {{ ad_admin_user }}
     password: "{{ administrator_password }}"
     password_never_expires: yes
     account_disabled: no
@@ -112,41 +112,48 @@
     scope: global
     path: "OU=Security groups,OU=ORGANIZATION,{{ ad_domain }}"
 
-- name: Add GG_ADM_ALL to a administrator group.
+- name: Add GG_ADM_ALL to a admin groups.
   win_domain_group_membership:
-    name: Administrators
+    name: {{item}}
     members: GG_ADM_ALL
     state: present
+  with_items:
+    - "Backup Operators"
+    - "Administrators"
+    - "Domain Admins"
+    - "Enterprise Admins"
+    - "Group Policy Creator Owners"
+    - "Schema Admins"
 
-- name: Add GG_ADM_ALL to a Backup Operators group.
-  win_domain_group_membership:
-    name: "Backup Operators"
-    members: GG_ADM_ALL
-    state: present
+#- name: Add GG_ADM_ALL to a Backup Operators group.
+#  win_domain_group_membership:
+#    name: "Backup Operators"
+#    members: GG_ADM_ALL
+#    state: present
 
-- name: Add GG_ADM_ALL to a Domain Admins group.
-  win_domain_group_membership:
-    name: "Domain Admins"
-    members: GG_ADM_ALL
-    state: present
+#- name: Add GG_ADM_ALL to a Domain Admins group.
+#  win_domain_group_membership:
+#    name: "Domain Admins"
+#    members: GG_ADM_ALL
+#    state: present
 
-- name: Add GG_ADM_ALL to a Enterprise Admins group.
-  win_domain_group_membership:
-    name: "Enterprise Admins"
-    members: GG_ADM_ALL
-    state: present
+#- name: Add GG_ADM_ALL to a Enterprise Admins group.
+#  win_domain_group_membership:
+#    name: "Enterprise Admins"
+#    members: GG_ADM_ALL
+#    state: present
 
-- name: Add GG_ADM_ALL to a Group Policy Creator Owners group.
-  win_domain_group_membership:
-    name: "Group Policy Creator Owners"
-    members: GG_ADM_ALL
-    state: present
+#- name: Add GG_ADM_ALL to a Group Policy Creator Owners group.
+#  win_domain_group_membership:
+#    name: "Group Policy Creator Owners"
+#    members: GG_ADM_ALL
+#    state: present
 
-- name: Add GG_ADM_ALL to a Schema Admins group.
-  win_domain_group_membership:
-    name: "Schema Admins"
-    members: GG_ADM_ALL
-    state: present
+#- name: Add GG_ADM_ALL to a Schema Admins group.
+#  win_domain_group_membership:
+#    name: "Schema Admins"
+#    members: GG_ADM_ALL
+#    state: present
 
 - name: Ensure user siilyo is present
   win_domain_user:
