@@ -14,12 +14,14 @@
 - name: Recherche des types de volumes
   set_fact:
     vol_filer: "{{ vol_attach | dict2items | selectattr('key', 'match', search_filer) | list }}"
+    vol_profiles: "{{ vol_attach | dict2items | selectattr('key', 'match', search_profiles) | list }}"
 #    vol_profiles: "{{ vol_attach | dict2items | selectattr('key', 'match', search_profiles) | list | items2dict }}"
 
-- name: Rechercher des types de volumes
+- name: Recuperation de l'ID des volumes par types
   set_fact:
     vol_filer: "{{ vol_filer[0].value }}"
-#    vol_profiles: "{{ vol_profiles[0] }}"
+    vol_profiles: "{{ vol_profiles[0] }}"
+  when: (vol_filer or vol_profiles)
 
 #- name: Mount all offlines volumes
 #  win_shell: |
