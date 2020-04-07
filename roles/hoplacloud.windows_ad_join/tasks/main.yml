@@ -20,7 +20,7 @@
       when: domain_state1.reboot_required
     - name: Ensure DNS register
       win_shell: ipconfig /registerdns
-  when: "'meta-is_rds_std_true' not in group_names and 'meta-is_ad_true' not in group_names and meta-is_ad_true"
+  when: "'meta-is_rds_std_true' not in group_names and 'meta-is_ad_true' not in group_names and 'meta-is_ad_true' in groups"
 
 - name: Ensure the server is present in the active directory (Other RDS servers)
   block:
@@ -37,4 +37,4 @@
       when: domain_state2.reboot_required
     - name: Ensure DNS register
       win_shell: ipconfig /registerdns
-  when: "'meta-is_rds_std_true' in group_names and meta-is_ad_true"
+  when: "'meta-is_rds_std_true' in group_names and 'meta-is_ad_true' in groups"
