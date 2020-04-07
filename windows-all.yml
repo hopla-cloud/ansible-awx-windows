@@ -3,6 +3,7 @@
   gather_facts: no
   roles:
     - hoplacloud.windows_get_password
+    - hoplacloud.windows_get_disk
 
 - hosts: "{{ instance_name }}"
   vars:
@@ -14,6 +15,7 @@
     ansible_password: "{{hostvars['localhost']['windows_passwords'][inventory_hostname]}}"
   roles:
     - hoplacloud.windows_base
+    - hoplacloud.windows_init_disk
 
 - hosts: meta-is_ad_true
   vars:
@@ -25,7 +27,7 @@
     ansible_password: "{{hostvars['localhost']['windows_passwords'][inventory_hostname]}}"
   roles:
     - hoplacloud.windows_ad
-    
+
 - hosts: "{{ instance_name }}"
   vars:
     ansible_connection: winrm
