@@ -4,6 +4,7 @@
     $disks=(get-disk | Where-Object OperationalStatus -eq "Offline").SerialNumber
     write-host $disks
   register: vol_offline_id
+  changed_when: false
 
 - name: Creation de la list des volumes attaches
   set_fact:
@@ -34,7 +35,7 @@
     }
   register: vol_filer_mount
   changed_when: ("Change" in vol_filer_mount.stdout)
-  when: vol_offline_id.find(vol_filer)
+  when: vol_filer in vol_offline_id.stdout
 
 #- name: Mount all offlines volumes
 #  win_shell: |
