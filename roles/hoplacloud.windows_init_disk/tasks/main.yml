@@ -13,7 +13,7 @@
 
 - name: Rechercher des types de volumes
   set_fact:
-    vol_filer: "{{ vol_attach | dict2items | selectattr('key', 'match', search_filer) | list | items2dict }}"
+    vol_filer: "{{ vol_attach | dict2items | selectattr('key', 'match', search_filer) | list }}"
     vol_profiles: "{{ vol_attach | dict2items | selectattr('key', 'match', search_profiles) | list | items2dict }}"
 
 #- name: Mount all offlines volumes
