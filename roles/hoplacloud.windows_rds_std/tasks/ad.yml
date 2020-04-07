@@ -53,7 +53,7 @@
 
 - name: Create directory profiles
   win_file:
-    path: D:\profiles
+    path: P:\profiles
     state: directory
   when: ("OK" in ad_volume_d.stdout)
 
@@ -61,22 +61,22 @@
   win_share:
     name: profiles$
     description: Users disks profiles share
-    path: D:\profiles\
+    path: P:\profiles\
     list: no
     full: GG_ADM_ALL
-    read: Everyone
+    reaP: Everyone
     change: Everyone
   when: ("OK" in ad_volume_d.stdout)
 
 - name: Disable inherited ACE's profiles folder
   win_acl_inheritance:
-    path: D:\profiles
+    path: P:\profiles
     state: absent
   when: ("OK" in ad_volume_d.stdout)
 
 - name: Add security profiles folder
   win_acl:
-    path: D:\profiles
+    path: P:\profiles
     user: GG_ADM_ALL
     rights: FullControl
     type: allow
@@ -87,7 +87,7 @@
 
 - name: Add security profiles folder
   win_acl:
-    path: D:\profiles
+    path: P:\profiles
     user: GG_USR_RDS
     rights: Traverse, ListDirectory, ReadAttributes, ReadExtendedAttributes, CreateDirectories
     type: allow
@@ -98,7 +98,7 @@
 
 - name: Add security profiles folder
   win_acl:
-    path: D:\profiles
+    path: P:\profiles
     user: CREATOR OWNER
     rights: FullControl
     type: allow
