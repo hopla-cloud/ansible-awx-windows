@@ -50,10 +50,10 @@
 #  set_fact:
 #    "windows_disk_{{item}}": "{{hostvars[item]['openstack'].volumes}}"
 #  with_items: "{{ windows_instances_list_name }}"
-
-- debug:
-    msg: "{{ volumes_list2 | dict2items | selectattr('key', 'match', item) | list | items2dict }}"
-  with_items: "{{ windows_instances_list_name }}"
+#
+#- debug:
+#    msg: "{{ volumes_list2 | dict2items | selectattr('key', 'match', item) | list | items2dict }}"
+#  with_items: "{{ windows_instances_list_name }}"
 #- name: Get filer volume
 #  shell: |
 #   echo "{{volumes_list2}}" | sed "s/\,/\n/g" | egrep "{{item}}" | egrep _filer | awk -F ": " '{ print $2 }'
