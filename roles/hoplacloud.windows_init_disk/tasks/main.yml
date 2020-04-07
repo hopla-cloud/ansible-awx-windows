@@ -34,7 +34,7 @@
     }
   register: vol_filer_mount
   changed_when: ("Change" in vol_filer_mount.stdout)
-  when: vol_filer in vol_offline_id
+  when: vol_offline_id.find(vol_filer)
 
 #- name: Mount all offlines volumes
 #  win_shell: |
