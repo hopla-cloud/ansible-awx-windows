@@ -20,7 +20,7 @@
 - name: Recuperation de l'ID des volumes par types
   set_fact:
     vol_filer: "{{ vol_filer[0].value }}"
-    vol_profiles: "{{ vol_profiles[0] }}"
+    vol_profiles: "{{ vol_profiles[0].value }}"
   when: (vol_filer or vol_profiles)
 
 #- name: Mount all offlines volumes
