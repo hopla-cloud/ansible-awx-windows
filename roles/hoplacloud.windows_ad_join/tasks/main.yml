@@ -3,7 +3,7 @@
 - name: Set fact ad_domain
   set_fact:
     ad_domain: "{{ ad_domain_name | regex_replace('\\.', ',DC=') | regex_replace('^(.*)$', 'DC=\\1') }}"
-  when: meta-is_ad_true
+  when: ('meta-is_ad_true' in groups)
 
 - name: Ensure the server is present in the active directory (Other RDS servers)
   block:
