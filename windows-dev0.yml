@@ -1,6 +1,16 @@
 ---
-- hosts: localhost
+#- hosts: localhost
+#  gather_facts: no
+#  tasks:
+#    - debug:
+#        var: hostvars['h9999ad1']['openstack'].volumes
+
+- hosts: "*chr1"
   gather_facts: no
-  tasks:
-    - debug:
-        var: hostvars['h9999ad1']['openstack'].volumes
+  vars:
+    ansible_connection: network_cli
+    ansible_network_os: routeros
+    ansible_user: admin
+    ansible_password: "{{mikrotik_admin_password}}"
+  roles:
+    - hoplacloud.windows_ad_mikrotik_dns
