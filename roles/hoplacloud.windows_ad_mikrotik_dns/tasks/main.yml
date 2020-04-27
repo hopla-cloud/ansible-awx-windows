@@ -3,7 +3,7 @@
 - name: Récupération du serveur Windows Active Directory
   set_fact:
     windows_instances_ad_name: "{{item}}"
-  with_items: "{{ groups['meta-is_windows_true'] }}"
+  with_items: "{{ groups['meta-is_ad_true'] }}"
 
 - name: Récupération de l'adresse ip du serveur Windows Active Directory
   set_fact:
