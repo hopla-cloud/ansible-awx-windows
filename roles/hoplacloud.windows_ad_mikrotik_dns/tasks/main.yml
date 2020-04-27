@@ -7,7 +7,7 @@
 
 - name: Récupération de l'adresse ip du serveur Windows Active Directory
   set_fact:
-    windows_instances_ad_ip: "{{hostvars[windows_instances_ad_name]['ansible_ip_addresses'][0]}}"
+    windows_instances_ad_ip: "{{hostvars[windows_instances_ad_name]['private_v4']}}"
 
 - name: Configuration du server DNS
   routeros_command:
