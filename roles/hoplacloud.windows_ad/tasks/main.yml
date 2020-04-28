@@ -123,7 +123,7 @@
 
 - name: Add GG_ADM_ALL to a admin groups. EN
   win_domain_group_membership:
-    name: {{item}}
+    name: "{{item}}"
     members: GG_ADM_ALL
     state: present
   with_items:
@@ -137,7 +137,7 @@
 
 - name: Add GG_ADM_ALL to a admin groups. FR
   win_domain_group_membership:
-    name: {{item}}
+    name: "{{item}}"
     members: GG_ADM_ALL
     state: present
   with_items:
