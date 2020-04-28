@@ -63,6 +63,23 @@
   when: reboot_create_domaine.changed
   changed_when: false
 
+- name: Wait AD services
+  win_shell: |
+    $count = 0
+      do{
+        try{
+            Get-ADDomain -ErrorAction Stop
+            $success = $true
+        }catch{
+          Write-Output "Next attempt in 15 seconds"
+          Start-sleep -Seconds 15
+        }
+        $count++
+      }until($count -eq 15 -or $success)
+    if(-not($success)){exit}
+  when: reboot_create_domaine.changed
+  changed_when: false
+
 - name: Get DistinguishedName
   win_shell: (Get-ADDomain).DistinguishedName
   register: ad_domain
