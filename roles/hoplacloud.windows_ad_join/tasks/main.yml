@@ -7,6 +7,24 @@
 
 - name: Ensure the server is present in the active directory (Other RDS servers)
   block:
+    - name: Wait AD services
+      win_shell: |
+        $count = 0
+          do{
+            try{
+                ipconfig /flushdns
+                Resolve-DnsName "{{ad_domain_name}}" -ErrorAction Stop
+                $success = $true
+            }catch{
+              Write-Output "Next attempt in 15 seconds"
+              Start-sleep -Seconds 15
+            }
+            $count++
+          }until($count -eq 15 -or $success)
+        if(-not($success)){exit}
+      when: reboot_create_domaine.changed
+      changed_when: false
+
     - name: Join domain
       win_domain_membership:
         dns_domain_name: "{{ ad_domain_name }}"
@@ -24,6 +42,23 @@
 
 - name: Ensure the server is present in the active directory (Other RDS servers)
   block:
+    - name: Wait AD services
+      win_shell: |
+        $count = 0
+          do{
+            try{
+                ipconfig /flushdns
+                Resolve-DnsName "{{ad_domain_name}}" -ErrorAction Stop
+                $success = $true
+            }catch{
+              Write-Output "Next attempt in 15 seconds"
+              Start-sleep -Seconds 15
+            }
+            $count++
+          }until($count -eq 15 -or $success)
+        if(-not($success)){exit}
+      when: reboot_create_domaine.changed
+      changed_when: false
     - name: Join domain
       win_domain_membership:
         dns_domain_name: "{{ ad_domain_name }}"
