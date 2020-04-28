@@ -7,7 +7,7 @@
 
 - name: Ensure the server is present in the active directory (Other RDS servers)
   block:
-    - name: Wait AD services
+    - name: Wait DNS resolution
       win_shell: |
         $count = 0
           do{
@@ -22,7 +22,6 @@
             $count++
           }until($count -eq 15 -or $success)
         if(-not($success)){exit}
-      when: reboot_create_domaine.changed
       changed_when: false
 
     - name: Join domain
@@ -42,7 +41,7 @@
 
 - name: Ensure the server is present in the active directory (Other RDS servers)
   block:
-    - name: Wait AD services
+    - name: Wait DNS resolution
       win_shell: |
         $count = 0
           do{
@@ -57,8 +56,8 @@
             $count++
           }until($count -eq 15 -or $success)
         if(-not($success)){exit}
-      when: reboot_create_domaine.changed
       changed_when: false
+
     - name: Join domain
       win_domain_membership:
         dns_domain_name: "{{ ad_domain_name }}"
