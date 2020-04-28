@@ -48,9 +48,9 @@
 
 - name: Wait AD services
   win_shell: Start-Sleep -s 15
-  changed_when: ad_domain.rc == 1
   when: reboot_create_domaine.changed
-
+  changed_when: false
+  
 - name: Get DistinguishedName
   win_shell: (Get-ADDomain).DistinguishedName
   register: ad_domain
