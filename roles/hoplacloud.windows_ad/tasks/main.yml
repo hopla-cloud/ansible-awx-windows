@@ -1,12 +1,21 @@
 ---
 # tasks file for hoplacloud.windows_ad
 
-- name: Set password for Administrator
+- name: Set password for Administrator EN
   win_user:
-    name: {{ ad_admin_user }}
+    name: administrator
     password: "{{ administrator_password }}"
     password_never_expires: yes
     account_disabled: no
+  when: ("EN" in ad_language)
+
+- name: Set password for Administrateur FR
+  win_user:
+    name: administrateur
+    password: "{{ administrator_password }}"
+    password_never_expires: yes
+    account_disabled: no
+  when: ("FR" in ad_language)
 
 - name: Install Active Directory with sub features and management tools
   win_feature:
@@ -112,7 +121,7 @@
     scope: global
     path: "OU=Security groups,OU=ORGANIZATION,{{ ad_domain }}"
 
-- name: Add GG_ADM_ALL to a admin groups.
+- name: Add GG_ADM_ALL to a admin groups. EN
   win_domain_group_membership:
     name: {{item}}
     members: GG_ADM_ALL
@@ -124,36 +133,19 @@
     - "Enterprise Admins"
     - "Group Policy Creator Owners"
     - "Schema Admins"
+  when: ("EN" in ad_language)
 
-#- name: Add GG_ADM_ALL to a Backup Operators group.
-#  win_domain_group_membership:
-#    name: "Backup Operators"
-#    members: GG_ADM_ALL
-#    state: present
-
-#- name: Add GG_ADM_ALL to a Domain Admins group.
-#  win_domain_group_membership:
-#    name: "Domain Admins"
-#    members: GG_ADM_ALL
-#    state: present
-
-#- name: Add GG_ADM_ALL to a Enterprise Admins group.
-#  win_domain_group_membership:
-#    name: "Enterprise Admins"
-#    members: GG_ADM_ALL
-#    state: present
-
-#- name: Add GG_ADM_ALL to a Group Policy Creator Owners group.
-#  win_domain_group_membership:
-#    name: "Group Policy Creator Owners"
-#    members: GG_ADM_ALL
-#    state: present
-
-#- name: Add GG_ADM_ALL to a Schema Admins group.
-#  win_domain_group_membership:
-#    name: "Schema Admins"
-#    members: GG_ADM_ALL
-#    state: present
+- name: Add GG_ADM_ALL to a admin groups. FR
+  win_domain_group_membership:
+    name: {{item}}
+    members: GG_ADM_ALL
+    state: present
+  with_items:
+    - "Administrateurs"
+    - "Administrateurs de l’entreprise"
+    - "Administrateurs du schéma"
+    - "Admins du domaine"
+  when: ("FR" in ad_language)
 
 - name: Ensure user siilyo is present
   win_domain_user:
