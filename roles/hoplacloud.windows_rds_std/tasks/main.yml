@@ -5,10 +5,10 @@
     ad_domain: "{{ ad_domain_name | regex_replace('\\.', ',DC=') | regex_replace('^(.*)$', 'DC=\\1') }}"
 
 - include: ad.yml
-  when: "'meta-is_ad_true' in group_names"
+  when: "'meta-is_ad_true' in group_names and 'meta-is_rds_std_true' in groups"
 
 - include: rds.yml
   when: "'meta-is_rds_std_true' in group_names"
 
 - include: ad-end.yml
-  when: "'meta-is_ad_true' in group_names"
+  when: "'meta-is_ad_true' in group_names and 'meta-is_rds_std_true' in groups"
