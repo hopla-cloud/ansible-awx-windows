@@ -47,10 +47,22 @@
   when: domain_install.changed
 
 - name: Wait AD services
-  win_shell: Start-Sleep -s 15
+  win_shell: |
+    $ServiceName = 'ADWS'
+    $arrService = Get-Service -Name $ServiceName
+    while ($arrService.Status -ne 'Running')
+    {
+      write-host $arrService.status
+      Start-Sleep -seconds 15
+      $arrService.Refresh()
+      if ($arrService.Status -eq 'Running')
+      {
+          Write-Host 'Service is now Running'
+      }
+    }
   when: reboot_create_domaine.changed
   changed_when: false
-  
+
 - name: Get DistinguishedName
   win_shell: (Get-ADDomain).DistinguishedName
   register: ad_domain
