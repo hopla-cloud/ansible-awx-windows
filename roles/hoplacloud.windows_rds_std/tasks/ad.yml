@@ -82,7 +82,6 @@
     type: allow
     state: present
     inherit: ContainerInherit, ObjectInherit
-    propagation: 'InheritOnly'
   when: ("OK" in ad_volume_d.stdout)
 
 - name: Add security profiles folder
@@ -93,7 +92,6 @@
     type: allow
     state: present
     inherit: ContainerInherit, ObjectInherit
-    propagation: 'InheritOnly'
   when: ("OK" in ad_volume_d.stdout)
 
 - name: Add security profiles folder
