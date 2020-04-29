@@ -14,7 +14,6 @@
     - hoplacloud.windows_base
     - hoplacloud.windows_init_disk
 
-
 - hosts: "*chr1"
   gather_facts: no
   vars:

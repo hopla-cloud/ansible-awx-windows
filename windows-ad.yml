@@ -1,8 +1,0 @@
----
-- hosts: "{{ instance_name }}"
-  vars:
-    ansible_connection: winrm
-    ansible_winrm_server_cert_validation: ignore
-  roles:
-#    - hoplacloud.windows_base
-    - hoplacloud.windows_ad
