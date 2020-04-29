@@ -43,7 +43,7 @@
   register: setup_office_ansible
 
 - name: Ensure Office is present
-  win_shell: C:\odt\setup.exe /configure configuration.xml
+  win_shell: C:\odt\setup.exe /configure C:\odt\configuration.xml
   register: rds_office_install
   when: setup_office_ansible.stat.exists == False
 
