@@ -45,9 +45,9 @@
     path: C:\scripts
     state: directory
 
-- name: Check volume D
+- name: Check volume P
   win_shell: |
-    if ((Get-Volume).DriveLetter -contains "D"){Write-Host OK}
+    if ((Get-Volume).DriveLetter -contains "P"){Write-Host OK}
   register: ad_volume_d
   changed_when: false
 
