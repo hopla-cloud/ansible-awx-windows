@@ -1,7 +1,7 @@
 galaxy_info:
   role_name: windows_ad_join
   author: hoplacloud
-  description: Hopla.cloud role for ansible to join active directory 
+  description: Hopla.cloud role for ansible to join active directory.
   company: hopla.cloud
   license: GPLv3
 

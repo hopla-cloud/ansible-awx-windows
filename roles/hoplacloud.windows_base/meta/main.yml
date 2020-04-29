@@ -1,7 +1,7 @@
 galaxy_info:
   role_name: windows_base
   author: hoplacloud
-  description: Hopla.cloud role for ansible to configure a windows server
+  description: Hopla.cloud role for ansible to configure a windows server.
   company: hopla.cloud
   license: GPLv3
 

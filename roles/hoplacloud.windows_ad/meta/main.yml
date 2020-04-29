@@ -1,7 +1,7 @@
 galaxy_info:
   role_name: windows_ad
   author: hoplacloud
-  description: Hopla.cloud role for ansible to install and configure active directory role
+  description: Hopla.cloud role for ansible to install and configure active directory role.
   company: hopla.cloud
   license: GPLv3
 

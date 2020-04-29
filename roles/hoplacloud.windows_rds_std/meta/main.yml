@@ -1,7 +1,7 @@
 galaxy_info:
   role_name: windows_rds_std
   author: hoplacloud
-  description: Hopla.cloud role for ansible to deploy a windows remote desktop server standalone
+  description: Hopla.cloud role for ansible to deploy a windows remote desktop server standalone.
   company: hopla.cloud
   license: GPLv3
 

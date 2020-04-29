@@ -1,7 +1,7 @@
 galaxy_info:
   role_name: windows-dev
   author: hoplacloud
-  description: Hopla.cloud role for ansible to test windows task
+  description: Hopla.cloud role for ansible to test windows task.
   company: hopla.cloud
   license: GPLv3
 

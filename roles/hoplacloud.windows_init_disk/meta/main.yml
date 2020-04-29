@@ -1,7 +1,7 @@
 galaxy_info:
   role_name: windows_init_disk
   author: hoplacloud
-  description: Hopla.cloud role for ansible to get attach disk
+  description: Hopla.cloud role for ansible to mount disks.
   company: hopla.cloud
   license: GPLv3
 
