@@ -24,6 +24,12 @@ Active Directory variables
 - ad_safe_password: "password"
 - administrator_password: "password"
 
+<<<<<<< HEAD
+=======
+Memcached variables
+- session_save_handler: "files"
+- session_save_path: "/var/lib/php/sessions"
+>>>>>>> 977e6fac3360e3871465a7d54eb9d271c94bf133
 
 Dependencies
 ------------
