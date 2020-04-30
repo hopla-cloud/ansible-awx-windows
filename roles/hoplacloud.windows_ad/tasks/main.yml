@@ -89,6 +89,13 @@
   set_fact:
     ad_domain: "{{ ad_domain.stdout_lines[0] }}"
 
+- name: Change DNS Forwarders
+  win_shell: |
+    Set-DnsServerForwarder -IPAddress "208.67.222.222"
+    add-DnsServerForwarder -IPAddress "208.67.222.220"
+  when: reboot_create_domaine.changed
+  changed_when: false
+
 - name: Ensure all Organizational Unit is present [1/2]
   win_shell: |
     $ou_check = (Get-ADOrganizationalUnit -Filter 'Name -like "ORGANIZATION"').Name
@@ -145,6 +152,7 @@
     if ($gpoReport.GPO.LinksTo.Enabled -notlike "true"){
     new-GPLink -Name "Hopla.cloud" -Target "OU=Servers,OU=ORGANIZATION,{{ ad_domain }}" -LinkEnabled Yes
     new-GPLink -Name "Hopla.cloud" -Target "OU=Domain Controllers,{{ ad_domain }}" -LinkEnabled Yes
+    new-GPLink -Name "Hopla.cloud" -Target "OU=Users,OU=ORGANIZATION,{{ ad_domain }}" -LinkEnabled Yes
     Write-Host Change
     }
   register: ad_gpo_link_create
