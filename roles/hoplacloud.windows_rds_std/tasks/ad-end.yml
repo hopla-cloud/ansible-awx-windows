@@ -28,6 +28,7 @@
     ad_connection_broker: "{{ansible_fqdn}}"
     ad_web_access: "{{ansible_fqdn}}"
     ad_license: "{{ansible_fqdn}}"
+    ad_gw_fqdn: "desk.{{ad_domain_name}}"
 
 - name: Create RD Deployement script
   win_template:
