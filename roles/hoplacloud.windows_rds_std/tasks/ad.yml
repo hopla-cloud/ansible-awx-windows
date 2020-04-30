@@ -36,6 +36,7 @@
     - RDS-Licensing
     - RDS-Web-Access
     - RDS-Connection-Broker
+    - RDS-Gateway
     state: present
     include_sub_features: yes
     include_management_tools: yes
