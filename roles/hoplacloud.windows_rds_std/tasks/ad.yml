@@ -194,6 +194,7 @@
 - name: Install Certify
   win_chocolatey:
     name: certifytheweb
+    ignore_checksums: yes
     state: present
 
 - name: Copy certify script
