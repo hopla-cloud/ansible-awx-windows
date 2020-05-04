@@ -190,3 +190,13 @@
     Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "CCXProcess" -Disable
     Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "com.squirrel.Teams.Teams" -Disable
     Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\Software\Microsoft\Office\16.0\Common\Identity" -ValueName "DisableADALatopWAMOverride" -Type DWORD  -Value 1
+
+- name: Install Certify
+  win_chocolatey:
+    name: certifytheweb
+    state: present
+
+- name: Copy certify script
+  win_copy:
+    src: Renew-cert-RDS.ps1
+    dest: C:\scripts\Renew-cert-RDS.ps1
