@@ -10,20 +10,6 @@
   set_fact:
     ad_domain: "{{ ad_domain.stdout_lines[0] }}"
 
-- name: Ensure Organizational Unit is present [1/2]
-  win_shell: |
-    $ou_check = (Get-ADOrganizationalUnit -Filter 'Name -like "RDS"').Name
-    if ($ou_check -notlike "RDS"){New-ADOrganizationalUnit -Name "RDS" -Path "OU=servers,OU=ORGANIZATION,{{ ad_domain }}"}
-  register: ad_ou_create
-  changed_when: ("Change" in ad_ou_create.stdout)
-
-- name: Ensure Organizational Unit is present [2/2]
-  win_shell: |
-    $ou_check = (Get-ADOrganizationalUnit -Filter 'Name -like "Office 365"').Name
-    if ($ou_check -notlike "Office 365"){New-ADOrganizationalUnit -Name "Office 365" -Path "OU=ORGANIZATION,{{ ad_domain }}"}
-  register: ad_ou_create
-  changed_when: ("Change" in ad_ou_create.stdout)
-
 - name: Ensure GG_USR_RDS is present
   win_domain_group:
     name: GG_USR_RDS
@@ -65,7 +51,7 @@
     path: P:\profiles\
     list: no
     full: GG_ADM_ALL
-    reaP: Everyone
+    read: Everyone
     change: Everyone
   when: ("OK" in ad_volume_d.stdout)
 
