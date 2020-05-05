@@ -16,6 +16,12 @@
     state: present
     include_sub_features: yes
     include_management_tools: yes
+  register: install_rds_features
+
+- name: Reboot server
+  win_reboot:
+    reboot_timeout: 3600
+  when: install_rds_features.changed
 
 - name: Create directory scripts
   win_file:
