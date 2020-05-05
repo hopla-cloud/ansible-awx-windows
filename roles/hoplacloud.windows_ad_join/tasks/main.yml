@@ -43,8 +43,8 @@
   win_domain_computer:
     name: "{{item}}"
     dns_hostname: "{{item}}.{{ad_domain_name}}"
-    ou: "OU=RDS,OU=Servers,OU=ORGANIZATION,{{ ad_domain }}"
-  loop: "{{ query('inventory_hostnames', 'meta-is_windows_true:!meta-is_rds_std_true') }}"
+    ou: "OU=Servers,OU=ORGANIZATION,{{ ad_domain }}"
+  loop: "{{ query('inventory_hostnames', 'meta-is_windows_true:!meta-is_rds_std_true:!meta-is_ad_true') }}"
   when: "'meta-is_ad_true' in group_names"
 
 - name: Ensure the server is present in the active directory (Other RDS servers)
