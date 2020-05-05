@@ -63,7 +63,7 @@
         dns_domain_name: "{{ ad_domain_name }}"
         domain_admin_user: "{{ad_netbios_name}}\\administrator"
         domain_admin_password: "{{ administrator_password }}"
-        domain_ou_path: "OU=RDS,OU=Servers,OU=ORGANIZATION,{{ ad_domain }}"
+#        domain_ou_path: "OU=RDS,OU=Servers,OU=ORGANIZATION,{{ ad_domain }}"
         state: domain
       register: domain_state2
     - name: Reboot if required
@@ -72,3 +72,11 @@
     - name: Ensure DNS register
       win_shell: ipconfig /registerdns
   when: "'meta-is_rds_std_true' in group_names and 'meta-is_ad_true' in groups"
+
+- name: Move computer OU
+  win_domain_computer:
+    name: "{{item}}"
+    sam_account_name: linux_server$
+    ou: "OU=Servers,OU=ORGANIZATION,{{ ad_domain }}"
+  with_items: "{{ groups['is_rds_std_true'] }}"
+  when: "'meta-is_ad_true' in group_names"
