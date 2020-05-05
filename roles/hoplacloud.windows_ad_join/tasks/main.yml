@@ -76,7 +76,7 @@
 - name: Move computer OU
   win_domain_computer:
     name: "{{item}}"
-    sam_account_name: linux_server$
+    dns_hostname: "{{item}}.{{ad_domain_name}}"
     ou: "OU=RDS,OU=Servers,OU=ORGANIZATION,{{ ad_domain }}"
   with_items: "{{ groups['meta-is_rds_std_true'] }}"
   when: "'meta-is_ad_true' in group_names and 'meta-is_ad_true' in groups"
