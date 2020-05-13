@@ -1,0 +1,77 @@
+---
+# tasks file for hoplacloud.windows_rds_prf
+
+- name: Get DistinguishedName
+  win_shell: (Get-ADDomain).DistinguishedName
+  register: ad_domain
+  changed_when: ad_domain.rc == 1
+
+- name: Set fact ad_domain
+  set_fact:
+    ad_domain: "{{ ad_domain.stdout_lines[0] }}"
+
+
+- name: Create directory scripts
+  win_file:
+    path: C:\scripts
+    state: directory
+
+- name: Check volume P
+  win_shell: |
+    if ((Get-Volume).DriveLetter -contains "P"){Write-Host OK}
+  register: ad_volume_d
+  changed_when: false
+
+- name: Create directory profiles
+  win_file:
+    path: P:\profiles
+    state: directory
+  when: ("OK" in ad_volume_d.stdout)
+
+- name: Add profiles share
+  win_share:
+    name: profiles$
+    description: Users disks profiles share
+    path: P:\profiles\
+    list: no
+    full: GG_ADM_ALL
+    read: Everyone
+    change: Everyone
+  when: ("OK" in ad_volume_d.stdout)
+
+- name: Disable inherited ACE's profiles folder
+  win_acl_inheritance:
+    path: P:\profiles
+    state: absent
+  when: ("OK" in ad_volume_d.stdout)
+
+- name: Add security profiles folder
+  win_acl:
+    path: P:\profiles
+    user: GG_ADM_ALL
+    rights: FullControl
+    type: allow
+    state: present
+    inherit: ContainerInherit, ObjectInherit
+  when: ("OK" in ad_volume_d.stdout)
+
+- name: Add security profiles folder
+  win_acl:
+    path: P:\profiles
+    user: GG_USR_RDS
+    rights: Traverse, ListDirectory, ReadAttributes, ReadExtendedAttributes, CreateDirectories
+    type: allow
+    state: present
+    inherit: ContainerInherit, ObjectInherit
+  when: ("OK" in ad_volume_d.stdout)
+
+- name: Add security profiles folder
+  win_acl:
+    path: P:\profiles
+    user: CREATOR OWNER
+    rights: FullControl
+    type: allow
+    state: present
+    inherit: ContainerInherit, ObjectInherit
+    propagation: 'InheritOnly'
+  when: ("OK" in ad_volume_d.stdout)

@@ -1,0 +1,141 @@
+---
+# tasks file for hoplacloud.windows_rds_host
+- name: Set fact ad_domain_admin
+  set_fact:
+    ad_domain_admin_name: "\\GG_ADM_ALL"
+
+- name: Set fact ad_domain_admin
+  set_fact:
+    ad_domain_admin: "{{ ad_netbios_name + ad_domain_admin_name }}"
+
+- name: Install Active Directory with sub features and management tools
+  win_feature:
+    name:
+    - RDS-RD-Server
+    - NET-Framework-Core
+    state: present
+    include_sub_features: yes
+    include_management_tools: yes
+  register: install_rds_features
+
+- name: Reboot server
+  win_reboot:
+    reboot_timeout: 3600
+  when: install_rds_features.changed
+
+- name: Create directory scripts
+  win_file:
+    path: C:\scripts
+    state: directory
+
+- name: Create directory odt
+  win_file:
+    path: C:\odt
+    state: directory
+
+- name: Copy office setup file
+  win_copy:
+    src: setup.exe
+    dest: C:\odt\setup.exe
+
+- name: Copy office config file
+  win_copy:
+    src: configuration.xml
+    dest: C:\odt\configuration.xml
+
+- name: Obtain information about a setup_office_ansible file
+  win_stat:
+    path: C:\odt\setup_office_ansible
+  register: setup_office_ansible
+
+- name: Ensure Office is present
+  win_shell: C:\odt\setup.exe /configure C:\odt\configuration.xml
+  register: rds_office_install
+  when: setup_office_ansible.stat.exists == False
+
+- name: Touch setup_office_ansible file
+  win_file:
+    path: C:\odt\setup_office_ansible
+    state: touch
+  when: rds_office_install.changed
+
+- name: Create directory scripts
+  win_file:
+    path: C:\scripts\fslogix
+    state: directory
+
+- name: Copy fslogix file
+  win_copy:
+    src: FSLogixAppsSetup.exe
+    dest: C:\scripts\fslogix\FSLogixAppsSetup.exe
+
+- name: Ensure FSlogix is present
+  win_shell: |
+    $fslogix_check = (Get-ChildItem -Path C:\scripts\fslogix).Name
+    if ($fslogix_check -notcontains 'fslogix_setup_ansible'){
+    C:\scripts\fslogix\FSLogixAppsSetup.exe /install /quiet /norestart
+    New-Item -Name fslogix_setup_ansible -ItemType File -Path C:\scripts\fslogix\
+    Write-Host Change
+    }
+  register: rds_fslogix_install
+  changed_when: ("Change" in rds_fslogix_install.stdout)
+
+- name: Add a local and domain user to a local group
+  win_group_membership:
+    name: FSLogix Profile Exclude List
+    members:
+      - "{{ ad_domain_admin }}"
+    state: present
+
+- name: Copy disconnect file
+  win_copy:
+    src: Disconnect.bat
+    dest: C:\scripts\Disconnect.bat
+
+- name: Copy disconnect file
+  win_copy:
+    src: Disconnect.lnk
+    dest: C:\scripts\Disconnect.lnk
+
+- name: Copy disconnect file
+  win_copy:
+    src: Disconnect.lnk
+    dest: C:\Users\Public\Desktop\Disconnect.lnk
+
+- name: Copy TeamViewerQS file
+  win_copy:
+    src: TeamViewerQS.exe
+    dest: C:\Users\Public\Desktop\Support iilyo.exe
+
+- name: Copy FR CAB
+  win_copy:
+    src: Microsoft-Windows-Server-Language-Pack_x64_fr-fr.cab
+    dest: C:\scripts\Microsoft-Windows-Server-Language-Pack_x64_fr-fr.cab
+  register: copy_fr
+
+- name: Install adobereader
+  win_chocolatey:
+    name: adobereader
+    state: present
+    package_params: NoUpdates
+
+- name: Install apps
+  win_chocolatey:
+    name:
+      - GoogleChrome
+      - jre8
+      - 7zip.install
+      - irfanview
+      - irfanviewplugins
+      - ghostscript
+    state: present
+
+- name: Copy irfanview fr dll file
+  win_copy:
+    src: irfanview/French.dll
+    dest: C:\Program Files\IrfanView\Languages\French.dll
+
+- name: Copy irfanview fr lng file
+  win_copy:
+    src: irfanview/IP_French.lng
+    dest: C:\Program Files\IrfanView\Languages\IP_French.lng

@@ -176,7 +176,8 @@
     Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "CCXProcess" -Disable
     Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "com.squirrel.Teams.Teams" -Disable
     Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\Software\Microsoft\Office\16.0\Common\Identity" -ValueName "DisableADALatopWAMOverride" -Type DWORD  -Value 1
-
+    Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\Keyboard Layout\Preload" -ValueName "1" -Type String  -Value "0x040c"
+    
 - name: Install Certify
   win_chocolatey:
     name: certifytheweb

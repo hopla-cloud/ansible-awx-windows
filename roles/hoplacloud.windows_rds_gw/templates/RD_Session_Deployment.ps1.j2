@@ -1,0 +1,10 @@
+
+if (!(Get-RDServer -erroraction 'silentlycontinue')){
+New-RDSessionDeployment -SessionHost @("{{ad_session_hosts}}")  -ConnectionBroker "{{ad_connection_broker}}" -WebAccessServer "{{ad_web_access}}"
+New-RDSessionCollection -CollectionName "Default" -SessionHost  @("{{ad_session_hosts}}")  -ConnectionBroker "{{ad_connection_broker}}"
+Set-RDLicenseConfiguration -LicenseServer "{{ad_license}}" -ConnectionBroker "{{ad_connection_broker}}" -Mode PerUser
+Add-RDServer -Server "{{ad_license}}"  -Role RDS-LICENSING -ConnectionBroker "{{ad_connection_broker}}"
+Set-RDSessionCollectionConfiguration -CollectionName "Default" -UserGroup "GG_USR_RDS" -DisconnectedSessionLimitMin 480 -IdleSessionLimitMin 480
+Add-RDServer -Server "{{ad_connection_broker}}" -Role RDS-GATEWAY -ConnectionBroker "{{ad_connection_broker}}" -GatewayExternalFqdn "{{ad_gw_fqdn}}"
+Set-RDDeploymentGatewayConfiguration -GatewayMode Custom -GatewayExternalFQDN "{{ad_gw_fqdn}}" -LogonMethod Password -UseCachedCredentials $True -BypassLocal $True -ConnectionBroker "{{ad_connection_broker}}"
+}
