@@ -1,15 +1,5 @@
 ---
 # tasks file for hoplacloud.windows_rds_gw
-
-- name: Get DistinguishedName
-  win_shell: (Get-ADDomain).DistinguishedName
-  register: ad_domain
-  changed_when: ad_domain.rc == 1
-
-- name: Set fact ad_domain
-  set_fact:
-    ad_domain: "{{ ad_domain.stdout_lines[0] }}"
-
 - name: Install RDS GW, Broker, Web acces and Licensing with sub features and management tools
   win_feature:
     name:
@@ -39,14 +29,13 @@
 
 - name: Set facts
   set_fact:
-    ad_domain: "{{ ad_domain.stdout_lines[0] }}"
     ad_session_host_list: "{{groups['meta-is_rds_std_true'] | map('regex_replace', '$', '.') | list}}"
 - set_fact:
     ad_session_host_list: "{{ad_session_host_list | map('regex_replace', '$', ad_domain_name) | list}}"
 - set_fact:
     ad_session_host_list: "{{ad_session_host_list | join(',')}}"
 
-- name: Set pw facts
+- name: Create session hosts list facts
   win_shell: |
     $ad_session_hosts="{{ad_session_host_list}}"
     $ad_session_hosts=$ad_session_hosts -replace ",", '","'
@@ -54,7 +43,7 @@
   register: ad_session_host_fact
   changed_when: ("Change" in ad_session_host_fact.stdout)
 
-- name: Set fact1
+- name: Set fact for rds Deployement
   set_fact:
     ad_session_hosts: "{{ad_session_host_fact.stdout_lines[0]}}"
     ad_connection_broker: "{{ansible_fqdn}}"

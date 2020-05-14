@@ -16,7 +16,7 @@
     commands: /ip dns set allow-remote-requests=yes server="{{windows_instances_ad_ip}}"
   when: "'meta-is_ad_true' in groups"
 
-- name: Configuration du server DNS
+- name: Flush du server DNS
   routeros_command:
     commands: /ip dns cache flush
   when: "'meta-is_ad_true' in groups"

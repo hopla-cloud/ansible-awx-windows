@@ -81,10 +81,18 @@
       win_shell: ipconfig /registerdns
   when: "'meta-is_rds_std_true' in group_names or 'meta-is_rds_host_true' in group_names and 'meta-is_ad_true' in groups"
 
-- name: Move computer OU
+- name: Move computer OU RDS STD
   win_domain_computer:
     name: "{{item}}"
     dns_hostname: "{{item}}.{{ad_domain_name}}"
     ou: "OU=RDS,OU=Servers,OU=ORGANIZATION,{{ ad_domain }}"
   with_items: "{{ groups['meta-is_rds_std_true'] }}"
-  when: "'meta-is_ad_true' in group_names or 'meta-is_rds_host_true' in group_names and 'meta-is_ad_true' in groups"
+  when: "'meta-is_rds_std_true' in group_names and 'meta-is_ad_true' in groups"
+
+- name: Move computer OU RDS HOST
+  win_domain_computer:
+    name: "{{item}}"
+    dns_hostname: "{{item}}.{{ad_domain_name}}"
+    ou: "OU=RDS,OU=Servers,OU=ORGANIZATION,{{ ad_domain }}"
+  with_items: "{{ groups['meta-is_rds_host_true'] }}"
+  when: "'meta-is_rds_host_true' in group_names and 'meta-is_ad_true' in groups"

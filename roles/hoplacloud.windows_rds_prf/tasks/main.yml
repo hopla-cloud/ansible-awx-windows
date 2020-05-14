@@ -1,16 +1,5 @@
 ---
 # tasks file for hoplacloud.windows_rds_prf
-
-- name: Get DistinguishedName
-  win_shell: (Get-ADDomain).DistinguishedName
-  register: ad_domain
-  changed_when: ad_domain.rc == 1
-
-- name: Set fact ad_domain
-  set_fact:
-    ad_domain: "{{ ad_domain.stdout_lines[0] }}"
-
-
 - name: Create directory scripts
   win_file:
     path: C:\scripts
