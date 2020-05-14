@@ -16,6 +16,18 @@
     scope: global
     path: "OU=Security groups,OU=ORGANIZATION,{{ ad_domain }}"
 
+- name: Ensure GG_USR_EN is present
+  win_domain_group:
+    name: GG_USR_EN
+    scope: global
+    path: "OU=Security groups,OU=ORGANIZATION,{{ ad_domain }}"
+
+- name: Ensure GG_USR_FR is present
+  win_domain_group:
+    name: GG_USR_FR
+    scope: global
+    path: "OU=Security groups,OU=ORGANIZATION,{{ ad_domain }}"
+
 - name: Create directory scripts
   win_file:
     path: C:\scripts
@@ -145,14 +157,17 @@
     Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "CCXProcess" -Disable
     Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "com.squirrel.Teams.Teams" -Disable
     Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\Software\Microsoft\Office\16.0\Common\Identity" -ValueName "DisableADALatopWAMOverride" -Type DWORD  -Value 1
-    Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\Keyboard Layout\Preload" -ValueName "1" -Type String  -Value "0x040c"
 
 - name: Set GPO options "_RDS_USERS_EN"
   win_shell: |
     Set-GPRegistryValue -Name "_RDS_USERS_EN" -Key "HKCU\Keyboard Layout\Preload" -ValueName "1" -Type String  -Value "0x0409"
     Set-GPRegistryValue -Name "_RDS_USERS_EN" -Key "HKCU\Software\Policies\Microsoft\Control Panel\Desktop" -ValueName "PreferredUILanguages" -Type String  -Value "en-US"
+    set-GPPermission -Name _RDS_USERS_EN -PermissionLevel GpoApply -TargetName GG_USR_EN -TargetType Group -Replace
+    set-GPPermission -Name _RDS_USERS_EN -PermissionLevel GpoRead -TargetName "Authenticated Users" -TargetType Group -Replace -Confirm:$false
 
 - name: Set GPO options "_RDS_USERS_FR"
   win_shell: |
     Set-GPRegistryValue -Name "_RDS_USERS_FR" -Key "HKCU\Keyboard Layout\Preload" -ValueName "1" -Type String  -Value "0x040c"
     Set-GPRegistryValue -Name "_RDS_USERS_FR" -Key "HKCU\Software\Policies\Microsoft\Control Panel\Desktop" -ValueName "PreferredUILanguages" -Type String  -Value "fr-FR"
+    set-GPPermission -Name _RDS_USERS_FR -PermissionLevel GpoApply -TargetName GG_USR_FR -TargetType Group -Replace
+    set-GPPermission -Name _RDS_USERS_FR -PermissionLevel GpoRead -TargetName "Authenticated Users" -TargetType Group -Replace -Confirm:$false
