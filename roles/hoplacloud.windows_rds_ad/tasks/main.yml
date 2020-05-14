@@ -105,7 +105,7 @@
 
 - name: Ensure GPO RDS_USERS_FR is linked
   win_shell: |
-    [xml]$gpoReport = Get-GPOReport -Name _RDS_USERS -ReportType xml
+    [xml]$gpoReport = Get-GPOReport -Name _RDS_USERS_FR -ReportType xml
     if ($gpoReport.GPO.LinksTo.Enabled -notlike "true"){
     new-GPLink -Name "_RDS_USERS_FR" -Target "OU=Users,OU=ORGANIZATION,{{ ad_domain }}" -LinkEnabled Yes
     Write-Host Change
