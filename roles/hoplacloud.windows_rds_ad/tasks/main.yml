@@ -148,7 +148,7 @@
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "IsDynamic" -Type DWORD  -Value 1
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "RoamSearch" -Type DWORD  -Value 2
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "SizeInMBs" -Type DWORD  -Value 10240
-    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "VHDLocations" -Type String  -Value "\\{{ ansible_hostname }}\profiles$"
+    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "VHDLocations" -Type String  -Value "\\{{ groups['meta-is_rds_gw_true'] }}\profiles$"
 
 - name: Set GPO options "_RDS_USERS"
   win_shell: |
