@@ -153,7 +153,7 @@
 - name: Set GPO options fslogix "_RDS_SERVERS"
   win_shell: |
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "VHDLocations" -Type String  -Value "\\{{item}}\profiles$"
-  with_items: "{{ groups['meta-is_rds_gw_true'] }}"
+  with_items: "{{ groups['meta-is_rds_prf_true'] }}"
   when: "'meta-is_rds_gw_true' in groups"
 
 - name: Set GPO options fslogix "_RDS_SERVERS" RDS STD
