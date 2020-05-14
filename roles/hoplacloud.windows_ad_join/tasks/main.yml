@@ -87,7 +87,7 @@
     dns_hostname: "{{item}}.{{ad_domain_name}}"
     ou: "OU=RDS,OU=Servers,OU=ORGANIZATION,{{ ad_domain }}"
   with_items: "{{ groups['meta-is_rds_std_true'] }}"
-  when: "'meta-is_rds_std_true' in group_names and 'meta-is_ad_true' in groups"
+  when: "'meta-is_ad_true' in group_names and 'meta-is_ad_true' in groups and 'meta-is_rds_std_true' in groups"
 
 - name: Move computer OU RDS HOST
   win_domain_computer:
@@ -95,4 +95,4 @@
     dns_hostname: "{{item}}.{{ad_domain_name}}"
     ou: "OU=RDS,OU=Servers,OU=ORGANIZATION,{{ ad_domain }}"
   with_items: "{{ groups['meta-is_rds_host_true'] }}"
-  when: "'meta-is_rds_host_true' in group_names and 'meta-is_ad_true' in groups"
+  when: "'meta-is_ad_true' in group_names and 'meta-is_ad_true' in groups and 'meta-is_rds_host_true' in groups"
