@@ -27,6 +27,11 @@
     src: Renew-cert-RDS.ps1
     dest: C:\scripts\Renew-cert-RDS.ps1
 
+- name: Copy RDWebClient script
+  win_copy:
+    src: RDWebClient.ps1
+    dest: C:\scripts\RDWebClient.ps1
+
 - name: Set facts
   set_fact:
     ad_session_host_list: "{{groups['meta-is_rds_host_true'] | map('regex_replace', '$', '.') | list}}"
