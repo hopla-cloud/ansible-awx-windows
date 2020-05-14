@@ -16,13 +16,16 @@
   set_fact:
     vol_filer: "{{ vol_attach | dict2items | selectattr('key', 'match', search_filer) | list }}"
     vol_profiles: "{{ vol_attach | dict2items | selectattr('key', 'match', search_profiles) | list }}"
-#    vol_profiles: "{{ vol_attach | dict2items | selectattr('key', 'match', search_profiles) | list | items2dict }}"
 
-- name: Recuperation de l'ID des volumes par types
+- name: Recuperation de l'ID des volumes profiles
+  set_fact:
+    vol_profiles: "{{ vol_profiles[0].value }}"
+  when: vol_profiles
+
+- name: Recuperation de l'ID des volumes filer
   set_fact:
     vol_filer: "{{ vol_filer[0].value }}"
-    vol_profiles: "{{ vol_profiles[0].value }}"
-  when: (vol_filer or vol_profiles)
+  when: vol_filer
 
 - name: Mount filer volumes
   win_shell: |
