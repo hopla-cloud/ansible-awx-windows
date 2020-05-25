@@ -10,7 +10,7 @@
     name: admin
     password_never_expires: yes
     update_password: on_create
-  when: ansible_user_id == "Admin"
+  when: "ansible_user_id == 'Admin'"
 
 - name: Ensure user Administrator is disabled
   win_user:
