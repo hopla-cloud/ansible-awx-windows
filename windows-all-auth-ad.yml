@@ -14,6 +14,15 @@
     - hoplacloud.windows_base
     - hoplacloud.windows_init_disk
 
+- hosts: meta-is_ad_true
+  vars:
+    ansible_connection: winrm
+    ansible_winrm_server_cert_validation: ignore
+    ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
+    ansible_port: "{{openstack.metadata.ssh_pub_port}}"
+  roles:
+    - hoplacloud.windows_ad
+
 - hosts: "*chr1"
   gather_facts: no
   vars:
@@ -33,11 +42,38 @@
   roles:
     - hoplacloud.windows_ad_join
 
-- hosts: "{{ instance_name }}"
+- hosts: meta-is_rds_ad_true
   vars:
     ansible_connection: winrm
     ansible_winrm_server_cert_validation: ignore
     ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
     ansible_port: "{{openstack.metadata.ssh_pub_port}}"
   roles:
-    - hoplacloud.windows_rds_std
+    - hoplacloud.windows_rds_ad
+
+- hosts: meta-is_rds_prf_true
+  vars:
+    ansible_connection: winrm
+    ansible_winrm_server_cert_validation: ignore
+    ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
+    ansible_port: "{{openstack.metadata.ssh_pub_port}}"
+  roles:
+    - hoplacloud.windows_rds_prf
+
+- hosts: meta-is_rds_host_true
+  vars:
+    ansible_connection: winrm
+    ansible_winrm_server_cert_validation: ignore
+    ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
+    ansible_port: "{{openstack.metadata.ssh_pub_port}}"
+  roles:
+    - hoplacloud.windows_rds_host
+
+- hosts: meta-is_rds_gw_true
+  vars:
+    ansible_connection: winrm
+    ansible_winrm_server_cert_validation: ignore
+    ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
+    ansible_port: "{{openstack.metadata.ssh_pub_port}}"
+  roles:
+    - hoplacloud.windows_rds_gw
