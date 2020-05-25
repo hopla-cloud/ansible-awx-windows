@@ -16,7 +16,13 @@
   win_user:
     name: administrator
     account_disabled: yes
-  when: "'meta-is_ad_true' not  in group_names"
+  when: "'EN' in ad_language and 'meta-is_ad_true' not in group_names and ansible_user_id == 'Admin'"
+
+- name: Ensure user Administrator is disabled
+  win_user:
+    name: administrateur
+    account_disabled: yes
+  when: "'FR' in ad_language and 'meta-is_ad_true' not in group_names and ansible_user_id == 'Admin'"
 
 - name: Set windows edition to datacenter
   win_shell: dism /online /set-edition:ServerDatacenter /ProductKey:WMDGN-G9PQG-XVVXX-R3X43-63DFG /AcceptEula /NoRestart
