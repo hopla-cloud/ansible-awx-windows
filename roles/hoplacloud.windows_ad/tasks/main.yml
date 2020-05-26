@@ -108,7 +108,7 @@
 
 - name: Ensure all Organizational Unit is present [2/2]
   win_shell: |
-    $ou_check = (Get-ADOrganizationalUnit -Filter 'Name -like "{{ item }}"').Name
+    $ou_check = (Get-ADOrganizationalUnit -Filter 'Name -like "{{ item }}"' -SearchBase "OU=ORGANIZATION,{{ ad_domain }}").Name
     if ($ou_check -notlike "{{ item }}"){
     New-ADOrganizationalUnit -Name "{{ item }}" -Path "OU=ORGANIZATION,{{ ad_domain }}"
     Write-Host Change
@@ -124,7 +124,7 @@
 
 - name: Ensure Organizational Unit is present [1/2]
   win_shell: |
-    $ou_check = (Get-ADOrganizationalUnit -Filter 'Name -like "RDS"').Name
+    $ou_check = (Get-ADOrganizationalUnit -Filter 'Name -like "RDS"' -SearchBase "OU=ORGANIZATION,{{ ad_domain }}").Name
     if ($ou_check -notlike "RDS"){
     New-ADOrganizationalUnit -Name "RDS" -Path "OU=servers,OU=ORGANIZATION,{{ ad_domain }}"
     Write-Host Change
@@ -134,7 +134,7 @@
 
 - name: Ensure Organizational Unit is present [2/2]
   win_shell: |
-    $ou_check = (Get-ADOrganizationalUnit -Filter 'Name -like "Office 365"').Name
+    $ou_check = (Get-ADOrganizationalUnit -Filter 'Name -like "Office 365"' -SearchBase "OU=ORGANIZATION,{{ ad_domain }}").Name
     if ($ou_check -notlike "Office 365"){
     New-ADOrganizationalUnit -Name "Office 365" -Path "OU=ORGANIZATION,{{ ad_domain }}"
     Write-Host Change
