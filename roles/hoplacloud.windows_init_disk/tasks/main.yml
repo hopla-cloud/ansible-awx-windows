@@ -44,7 +44,7 @@
     $disk=(get-disk | Where-Object SerialNumber -eq "{{vol_profiles}}")
     $disk | Set-Disk -IsOffline $False
     $disk | Initialize-Disk -PartitionStyle GPT
-    $disk | New-Partition -UseMaximumSize -DriveLetter "P" | Format-Volume
+    $disk | New-Partition -UseMaximumSize -DriveLetter "P" | Format-Volume -FileSystem ReFS
      Set-Volume -DriveLetter P -NewFileSystemLabel "Profiles"
     Write-Host Change
   register: vol_profiles_mount
