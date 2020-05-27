@@ -174,7 +174,7 @@
 
 - name: Set GPO options fslogix "_RDS_SERVERS"
   win_shell: |
-    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "CCDLocations" -Type String  -Value "prf_share"
+    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "CCDLocations" -Type String  -Value "{{prf_share}}"
   with_items: "{{ groups['meta-is_rds_prf_true'] }}"
   when: "'meta-is_rds_gw_true' in groups"
 
