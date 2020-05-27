@@ -148,17 +148,38 @@
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "IsDynamic" -Type DWORD  -Value 1
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "RoamSearch" -Type DWORD  -Value 2
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "SizeInMBs" -Type DWORD  -Value 10240
-    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "VHDLocations" -Type String  -Value "\\{{ groups['meta-is_rds_gw_true'] }}\profiles$"
+
+- name: Set profiles server list
+  set_fact:
+    prf_share: "type=smb,connectionString=\\{{item}}\profiles$"
+  when: "groups['meta-is_rds_prf_true'] | length < 2"
+
+- name: Set profiles servers list HA [1/3]
+  set_fact:
+    prf_share: ""
+  with_items: "{{ groups['meta-is_rds_prf_true'] }}"
+  when: "groups['meta-is_rds_prf_true'] | length >= 2"
+
+- name: Set profiles servers list HA [2/3]
+  set_fact:
+    prf_share: "{{prf_share}} + type=smb,connectionString=\\{{item}}\profiles$"
+  with_items: "{{ groups['meta-is_rds_prf_true'] }}"
+  when: "groups['meta-is_rds_prf_true'] | length >= 2"
+
+- name: Set profiles servers list HA [3/3]
+  set_fact:
+    prf_share: "{{prf_share | replace('profiles$type','profiles$;type') }}"
+  when: "groups['meta-is_rds_prf_true'] | length >= 2"
 
 - name: Set GPO options fslogix "_RDS_SERVERS"
   win_shell: |
-    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "VHDLocations" -Type String  -Value "\\{{item}}\profiles$"
+    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "CCDLocations" -Type String  -Value "prf_share"
   with_items: "{{ groups['meta-is_rds_prf_true'] }}"
   when: "'meta-is_rds_gw_true' in groups"
 
 - name: Set GPO options fslogix "_RDS_SERVERS" RDS STD
   win_shell: |
-    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "VHDLocations" -Type String  -Value "\\{{ansible_hostname }}\profiles$"
+    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "CCDLocations" -Type String  -Value "type=smb,connectionString=\\{{ansible_hostname }}\profiles$"
   with_items: "{{ groups['meta-is_rds_std_true'] }}"
   when: "'meta-is_rds_std_true' in groups"
 
