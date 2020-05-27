@@ -151,19 +151,21 @@
 
 - name: Set profiles server list
   set_fact:
-    prf_share: "type=smb,connectionString=\\\\{{item}}\\profiles$}}"
+    prf_share: "type=smb,connectionString=\\\\{{item}}\\profiles$"
   with_items: "{{ groups['meta-is_rds_prf_true'] }}"
   when: "groups['meta-is_rds_prf_true'] | length < 2"
 
 - name: Set profiles servers list HA [1/3]
   set_fact:
     prf_share: ""
+    prf_pre: "type=smb,connectionString=\\\\"
+    prf_post: "\\profiles$"
   with_items: "{{ groups['meta-is_rds_prf_true'] }}"
   when: "groups['meta-is_rds_prf_true'] | length >= 2"
 
 - name: Set profiles servers list HA [2/3]
   set_fact:
-    prf_share: "{{prf_share + type=smb,connectionString=\\\\item\\profiles$}}"
+    prf_share: "{{prf_share + prf_pre item prf_post}}"
   with_items: "{{ groups['meta-is_rds_prf_true'] }}"
   when: "groups['meta-is_rds_prf_true'] | length >= 2"
 
