@@ -76,6 +76,10 @@
     data: 4
     type: string
 
+- name: Create directory scripts
+  win_file:
+    path: C:\scripts
+    state: directory
 #- name: Install all security, critical, and rollup updates without a scheduled task and reboot if needed. Take a coffee !
 #  win_updates:
 #    reboot: yes
