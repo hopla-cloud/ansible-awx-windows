@@ -101,7 +101,6 @@
       win_reboot:
       when: domain_state_rds.reboot_required
 
-
     - name: Ensure DNS register
       win_shell: ipconfig /registerdns
   when: "'meta-is_rds_std_true' in group_names or 'meta-is_rds_host_true' in group_names and 'meta-is_ad_true' in groups"

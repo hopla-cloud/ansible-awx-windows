@@ -107,12 +107,6 @@
     src: TeamViewerQS.exe
     dest: C:\Users\Public\Desktop\Support iilyo.exe
 
-- name: Copy FR CAB
-  win_copy:
-    src: Microsoft-Windows-Server-Language-Pack_x64_fr-fr.cab
-    dest: C:\scripts\Microsoft-Windows-Server-Language-Pack_x64_fr-fr.cab
-  register: copy_fr
-
 - name: Install adobereader
   win_chocolatey:
     name: adobereader
