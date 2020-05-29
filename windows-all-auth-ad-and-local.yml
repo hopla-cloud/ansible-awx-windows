@@ -1,0 +1,90 @@
+---
+- hosts: localhost
+  gather_facts: no
+  roles:
+    - hoplacloud.windows_get_password
+    - hoplacloud.windows_get_disk
+
+- hosts: "{{ instance_name }}"
+  vars:
+    ansible_connection: winrm
+    ansible_winrm_server_cert_validation: ignore
+    ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
+    ansible_port: "{{openstack.metadata.ssh_pub_port}}"
+    ansible_user: Admin
+    ansible_password: "{{hostvars['localhost']['windows_passwords'][inventory_hostname]}}"
+  roles:
+    - hoplacloud.windows_base
+    - hoplacloud.windows_init_disk
+
+- hosts: meta-is_ad_true
+  vars:
+    ansible_connection: winrm
+    ansible_winrm_server_cert_validation: ignore
+    ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
+    ansible_port: "{{openstack.metadata.ssh_pub_port}}"
+  roles:
+    - hoplacloud.windows_ad
+
+- hosts: "*chr1"
+  gather_facts: no
+  vars:
+    ansible_connection: network_cli
+    ansible_network_os: routeros
+    ansible_user: admin
+    ansible_password: "{{mikrotik_admin_password}}"
+  roles:
+    - hoplacloud.windows_ad_mikrotik_dns
+
+- hosts: "{{ instance_name }}"
+  vars:
+    ansible_connection: winrm
+    ansible_winrm_server_cert_validation: ignore
+    ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
+    ansible_port: "{{openstack.metadata.ssh_pub_port}}"
+    ansible_user: Admin
+    ansible_password: "{{hostvars['localhost']['windows_passwords'][inventory_hostname]}}"
+  roles:
+    - hoplacloud.windows_ad_join
+
+- hosts: meta-is_rds_ad_true
+  vars:
+    ansible_connection: winrm
+    ansible_winrm_server_cert_validation: ignore
+    ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
+    ansible_port: "{{openstack.metadata.ssh_pub_port}}"
+  roles:
+    - hoplacloud.windows_rds_ad
+
+- hosts: meta-is_rds_prf_true
+  vars:
+    ansible_connection: winrm
+    ansible_winrm_server_cert_validation: ignore
+    ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
+    ansible_port: "{{openstack.metadata.ssh_pub_port}}"
+    ansible_user: Admin
+    ansible_password: "{{hostvars['localhost']['windows_passwords'][inventory_hostname]}}"
+  roles:
+    - hoplacloud.windows_rds_prf
+
+- hosts: meta-is_rds_host_true
+  vars:
+    ansible_connection: winrm
+    ansible_winrm_server_cert_validation: ignore
+    ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
+    ansible_port: "{{openstack.metadata.ssh_pub_port}}"
+    ansible_user: Admin
+    ansible_password: "{{hostvars['localhost']['windows_passwords'][inventory_hostname]}}"
+  roles:
+    - hoplacloud.windows_rds_host
+
+- hosts: meta-is_rds_gw_true
+  vars:
+    ansible_connection: winrm
+    ansible_winrm_server_cert_validation: ignore
+    ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
+    ansible_port: "{{openstack.metadata.ssh_pub_port}}"
+    ansible_user: Admin
+    ansible_password: "{{hostvars['localhost']['windows_passwords'][inventory_hostname]}}"
+  roles:
+    - hoplacloud.windows_rds_gw
