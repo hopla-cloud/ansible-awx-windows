@@ -31,7 +31,7 @@
         domain_admin_password: "{{ administrator_password }}"
         domain_ou_path: "OU=Servers,OU=ORGANIZATION,{{ ad_domain }}"
         state: domain
-      register: domain_state_en
+      register: domain_state
       when: "'EN' in ad_language"
 
     - name: Join domain FR
@@ -41,16 +41,12 @@
         domain_admin_password: "{{ administrator_password }}"
         domain_ou_path: "OU=Servers,OU=ORGANIZATION,{{ ad_domain }}"
         state: domain
-      register: domain_state_fr
+      register: domain_state
       when: "'FR' in ad_language"
 
     - name: Reboot if required
       win_reboot:
-      when: domain_state_en and domain_state_en.reboot_required
-
-    - name: Reboot if required
-      win_reboot:
-      when: domain_state_fr and domain_state_fr.reboot_required
+      when: domain_state.reboot_required
 
     - name: Ensure DNS register
       win_shell: ipconfig /registerdns
@@ -89,7 +85,7 @@
         domain_admin_user: "{{ad_netbios_name}}\\administrator"
         domain_admin_password: "{{ administrator_password }}"
         state: domain
-      register: domain_state_rds_en
+      register: domain_state_rds
       when: "'EN' in ad_language"
 
     - name: Join domain RDS FR
@@ -98,16 +94,13 @@
         domain_admin_user: "{{ad_netbios_name}}\\administrateur"
         domain_admin_password: "{{ administrator_password }}"
         state: domain
-      register: domain_state_rds_fr
+      register: domain_state_rds
       when: "'FR' in ad_language"
 
     - name: Reboot if required
       win_reboot:
-      when: domain_state_rds_en and domain_state_rds_fr.reboot_required
+      when: domain_state_rds.reboot_required
 
-    - name: Reboot if required
-      win_reboot:
-      when: domain_state_rds_fr and domain_state_rds_fr.reboot_required
 
     - name: Ensure DNS register
       win_shell: ipconfig /registerdns
