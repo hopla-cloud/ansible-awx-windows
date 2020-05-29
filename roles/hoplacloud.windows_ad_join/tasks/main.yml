@@ -46,11 +46,11 @@
 
     - name: Reboot if required
       win_reboot:
-      when: domain_state_rds_en and domain_state_rds_en.reboot_required
+      when: domain_state_en and domain_state_rds_en.reboot_required
 
     - name: Reboot if required
       win_reboot:
-      when: domain_state_rds_fr and domain_state_rds_fr.reboot_required
+      when: domain_state_fr and domain_state_rds_fr.reboot_required
 
     - name: Ensure DNS register
       win_shell: ipconfig /registerdns
