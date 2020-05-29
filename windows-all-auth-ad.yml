@@ -7,6 +7,7 @@
 - hosts: "{{ instance_name }}"
   vars:
     ansible_connection: winrm
+    ansible_winrm_transport: ntlm
     ansible_winrm_server_cert_validation: ignore
     ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
     ansible_port: "{{openstack.metadata.ssh_pub_port}}"
@@ -17,6 +18,7 @@
 - hosts: meta-is_ad_true
   vars:
     ansible_connection: winrm
+    ansible_winrm_transport: ntlm
     ansible_winrm_server_cert_validation: ignore
     ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
     ansible_port: "{{openstack.metadata.ssh_pub_port}}"
@@ -36,6 +38,7 @@
 - hosts: "{{ instance_name }}"
   vars:
     ansible_connection: winrm
+    ansible_winrm_transport: ntlm
     ansible_winrm_server_cert_validation: ignore
     ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
     ansible_port: "{{openstack.metadata.ssh_pub_port}}"
@@ -45,6 +48,7 @@
 - hosts: meta-is_rds_ad_true
   vars:
     ansible_connection: winrm
+    ansible_winrm_transport: ntlm
     ansible_winrm_server_cert_validation: ignore
     ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
     ansible_port: "{{openstack.metadata.ssh_pub_port}}"
@@ -54,6 +58,7 @@
 - hosts: meta-is_rds_prf_true
   vars:
     ansible_connection: winrm
+    ansible_winrm_transport: ntlm
     ansible_winrm_server_cert_validation: ignore
     ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
     ansible_port: "{{openstack.metadata.ssh_pub_port}}"
@@ -63,6 +68,7 @@
 - hosts: meta-is_rds_host_true
   vars:
     ansible_connection: winrm
+    ansible_winrm_transport: ntlm
     ansible_winrm_server_cert_validation: ignore
     ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
     ansible_port: "{{openstack.metadata.ssh_pub_port}}"
@@ -72,6 +78,7 @@
 - hosts: meta-is_rds_gw_true
   vars:
     ansible_connection: winrm
+    ansible_winrm_transport: ntlm
     ansible_winrm_server_cert_validation: ignore
     ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
     ansible_port: "{{openstack.metadata.ssh_pub_port}}"
