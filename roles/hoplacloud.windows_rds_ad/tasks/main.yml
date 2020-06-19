@@ -198,14 +198,14 @@
 
 - name: Set GPO options "_RDS_USERS_EN"
   win_shell: |
-    Set-GPRegistryValue -Name "_RDS_USERS_EN" -Key "HKCU\Keyboard Layout\Preload" -ValueName "1" -Type String  -Value "0x0409"
+    Set-GPRegistryValue -Name "_RDS_USERS_EN" -Key "HKCU\Keyboard Layout\Preload" -ValueName "1" -Type String  -Value "00000409"
     Set-GPRegistryValue -Name "_RDS_USERS_EN" -Key "HKCU\Software\Policies\Microsoft\Control Panel\Desktop" -ValueName "PreferredUILanguages" -Type String  -Value "en-US"
     set-GPPermission -Name _RDS_USERS_EN -PermissionLevel GpoApply -TargetName GG_USR_EN -TargetType Group -Replace
     set-GPPermission -Name _RDS_USERS_EN -PermissionLevel GpoRead -TargetName "Authenticated Users" -TargetType Group -Replace -Confirm:$false
 
 - name: Set GPO options "_RDS_USERS_FR"
   win_shell: |
-    Set-GPRegistryValue -Name "_RDS_USERS_FR" -Key "HKCU\Keyboard Layout\Preload" -ValueName "1" -Type String  -Value "0x040c"
+    Set-GPRegistryValue -Name "_RDS_USERS_FR" -Key "HKCU\Keyboard Layout\Preload" -ValueName "1" -Type String  -Value "0000040c"
     Set-GPRegistryValue -Name "_RDS_USERS_FR" -Key "HKCU\Software\Policies\Microsoft\Control Panel\Desktop" -ValueName "PreferredUILanguages" -Type String  -Value "fr-FR"
     set-GPPermission -Name _RDS_USERS_FR -PermissionLevel GpoApply -TargetName GG_USR_FR -TargetType Group -Replace
     set-GPPermission -Name _RDS_USERS_FR -PermissionLevel GpoRead -TargetName "Authenticated Users" -TargetType Group -Replace -Confirm:$false
