@@ -138,6 +138,7 @@
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "AdobeAAMUpdater-1.0" -Disable
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "AdobeGCInvoker-1.0" -Disable
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "MmsMonitor.exe" -Disable
+    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "Acronis Scheduler2 Service" -Disable
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Run" -ValueName "SunJavaUpdateSched" -Disable
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Run" -ValueName "Acrobat Assistant 8.0" -Disable
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Run" -ValueName "AcronisTibMounterMonitor" -Disable
