@@ -17,7 +17,7 @@
     - hoplacloud.windows_base
     - hoplacloud.windows_init_disk
 
-- hosts: meta-is_ad_true:&{{ instance_name }}
+- hosts: meta-is_ad_true
   vars:
     ansible_connection: winrm
     ansible_winrm_transport: ntlm
@@ -48,7 +48,7 @@
   roles:
     - hoplacloud.windows_ad_join
 
-- hosts: meta-is_rds_ad_true:&{{ instance_name }}
+- hosts: meta-is_rds_ad_true
   vars:
     ansible_connection: winrm
     ansible_winrm_transport: ntlm
@@ -58,7 +58,7 @@
   roles:
     - hoplacloud.windows_rds_ad
 
-- hosts: meta-is_rds_prf_true:&{{ instance_name }}
+- hosts: meta-is_rds_prf_true
   vars:
     ansible_connection: winrm
     ansible_winrm_server_cert_validation: ignore
@@ -69,7 +69,7 @@
   roles:
     - hoplacloud.windows_rds_prf
 
-- hosts: meta-is_rds_host_true:&{{ instance_name }}
+- hosts: meta-is_rds_host_true
   vars:
     ansible_connection: winrm
     ansible_winrm_server_cert_validation: ignore
@@ -80,7 +80,7 @@
   roles:
     - hoplacloud.windows_rds_host
 
-- hosts: meta-is_rds_gw_true:&{{ instance_name }}
+- hosts: meta-is_rds_gw_true
   vars:
     ansible_connection: winrm
     ansible_winrm_server_cert_validation: ignore
