@@ -23,6 +23,13 @@
     reboot_timeout: 3600
   when: install_rds_features.changed
 
+- name: Set service WSearch startup mode to auto and ensure it is started
+  win_service:
+    name: WSearch
+    start_mode: auto
+    state: started
+    desktop_interact: yes
+
 - name: Create directory scripts
   win_file:
     path: C:\scripts
