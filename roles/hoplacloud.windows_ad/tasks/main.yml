@@ -169,10 +169,6 @@
     Set-GPRegistryValue -Name "Hopla.cloud" -Key "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile" -ValueName "EnableFirewall" -Type DWORD  -Value 0
     Set-GPRegistryValue -Name "Hopla.cloud" -Key "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile" -ValueName "EnableFirewall" -Type DWORD  -Value 0
 
-- name: GPO Hopla.cloud windows Admin approval
-  win_shell: |
-    Set-GPRegistryValue -Name "Hopla.cloud" -Key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -ValueName "FilterAdministratorToken" -Type DWORD  -Value 1
-
 - name: Ensure GPO Hopla.cloud is linked
   win_shell: |
     [xml]$gpoReport = Get-GPOReport -Name Hopla.cloud -ReportType xml
