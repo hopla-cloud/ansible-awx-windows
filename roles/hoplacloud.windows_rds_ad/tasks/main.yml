@@ -153,7 +153,7 @@
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "ClearCacheOnLogoff" -Type DWORD  -Value 1
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Apps " -ValueName "RoamSearch " -Type DWORD  -Value 2
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "RoamSearch " -Type DWORD  -Value 2
-    Set-GPRegistryValue -Name "Hopla.cloud" -Key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -ValueName "FilterAdministratorToken" -Type DWORD  -Value 1
+    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -ValueName "FilterAdministratorToken" -Type DWORD  -Value 1
 
 - name: Set profiles server list
   set_fact:
