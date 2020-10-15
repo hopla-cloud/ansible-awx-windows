@@ -89,7 +89,7 @@
         domain_admin_user: "{{ad_netbios_name}}\\administrator"
         domain_admin_password: "{{ administrator_password }}"
         state: domain
-      register: domain_state_rds
+      register: domain_state_rds_EN
       when: "'EN' in ad_language"
 
     - name: Join domain RDS FR
@@ -98,12 +98,17 @@
         domain_admin_user: "{{ad_netbios_name}}\\administrateur"
         domain_admin_password: "{{ administrator_password }}"
         state: domain
-      register: domain_state_rds
+      register: domain_state_rds_FR
       when: "'FR' in ad_language"
 
-    - name: Reboot if required
+    - name: Reboot if required (RDS EN)
       win_reboot:
-      when: domain_state_rds.reboot_required
+      when: "'EN' in ad_language and domain_state_rds_EN.reboot_required"
+
+    - name: Reboot if required (RDS FR)
+      win_reboot:
+      when: "'FR' in ad_language and domain_state_rds_FR.reboot_required"
+
 
     - name: Ensure DNS register
       win_shell: ipconfig /registerdns
