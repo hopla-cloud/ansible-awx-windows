@@ -31,7 +31,7 @@
         domain_admin_password: "{{ administrator_password }}"
         domain_ou_path: "OU=Servers,OU=ORGANIZATION,{{ ad_domain }}"
         state: domain
-      register: domain_state
+      register: domain_state_EN
       when: "'EN' in ad_language"
 
     - name: Join domain FR
@@ -41,12 +41,16 @@
         domain_admin_password: "{{ administrator_password }}"
         domain_ou_path: "OU=Servers,OU=ORGANIZATION,{{ ad_domain }}"
         state: domain
-      register: domain_state
+      register: domain_state_FR
       when: "'FR' in ad_language"
 
     - name: Reboot if required
       win_reboot:
-      when: domain_state.reboot_required
+      when: domain_state_EN.reboot_required and 'EN' in ad_language
+
+    - name: Reboot if required
+      win_reboot:
+      when: domain_state_FR.reboot_required and 'FR' in ad_language
 
     - name: Ensure DNS register
       win_shell: ipconfig /registerdns
