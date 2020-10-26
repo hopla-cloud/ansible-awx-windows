@@ -154,7 +154,7 @@
 
 - name: GPO Hopla.cloud windows update
   win_shell: |
-    $gpo_check = (get-GPRegistryValue -Name "Hopla.cloud" -Key "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -ValueName "ActiveHoursEnd" -ValueName "EnableFirewall").HasValue
+    $gpo_check = (get-GPRegistryValue -Name "Hopla.cloud" -Key "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -ValueName "ActiveHoursEnd").HasValue
     if ($gpo_check -eq $false){
     Set-GPRegistryValue -Name "Hopla.cloud" -Key "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -ValueName "SetActiveHours" -Type DWORD -Value 1
     Set-GPRegistryValue -Name "Hopla.cloud" -Key "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -ValueName "ActiveHoursStart" -Type DWORD -Value 6
