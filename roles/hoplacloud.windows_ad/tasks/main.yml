@@ -154,25 +154,43 @@
 
 - name: GPO Hopla.cloud windows update
   win_shell: |
+    $gpo_check = (get-GPRegistryValue -Name "Hopla.cloud" -Key "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -ValueName "ActiveHoursEnd" -ValueName "EnableFirewall").HasValue
+    if ($gpo_check -eq $false){
     Set-GPRegistryValue -Name "Hopla.cloud" -Key "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -ValueName "SetActiveHours" -Type DWORD -Value 1
     Set-GPRegistryValue -Name "Hopla.cloud" -Key "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -ValueName "ActiveHoursStart" -Type DWORD -Value 6
     Set-GPRegistryValue -Name "Hopla.cloud" -Key "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -ValueName "ActiveHoursEnd" -Type DWORD -Value 22
+    Write-Host Change
+    }
+  register: ad_gpo_update_create
+  changed_when: ("Change" in ad_gpo_update_create.stdout)
 
 - name: GPO Hopla.cloud windows desktop
   win_shell: |
+    $gpo_check = (get-GPRegistryValue -Name "Hopla.cloud" -Key "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" -ValueName "WallpaperStyle").HasValue
+    if ($gpo_check -eq $false){
     Set-GPRegistryValue -Name "Hopla.cloud" -Key "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" -ValueName "Wallpaper" -Type string  -Value "C:\Program Files\hopla.cloud\Desktop-hopla.cloud.png"
     Set-GPRegistryValue -Name "Hopla.cloud" -Key "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" -ValueName "WallpaperStyle" -Type string -Value "4"
+    Write-Host Change
+    }
+  register: ad_gpo_desktop_create
+  changed_when: ("Change" in ad_gpo_desktop_create.stdout)
 
 - name: GPO Hopla.cloud windows firewall
   win_shell: |
+    $gpo_check = (get-GPRegistryValue -Name "Hopla.cloud" -Key "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile" -ValueName "EnableFirewall").HasValue
+    if ($gpo_check -eq $false){
     Set-GPRegistryValue -Name "Hopla.cloud" -Key "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile" -ValueName "EnableFirewall" -Type DWORD  -Value 0
     Set-GPRegistryValue -Name "Hopla.cloud" -Key "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile" -ValueName "EnableFirewall" -Type DWORD  -Value 0
     Set-GPRegistryValue -Name "Hopla.cloud" -Key "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile" -ValueName "EnableFirewall" -Type DWORD  -Value 0
+    Write-Host Change
+    }
+  register: ad_gpo_fw_create
+  changed_when: ("Change" in ad_gpo_fw_create.stdout)
 
 - name: Ensure GPO Hopla.cloud is linked
   win_shell: |
     [xml]$gpoReport = Get-GPOReport -Name Hopla.cloud -ReportType xml
-    if ($gpoReport.GPO.LinksTo.Enabled -notlike "true"){
+    if ($gpoReport.GPO.LinksTo.Count -notlike "3"){
     new-GPLink -Name "Hopla.cloud" -Target "OU=Servers,OU=ORGANIZATION,{{ ad_domain }}" -LinkEnabled Yes
     new-GPLink -Name "Hopla.cloud" -Target "OU=Domain Controllers,{{ ad_domain }}" -LinkEnabled Yes
     new-GPLink -Name "Hopla.cloud" -Target "OU=Users,OU=ORGANIZATION,{{ ad_domain }}" -LinkEnabled No
