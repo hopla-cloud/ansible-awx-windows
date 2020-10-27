@@ -238,7 +238,7 @@
     state: present
     path: "OU=Admins,OU=ORGANIZATION,{{ ad_domain }}"
     groups: GG_ADM_ALL
-  when: ad_siilyo_password is defined
+  when: ad_siilyo_password != ""
 
 - name: Copy ADMX Google Files [1/4]
   win_copy:
