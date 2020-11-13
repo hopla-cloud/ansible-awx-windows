@@ -51,6 +51,15 @@
 - hosts: meta-is_rds_ad_true
   vars:
     ansible_connection: winrm
+    ansible_winrm_server_cert_validation: ignore
+    ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
+    ansible_port: "{{openstack.metadata.ssh_pub_port}}"
+  roles:
+    - hoplacloud.windows_ad_join
+
+- hosts: meta-is_rds_ad_true
+  vars:
+    ansible_connection: winrm
     ansible_winrm_transport: ntlm
     ansible_winrm_server_cert_validation: ignore
     ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
@@ -58,7 +67,7 @@
   roles:
     - hoplacloud.windows_rds_ad
 
-- hosts: meta-is_rds_prf_true
+- hosts: meta-is_rds_prf_true:!meta-is_rds_ad_true
   vars:
     ansible_connection: winrm
     ansible_winrm_server_cert_validation: ignore
@@ -66,6 +75,15 @@
     ansible_port: "{{openstack.metadata.ssh_pub_port}}"
     ansible_user: Admin
     ansible_password: "{{hostvars['localhost']['windows_passwords'][inventory_hostname]}}"
+  roles:
+    - hoplacloud.windows_rds_prf
+
+- hosts: meta-is_rds_prf_true:&meta-is_rds_ad_true
+  vars:
+    ansible_connection: winrm
+    ansible_winrm_server_cert_validation: ignore
+    ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
+    ansible_port: "{{openstack.metadata.ssh_pub_port}}"
   roles:
     - hoplacloud.windows_rds_prf
 
@@ -80,7 +98,7 @@
   roles:
     - hoplacloud.windows_rds_host
 
-- hosts: meta-is_rds_gw_true
+- hosts: meta-is_rds_gw_true:!meta-is_rds_ad_true
   vars:
     ansible_connection: winrm
     ansible_winrm_server_cert_validation: ignore
@@ -88,5 +106,14 @@
     ansible_port: "{{openstack.metadata.ssh_pub_port}}"
     ansible_user: Admin
     ansible_password: "{{hostvars['localhost']['windows_passwords'][inventory_hostname]}}"
+  roles:
+    - hoplacloud.windows_rds_gw
+
+- hosts: meta-is_rds_gw_true:&meta-is_rds_ad_true
+  vars:
+    ansible_connection: winrm
+    ansible_winrm_server_cert_validation: ignore
+    ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
+    ansible_port: "{{openstack.metadata.ssh_pub_port}}"
   roles:
     - hoplacloud.windows_rds_gw
