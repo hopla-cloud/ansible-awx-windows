@@ -152,6 +152,7 @@
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "RoamSearch" -Type DWORD  -Value 2
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\Microsoft\Windows Search" -ValueName "EnablePerUserCatalog" -Type DWORD  -Value 0
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "SizeInMBs" -Type DWORD  -Value 10240
+    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "CcdMaxCacheSizeInMBs" -Type DWORD  -Value 200
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "VolumeType" -Type String  -Value "vhdx"
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "ClearCacheOnLogoff" -Type DWORD  -Value 1
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -ValueName "FilterAdministratorToken" -Type DWORD  -Value 1
