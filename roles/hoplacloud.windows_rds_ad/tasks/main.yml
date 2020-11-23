@@ -28,6 +28,14 @@
     scope: global
     path: "OU=Security groups,OU=ORGANIZATION,{{ ad_domain }}"
 
+- name: Move computer OU RDS HOST
+  win_domain_computer:
+    name: "{{item}}"
+    dns_hostname: "{{item}}.{{ad_domain_name}}"
+    ou: "OU=RDS,OU=Servers,OU=ORGANIZATION,{{ ad_domain }}"
+  with_items: "{{ groups['meta-is_rds_host_true'] }}"
+  when: "'meta-is_rds_host_true' in groups"
+
 - name: Create directory scripts
   win_file:
     path: C:\scripts
@@ -185,7 +193,6 @@
 - name: Set GPO options fslogix "_RDS_SERVERS"
   win_shell: |
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "CCDLocations" -Type String  -Value "{{prf_share}}"
-  with_items: "{{ groups['meta-is_rds_prf_true'] }}"
   when: "'meta-is_rds_gw_true' in groups"
 
 - name: Set GPO options fslogix "_RDS_SERVERS" RDS STD
@@ -201,6 +208,10 @@
     Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" -ValueName "CCXProcess" -Disable
     Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "com.squirrel.Teams.Teams" -Disable
     Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\Software\Microsoft\Office\16.0\Common\Identity" -ValueName "DisableADALatopWAMOverride" -Type DWORD  -Value 1
+    Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\Software\policies\Microsoft\Office\16.0\outlook\cached mode" -ValueName "syncwindowsetting" -Type DWORD  -Value 3
+    Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\Software\policies\Microsoft\Office\16.0\outlook\cached mode" -ValueName "syncwindowsettingdays" -Type DWORD  -Value 0
+    Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\Software\policies\Microsoft\Office\16.0\outlook\cached mode" -ValueName "downloadsharedfolders" -Type DWORD  -Value 0
+    Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\Software\policies\Microsoft\Office\16.0\outlook\cached mode" -ValueName "enable" -Type DWORD  -Value 1
 
 - name: Set GPO options "_RDS_USERS_EN"
   win_shell: |
