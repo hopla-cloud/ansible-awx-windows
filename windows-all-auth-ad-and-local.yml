@@ -51,15 +51,6 @@
 - hosts: meta-is_rds_ad_true
   vars:
     ansible_connection: winrm
-    ansible_winrm_server_cert_validation: ignore
-    ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
-    ansible_port: "{{openstack.metadata.ssh_pub_port}}"
-  roles:
-    - hoplacloud.windows_ad_join
-
-- hosts: meta-is_rds_ad_true
-  vars:
-    ansible_connection: winrm
     ansible_winrm_transport: ntlm
     ansible_winrm_server_cert_validation: ignore
     ansible_host: "{{openstack.metadata.ssh_pub_ip}}"
