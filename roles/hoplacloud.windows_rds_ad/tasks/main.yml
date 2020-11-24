@@ -195,12 +195,6 @@
     Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "CCDLocations" -Type String  -Value "{{prf_share}}"
   when: "'meta-is_rds_gw_true' in groups"
 
-- name: Set GPO options fslogix "_RDS_SERVERS" RDS STD
-  win_shell: |
-    Set-GPRegistryValue -Name "_RDS_SERVERS" -Key "HKLM\SOFTWARE\FSLogix\Profiles" -ValueName "CCDLocations" -Type String  -Value "type=smb,connectionString=\\{{ansible_hostname }}\profiles$"
-  with_items: "{{ groups['meta-is_rds_std_true'] }}"
-  when: "'meta-is_rds_std_true' in groups"
-
 - name: Set GPO options "_RDS_USERS"
   win_shell: |
     Set-GPRegistryValue -Name "_RDS_USERS" -Key "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -ValueName "Adobe Acrobat Synchronizer" -Disable

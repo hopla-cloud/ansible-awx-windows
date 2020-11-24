@@ -54,14 +54,14 @@
 
     - name: Ensure DNS register
       win_shell: ipconfig /registerdns
-  when: "'meta-is_rds_std_true' not in group_names and 'meta-is_ad_true' not in group_names and 'meta-is_rds_host_true' not in group_names and 'meta-is_ad_true' in groups"
+  when: "'meta-is_ad_true' not in group_names and 'meta-is_rds_host_true' not in group_names and 'meta-is_ad_true' in groups"
 
 - name: Move computer OU
   win_domain_computer:
     name: "{{item}}"
     dns_hostname: "{{item}}.{{ad_domain_name}}"
     ou: "OU=Servers,OU=ORGANIZATION,{{ ad_domain }}"
-  loop: "{{ query('inventory_hostnames', 'meta-is_windows_true:!meta-is_rds_std_true:!meta-is_rds_host_true:!meta-is_ad_true:!meta-is_ad_sec_true') }}"
+  loop: "{{ query('inventory_hostnames', 'meta-is_windows_true:!meta-is_rds_host_true:!meta-is_ad_true:!meta-is_ad_sec_true') }}"
   when: "'meta-is_ad_true' in group_names"
 
 - name: Ensure the server is present in the active directory (RDS servers)
@@ -111,4 +111,4 @@
 
     - name: Ensure DNS register
       win_shell: ipconfig /registerdns
-  when: "'meta-is_rds_std_true' in group_names or 'meta-is_rds_host_true' in group_names and 'meta-is_ad_true' not in group_names and 'meta-is_ad_true' in groups"
+  when: "'meta-is_rds_host_true' in group_names and 'meta-is_ad_true' not in group_names and 'meta-is_ad_true' in groups"
