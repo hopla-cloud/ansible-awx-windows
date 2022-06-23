@@ -5,3 +5,4 @@ collections:
 
 - name: community.routeros
 - name: ansible.netcommon
+- name: chocolatey.chocolatey
