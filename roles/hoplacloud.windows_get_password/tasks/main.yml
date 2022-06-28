@@ -8,7 +8,7 @@
       cpt_2: 0
 
 - set_fact:
-      windows_instances_list_name: "{{ windows_instances_list_name }} + ['{{item}}']"
+      windows_instances_list_name: "{{ windows_instances_list_name }} + [hostvars[item]['openstack']['name']]"
       windows_instances_list_id: "{{windows_instances_list_id + [hostvars[item]['openstack']['id']]}}"
   with_items: "{{ groups['meta-is_windows_true'] }}"
 
@@ -42,7 +42,7 @@
   with_items: "{{ windows_instances_password_list }}"
   changed_when: false
 
-- name: Copy private key
+- name: remove private key
   shell: rm -f private_key.pem
   changed_when: false
 
