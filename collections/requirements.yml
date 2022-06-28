@@ -3,6 +3,10 @@ collections:
   type: galaxy
   version: 1.10.0
 
+- name: community.general
+  type: galaxy
+  version: 4.0.2
+
 - name: community.routeros
 - name: ansible.netcommon
 - name: chocolatey.chocolatey
