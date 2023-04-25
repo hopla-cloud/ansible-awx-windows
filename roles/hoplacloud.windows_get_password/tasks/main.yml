@@ -14,13 +14,14 @@
 
 - name: Get auth_token
   os_auth:
+  register: os_auth
 
 - name: Get instance password
   uri:
     url: "https://fr-east-1.pub.hopla.cloud:13774/v2.1/servers/{{ item }}/os-server-password"
     headers:
       Content-Type: "application/json"
-      X-Auth-Token: "{{ auth_token }}"
+      X-Auth-Token: "{{ os_auth.auth_token }}"
   register: password_crypt
   with_items: "{{ windows_instances_list_id }}"
 
