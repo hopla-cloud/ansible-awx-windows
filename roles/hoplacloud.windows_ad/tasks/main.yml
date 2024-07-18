@@ -91,8 +91,8 @@
 
 - name: Change DNS Forwarders
   win_shell: |
-    Set-DnsServerForwarder -IPAddress "208.67.222.222"
-    add-DnsServerForwarder -IPAddress "208.67.222.220"
+    Set-DnsServerForwarder -IPAddress "8.8.8.8"
+    add-DnsServerForwarder -IPAddress "8.8.4.4"
   when: reboot_create_domaine.changed
   changed_when: false
 
