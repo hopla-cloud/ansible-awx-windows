@@ -17,7 +17,7 @@
     state: directory
   when: ("OK" in ad_volume_d.stdout)
 
-- name: Add profiles share EN
+- name: Add profiles share
   win_share:
     name: profiles$
     description: Users disks profiles share
@@ -26,18 +26,7 @@
     full: GG_ADM_ALL
     read: Everyone
     change: Everyone
-  when: ("OK" in ad_volume_d.stdout and "EN" in ad_language)
-
-- name: Add profiles share FR
-  win_share:
-    name: profiles$
-    description: Users disks profiles share
-    path: P:\profiles\
-    list: no
-    full: GG_ADM_ALL
-    read: "Tout le monde"
-    change: "Tout le monde"
-  when: ("OK" in ad_volume_d.stdout and "FR" in ad_language)
+  when: ("OK" in ad_volume_d.stdout)
 
 - name: Disable inherited ACE's profiles folder
   win_acl_inheritance:
@@ -65,7 +54,7 @@
     inherit: ContainerInherit, ObjectInherit
   when: ("OK" in ad_volume_d.stdout)
 
-- name: Add security profiles folder EN
+- name: Add security profiles folder
   win_acl:
     path: P:\profiles
     user: CREATOR OWNER
@@ -74,15 +63,4 @@
     state: present
     inherit: ContainerInherit, ObjectInherit
     propagation: 'InheritOnly'
-  when: ("OK" in ad_volume_d.stdout and "EN" in ad_language)
-
-- name: Add security profiles folder FR
-  win_acl:
-    path: P:\profiles
-    user: "CREATEUR PROPRIETAIRE"
-    rights: FullControl
-    type: allow
-    state: present
-    inherit: ContainerInherit, ObjectInherit
-    propagation: 'InheritOnly'
-  when: ("OK" in ad_volume_d.stdout and "FR" in ad_language)
+  when: ("OK" in ad_volume_d.stdout)
