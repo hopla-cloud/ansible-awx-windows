@@ -8,7 +8,7 @@
 
 - name: Récupération de l'adresse ip du serveur Windows Active Directory
   set_fact:
-    windows_instances_ad_ip: "{{hostvars[windows_instances_ad_name]['openstack']['addresses']['Lan1']['addr']}}"
+    windows_instances_ad_ip: "{{hostvars[windows_instances_ad_name]['openstack']['addresses']['Lan1'][0]['addr']}}"
   when: "'meta-is_ad_true' in groups"
 
 - name: Configuration du server DNS
