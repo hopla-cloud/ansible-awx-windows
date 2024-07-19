@@ -17,7 +17,7 @@
     state: directory
   when: ("OK" in ad_volume_d.stdout)
 
-- name: Add profiles share
+- name: Add profiles share EN
   win_share:
     name: profiles$
     description: Users disks profiles share
@@ -26,7 +26,18 @@
     full: GG_ADM_ALL
     read: Everyone
     change: Everyone
-  when: ("OK" in ad_volume_d.stdout)
+  when: ("OK" in ad_volume_d.stdout and "EN" in ad_language)
+
+- name: Add profiles share FR
+  win_share:
+    name: profiles$
+    description: Users disks profiles share
+    path: P:\profiles\
+    list: no
+    full: GG_ADM_ALL
+    read: "Tout le monde"
+    change: "Tout le monde"
+  when: ("OK" in ad_volume_d.stdout and "FR" in ad_language)
 
 - name: Disable inherited ACE's profiles folder
   win_acl_inheritance:
