@@ -233,12 +233,12 @@
 
 - name: Ensure user siilyo is present
   win_domain_user:
-    name: siilyo
-    password: "{{ ad_siilyo_password }}"
+    name: hopla
+    password: "{{ ad_hopla_password }}"
     state: present
     path: "OU=Admins,OU=ORGANIZATION,{{ ad_domain }}"
     groups: GG_ADM_ALL
-  when: ad_siilyo_password != ""
+  when: ad_hopla_password != ""
 
 - name: Copy ADMX Google Files [1/4]
   win_copy:
