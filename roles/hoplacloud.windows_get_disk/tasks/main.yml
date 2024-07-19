@@ -13,6 +13,7 @@
   with_items: "{{ groups['meta-is_windows_true'] }}"
 
 - os_auth:
+  register: client_auth
 - os_client_config:
   register: client_conf
 
@@ -21,7 +22,7 @@
     url: "https://fr-east-2.pub.hopla.cloud:13000/v3/auth/projects"
     headers:
       Content-Type: "application/json"
-      X-Auth-Token: "{{ auth_token }}"
+      X-Auth-Token: "{{ client_auth.auth_token }}"
   register: projects_list_os
 
 - name: Set project id
@@ -33,7 +34,7 @@
     url: "https://fr-east-2.pub.hopla.cloud:13776/v3/{{project_id}}/volumes"
     headers:
       Content-Type: "application/json"
-      X-Auth-Token: "{{ auth_token }}"
+      X-Auth-Token: "{{ client_auth.auth_token }}"
   register: volumes_list_os
 
 - name: Creation des list name et id
