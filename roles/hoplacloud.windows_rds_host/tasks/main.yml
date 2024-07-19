@@ -109,10 +109,9 @@
     src: Disconnect.lnk
     dest: C:\Users\Public\Desktop\Disconnect.lnk
 
-- name: Copy TeamViewerQS file
-  win_copy:
-    src: TeamViewerQS.exe
-    dest: C:\Users\Public\Desktop\Support iilyo.exe
+- name: Ensure Chocolatey itself is installed, using community repo for the bootstrap
+  win_chocolatey:
+    name: chocolatey
 
 - name: Install adobereader
   win_chocolatey:
