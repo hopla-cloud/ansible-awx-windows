@@ -65,7 +65,7 @@
     inherit: ContainerInherit, ObjectInherit
   when: ("OK" in ad_volume_d.stdout)
 
-- name: Add security profiles folder
+- name: Add security profiles folder EN
   win_acl:
     path: P:\profiles
     user: CREATOR OWNER
@@ -74,4 +74,15 @@
     state: present
     inherit: ContainerInherit, ObjectInherit
     propagation: 'InheritOnly'
-  when: ("OK" in ad_volume_d.stdout)
+  when: ("OK" in ad_volume_d.stdout and "EN" in ad_language)
+
+- name: Add security profiles folder FR
+  win_acl:
+    path: P:\profiles
+    user: "CREATEUR PROPRIETAIRE"
+    rights: FullControl
+    type: allow
+    state: present
+    inherit: ContainerInherit, ObjectInherit
+    propagation: 'InheritOnly'
+  when: ("OK" in ad_volume_d.stdout and "FR" in ad_language)
