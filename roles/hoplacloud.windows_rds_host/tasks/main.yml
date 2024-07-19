@@ -2,7 +2,7 @@
 # tasks file for hoplacloud.windows_rds_host
 - name: Set fact ad_domain_admin
   set_fact:
-    ad_domain_admin_name: '\GG_ADM_ALL'
+    ad_domain_admin_name: "\\GG_ADM_ALL"
 
 - name: Set fact ad_domain_admin
   set_fact:
