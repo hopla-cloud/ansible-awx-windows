@@ -57,15 +57,15 @@
     data: 22
     type: dword
 
+- name: Create directory hopla
+  win_file:
+    path: C:\Program Files\hopla.cloud
+    state: directory
+
 - name: Copy Background Desktop PNG
   win_copy:
     src: Desktop-hopla.cloud.png
     dest: C:\Program Files\hopla.cloud\Desktop-hopla.cloud.png
-
-- name: Create directory scripts
-  win_file:
-    path: C:\Program Files\hopla.cloud
-    state: directory
 
 - name: Set Background Desktop for current user
   win_regedit:
