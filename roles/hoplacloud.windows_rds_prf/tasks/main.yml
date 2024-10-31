@@ -24,8 +24,8 @@
     path: P:\profiles\
     list: no
     full: GG_ADM_ALL
-    read: Everyone
-    change: Everyone
+    read: S-1-1-0
+    change: S-1-1-0
   when: ("OK" in ad_volume_d.stdout)
 
 - name: Disable inherited ACE's profiles folder
