@@ -57,7 +57,7 @@
 - name: Add security profiles folder
   win_acl:
     path: P:\profiles
-    user: CREATOR OWNER
+    user: S-1-3-0
     rights: FullControl
     type: allow
     state: present
